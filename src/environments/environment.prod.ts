@@ -5,16 +5,15 @@ export const environment = {
   country: {
     code: 'CO',
   },
-  api: 'https://core.analyzerinc.com/api',
-  apiAdmin: 'https://admin.analyzerinc.com/api',
-  //apiGetRquests: 'https://bcqylrpd5m.execute-api.us-east-1.amazonaws.com/dev/getRequests',
+  api: 'https://ozujxe4oc5.execute-api.us-east-1.amazonaws.com/prod',
+  apiAdmin: 'https://7p680oe6na.execute-api.us-east-1.amazonaws.com/prod',
   apiAndicom: 'https://andicom.analyzerinc.com/api/',
   amplify: {
     auth: {
       mandatorySignIn: true,
       region: 'us-east-1',
-      userPoolId: 'us-east-1_CO3M9ohRU',
-      userPoolWebClientId: '1f5kmq3208hgduoal41nu7s37p',
+      userPoolId: 'us-east-1_JGcdptZC4',
+      userPoolWebClientId: '3c2rrf147f8ii0iupe9fiovkb8',
       authenticationFlowType: 'USER_PASSWORD_AUTH',
       oauth: {
         domain: 'users.analyzerinc.com',
@@ -45,7 +44,7 @@ export const environment = {
     interval: 10000,
     timeOut: 180000,
   },
-  socketApi: 'wss://3f575jrnag.execute-api.us-east-1.amazonaws.com/dev',
+  socketApi: 'wss://375tfziudk.execute-api.us-east-1.amazonaws.com/prod',
   andinacom: {
     subscription_id: '2bc0d507-6990-4658-a6e1-ceeb4b6e9a76',
     packages: '2',
