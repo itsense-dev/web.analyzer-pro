@@ -5,10 +5,8 @@ export const environment = {
   country: {
     code: 'CO',
   },
-  //api: 'https://core.analyzerinc.com/api',
-  api: 'https://ozujxe4oc5.execute-api.us-east-1.amazonaws.com/prod',
-  //apiAdmin: 'https://admin.analyzerinc.com/api',
-  apiAdmin: 'https://7p680oe6na.execute-api.us-east-1.amazonaws.com/prod',
+  api: 'https://core.analyzerinc.com/api',
+  apiAdmin: 'https://admin.analyzerinc.com/api',
   //apiGetRquests: 'https://bcqylrpd5m.execute-api.us-east-1.amazonaws.com/dev/getRequests',
   apiAndicom: 'https://andicom.analyzerinc.com/api/',
   amplify: {
@@ -47,8 +45,7 @@ export const environment = {
     interval: 10000,
     timeOut: 180000,
   },
-  //socketApi: 'wss://3f575jrnag.execute-api.us-east-1.amazonaws.com/dev',
-  socketApi: 'wss://375tfziudk.execute-api.us-east-1.amazonaws.com/prod',
+  socketApi: 'wss://3f575jrnag.execute-api.us-east-1.amazonaws.com/dev',
   andinacom: {
     subscription_id: '2bc0d507-6990-4658-a6e1-ceeb4b6e9a76',
     packages: '2',

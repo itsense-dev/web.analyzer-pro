@@ -7,7 +7,7 @@
     "build": "ng build",
     "build:develop": "ng build --configuration=demo",
     "build:uat": "ng build --configuration=demo",
-    "build:prod": "ng build --configuration=prod",
+    "build:main": "ng build --configuration=production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "node ./node_modules/@angular/cli/bin/ng lint",
