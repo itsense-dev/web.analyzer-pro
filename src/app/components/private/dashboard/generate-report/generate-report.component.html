@@ -1,0 +1,231 @@
+<ngx-spinner bdColor="rgba(0, 47, 77, 0.9)">
+  <img src="./assets/images/searching.gif" style="opacity: 0.5; width: 100px; margin-left: 20px" />
+  <div class="loading-list">{{ 'singleSearch.loadingMessage' | transloco }}</div>
+</ngx-spinner>
+
+<div class="container-source" *ngIf="!showResult">
+  <div class="container-source-card">
+    <h4 class="container-source-card__title">{{ 'doYourQuery' | transloco }}</h4>
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="container-card">
+          <div class="tag">
+            <div>{{ 'planSelected' | transloco }}</div>
+            <div class="tag__title">{{ selectedPlan?.plan_name }}</div>
+          </div>
+
+          <div class="row justify-content-center justify-content-md-start">
+            <div class="col-auto">
+              <h4 class="container-card__title container-card__title--gray">
+                {{ 'query' | transloco }}
+                <div class="container-card__title">
+                  {{ 'single' | transloco }}
+                </div>
+              </h4>
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col">
+              <div>
+                <h4 class="container-card__subtitle container-card__subtitle--gray">
+                  {{ 'personType' | transloco }}
+                </h4>
+              </div>
+
+              <nz-radio-group [(ngModel)]="selectedPersonType">
+                <label
+                  *ngFor="let personType of personTypes"
+                  nz-radio
+                  [nzValue]="personType.value"
+                  (click)="selectPersonType(personType.value)"
+                >
+                  {{ personType.text | transloco }}
+                </label>
+              </nz-radio-group>
+            </div>
+          </div>
+
+          <div
+            *ngIf="
+              selectedPersonType === TypeOfPerson.NATURAL ||
+              selectedPersonType === TypeOfPerson.LEGAL
+            "
+            class="row"
+          >
+            <div class="col">
+              <div class="row">
+                <div class="col">
+                  <hr />
+                  <h4 class="container-card__subtitle container-card__subtitle--gray">
+                    {{ 'listOfProducts' | transloco }}
+                    <div class="container-card__subtitle">
+                      {{ 'actives' | transloco }}
+                    </div>
+                  </h4>
+                </div>
+              </div>
+
+              <div *ngFor="let package of packagesFiltered; let index = index" class="row">
+                <div class="col">
+                  <label
+                    class="checkbox-blue-label"
+                    nz-checkbox
+                    [nzDisabled]="package.queries_available === 0"
+                    [(ngModel)]="selectedPackages[index].selected"
+                  >
+                    {{ package.name }}
+                    <div *ngIf="package.queries_available === 0" class="counter">
+                      <div class="counter__label">{{ 'queriesAvailable' | transloco }}&nbsp;</div>
+                      <div class="counter__quantity">
+                        {{ package.queries_available }}
+                      </div>
+                      <div class="counter__label">/ {{ package.queries_assigned }}</div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+              <div *ngIf="packagesFiltered.length === 0" class="row">
+                <div class="col">
+                  {{ 'noPackagesAvailable' | transloco }}
+                </div>
+              </div>
+
+              <div class="row mt-3 mb-4">
+                <div class="col">
+                  <div class="hint">
+                    <i class="hint__exclamation" nz-icon nzType="info-circle" nzTheme="fill"></i>
+                    <div>{{ 'disclaimerToQueryProductsDiscounted' | transloco }}</div>
+                  </div>
+                </div>
+              </div>
+
+              <hr />
+
+              <form [formGroup]="formRequest">
+                <div class="row">
+                  <div class="col">
+                    <h4 class="container-card__subtitle container-card__subtitle--gray">
+                      {{ 'queryData' | transloco }}
+                    </h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 col-lg-5 col-xl-4">
+                    <div class="container-card__field-name">{{ 'idType' | transloco }}*</div>
+                    <nz-select
+                      nzShowSearch
+                      nzAllowClear
+                      [nzPlaceHolder]="'selectDocument' | transloco"
+                      formControlName="id_type"
+                    >
+                      <nz-option
+                        [nzLabel]="type.description"
+                        [nzValue]="type"
+                        *ngFor="let type of identityTypesAvailable"
+                      >
+                      </nz-option>
+                    </nz-select>
+                  </div>
+                  <div class="col-md-6 col-lg-5 col-xl-4">
+                    <div class="container-card__field-name">{{ 'idNumber' | transloco }}*</div>
+                    <input
+                      class="input"
+                      type="text"
+                      formControlName="id_number"
+                      nz-input
+                      [mask]="formRequest.value.id_type?.mask"
+                      [pattern]="formRequest.value.id_type?.pattern"
+                      [disabled]="!formRequest.value.id_type"
+                      [placeholder]="formRequest.value.id_type?.placeholder ?? ''"
+                    />
+                  </div>
+                </div>
+                <div class="row mb-4">
+                  <div
+                    *ngIf="selectedPersonType === TypeOfPerson.NATURAL"
+                    class="col-md-12 col-lg-10 col-xl-8"
+                  >
+                    <div class="container-card__field-name">{{ 'name' | transloco }}</div>
+                    <input
+                      class="input"
+                      type="text"
+                      nz-input
+                      [placeholder]="'name' | transloco"
+                      formControlName="name"
+                    />
+                  </div>
+                  <div *ngIf="selectedPersonType === TypeOfPerson.LEGAL" class="col-sm-8">
+                    <div class="container-card__field-name">{{ 'companyName' | transloco }}</div>
+                    <input
+                      class="input"
+                      type="text"
+                      nz-input
+                      [placeholder]="'companyName' | transloco"
+                      formControlName="name"
+                    />
+                  </div>
+                </div>
+
+                <div class="row justify-content-md-between justify-content-center">
+                  <div class="col-md-8 col-xl-10 mb-3">
+                    <div class="hint">
+                      <div>{{ 'disclaimerToQueryUserApprovesTheQuery' | transloco }}</div>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <button
+                      class="button"
+                      nz-button
+                      nzType="primary"
+                      (click)="requestInform()"
+                      nzShape="round"
+                      [disabled]="!formRequest.valid || !checkSelectedPackages"
+                    >
+                      {{ 'toQuery' | transloco }}
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-generate-report-result
+  *ngIf="showResult"
+  [country]="formRequest.value.country.country_name"
+  [showConfirmButtonAverage]="enableGetPdfInformConfirm"
+  (eventPdfButton)="downloadPdfInform($event)"
+></app-generate-report-result>
+
+<footer class="footer animate__animated animate__shakeY" *ngIf="showResult">
+  <div class="footer-container">
+    <button class="new-search-button" (click)="clearResult()">
+      <span class="new-search-button__icon" nz-icon nzType="search"></span>
+      <span class="new-search-button__label">{{ 'newQuery' | transloco }}</span>
+    </button>
+  </div>
+</footer>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Descargar informe"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  nzOkText="Descargar"
+  nzWidth="80%"
+  [nzFooter]="modalFooter"
+  (nzOnCancel)="handleCancel()"
+>
+  <div *nzModalContent>
+    <nz-spin *ngIf="!pdfRenderUrl" nzSimple [nzSize]="'large'" class="spin-loading"></nz-spin>
+    <div *ngIf="pdfRenderUrl">
+      <iframe [src]="pdfRenderUrl"></iframe>
+    </div>
+  </div>
+  <ng-template #modalFooter> </ng-template>
+</nz-modal>

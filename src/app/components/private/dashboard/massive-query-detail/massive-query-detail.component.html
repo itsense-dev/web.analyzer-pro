@@ -1,0 +1,31 @@
+<ngx-spinner bdColor="rgba(0, 47, 77, 0.9)">
+  <img
+    src="./assets/images/loading-dribble.gif"
+    style="opacity: 0.8; width: 200px; margin: -50px; filter: hue-rotate(45deg) brightness(3)"
+  />
+  <div class="loading-list">{{ 'loading' | transloco }}</div>
+</ngx-spinner>
+
+<div class="container-source">
+  <div class="container-source-card">
+    <h4 class="container-source-card__title">{{ 'massiveQueryDetail' | transloco }}</h4>
+    <div *ngFor="let massiveDocument of massiveQueries" class="row justify-content-center">
+      <div class="col">
+        <app-massive-query-detail-card [massiveDocument]="massiveDocument">
+        </app-massive-query-detail-card>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-auto">
+        <nz-pagination
+          [nzPageIndex]="pageIndex"
+          [nzTotal]="totalRecords"
+          nzShowSizeChanger
+          (nzPageSizeChange)="pageSizeChange($event)"
+          (nzPageIndexChange)="pageIndexChange($event)"
+          [nzResponsive]="true"
+        ></nz-pagination>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+@import 'src/assets/styles/abstracts/variables/_colors.scss';
+.logo-analyzer {
+  height: 80px;
+  margin: 20px;
+}
+.congratulations {
+  color: $color-prussian-blue;
+  margin: 20px;
+}
+
+.linkedin-btn {
+  background-color: $color-linkedin;
+  width: fit-content;
+  margin: auto;
+  margin-top: 30px;
+  padding: 5px 28px;
+  border-radius: 30px;
+  color: #fff;
+  cursor: pointer;
+  span {
+    font-size: 24px;
+  }
+}
+.certificate-image {
+  width: 100%;
+  padding: 20px;
+  img {
+    width: 100%;
+  }
+}

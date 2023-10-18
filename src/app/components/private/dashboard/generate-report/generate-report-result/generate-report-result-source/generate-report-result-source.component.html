@@ -1,0 +1,146 @@
+<div class="container-source">
+  <div class="container-source-card ps-5">
+    <div class="row text-source d-flex justify-content-between mg-btn-actions m-0">
+      <div class="col-12 col-md-7 text-source-name">
+        {{ source?.body?.name }}
+      </div>
+      <div
+        *ngIf="source?.message && source?.statusCode === statusCode.OK"
+        class="col-12 col-md-2 d-flex justify-content-end align-items-center"
+      >
+        <div *ngFor="let info of source?.message">
+          <div *ngIf="info[0] === typeList.PDF">
+            <button
+              nz-button
+              nz-dropdown
+              [nzDropdownMenu]="menu"
+              nzType="primary"
+              class="button-pdf"
+            >
+              Soportes
+              <span nz-icon nzType="down"></span>
+            </button>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu>
+                <li
+                  nz-menu-item
+                  *ngFor="let keySubInfo of info[1]"
+                  class="d-flex justify-content-between"
+                >
+                  <a [href]="keySubInfo[typeList.FILE_URL]" target="_blank" class="link">
+                    <span>{{ keySubInfo[typeList.FILE_NAME] }}</span></a
+                  >
+                  <div
+                    nz-icon
+                    nzType="file-pdf"
+                    nzTheme="outline"
+                    class="ms-2"
+                    class="div-icon-pdf"
+                  ></div>
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-3 d-flex justify-content-end align-items-center text-source-url">
+        <div *ngIf="source.finding" class="finding">
+          {{ 'thereAreFinding' | transloco }}
+        </div>
+        <a [href]="url" target="_blank" class="d-flex align-items-center link">
+          {{ 'goToWebsite' | transloco }}
+          <span nz-icon nzType="global" nzTheme="outline" class="ms-2"></span>
+        </a>
+      </div>
+    </div>
+    <!--
+      <div class="row text-source">
+      <div class="col-12 text-source-title mt-3">Titulo</div>
+    </div>
+    -->
+    <div class="row">
+      <div class="col-12 mt-3">
+        <nz-timeline *ngIf="source?.message && source?.statusCode === statusCode.OK">
+          <nz-timeline-item *ngFor="let info of source?.message">
+            <div class="row">
+              <div class="col-4 datasource datasource-key">
+                <div *ngIf="info[0] !== typeList.PDF && info[0] !== typeList.IMAGE">
+                  {{ tranformText.transformJsonToText(info[0]) }}
+                </div>
+              </div>
+              <div class="col-8 datasource">
+                <span *ngIf="info[0] !== typeList.PDF && info[0] !== typeList.IMAGE">
+                  <ng-container *ngIf="!messageIsArray(info[1])">
+                    {{ info[1] }}
+                  </ng-container>
+                  <ng-container *ngIf="messageIsArray(info[1])">
+                    <div *ngIf="analyzeArray(info[1]) === 1 || analyzeArray(info[1]) === 2">
+                      <ul *ngIf="analyzeArray(info[1]) === 1">
+                        <div *ngFor="let keySubInfo of info[1]">
+                          <li>
+                            <strong class="datasource datasource-key">
+                              {{ tranformText.transformJsonToText(keySubInfo[0]) }}
+                            </strong>
+                            {{ ' ' + keySubInfo[1] }}
+                          </li>
+                        </div>
+                      </ul>
+                      <ul *ngIf="analyzeArray(info[1]) === 2">
+                        <div *ngFor="let keySubInfo of info[1]">
+                          <li>{{ keySubInfo }}</li>
+                        </div>
+                      </ul>
+                    </div>
+                    <div *ngIf="!validateArray(info[1])">
+                      <div *ngFor="let subInfo of secondLevel">
+                        <div *ngIf="subInfo[0] !== typeList.FILE_URL">
+                          <ul>
+                            <li>
+                              <div *ngFor="let key of subInfo">
+                                <strong>
+                                  {{ tranformText.transformJsonToText(key[0]) }}
+                                </strong>
+                                {{ key[1] }}
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                        <div *ngIf="subInfo[0] === typeList.FILE_URL">
+                          <button
+                            nz-button
+                            nzType="primary"
+                            nzShape="round"
+                            (click)="redirectPdfUrl(subInfo[1])"
+                          >
+                            Descargar PDF
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </span>
+              </div>
+            </div>
+          </nz-timeline-item>
+        </nz-timeline>
+
+        <div *ngIf="renderImages">
+          <h4>{{ 'evidences' | transloco }}</h4>
+          <div *ngFor="let image of renderImages" class="image">
+            <img [src]="image.fileUrl" [alt]="image.fileName" class="image" />
+          </div>
+        </div>
+        <div
+          *ngIf="source?.body?.message === '' || source?.statusCode !== statusCode.OK"
+          class="datasource"
+        >
+          <div class="hint">
+            <i class="hint__exclamation" nz-icon nzType="info-circle" nzTheme="fill"></i>
+            <div>{{ 'successfulSearchWithoutInformation' | transloco }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

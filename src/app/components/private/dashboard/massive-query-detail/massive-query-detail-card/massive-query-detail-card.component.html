@@ -1,0 +1,97 @@
+<div *ngIf="massiveDocument" class="container-card">
+  <div class="tag">
+    <div>{{ 'planSelected' | transloco }}</div>
+    <div class="tag__title">{{ 'Legacy' }}</div>
+  </div>
+
+  <div class="row justify-content-start justify-content-md-end mt-5 mt-md-0">
+    <div class="col-auto">
+      <div class="header">
+        <div class="text-md-end">
+          <b>{{ 'country' | transloco }}: </b>{{ massiveDocument.country_name }}
+        </div>
+        <div class="text-md-end">
+          <b>{{ 'queryDate' | transloco }}: </b>
+          {{ createDate | date : 'dd-MM-yyyy' }}
+        </div>
+        <div class="text-md-end">
+          <b>{{ 'queryHour' | transloco }}: </b>
+          {{ createDate | date : 'hh:mm:ss a' }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mt-3 mb-3">
+    <div class="col">
+      <div class="row">
+        <div class="col-sm-4 text-center">
+          <div class="header header--title">{{ 'fileLoaded' | transloco }}</div>
+          <div class="header header--field">
+            <a
+              class="header header--icon"
+              nz-icon
+              nzType="download"
+              nzTheme="outline"
+              [title]="massiveDocument.file_name"
+              [href]="massiveDocument.url_file"
+            ></a>
+          </div>
+        </div>
+        <div class="col-sm-4 text-center">
+          <div class="header header--title">{{ 'startDateQuery' | transloco }}</div>
+          <div *ngIf="massiveDocument.create_date" class="header header--field">
+            {{ createDate | date : 'dd-MM-yyyy' }}<br />
+            {{ createDate | date : 'hh:mm:ss a' }}
+          </div>
+          <div *ngIf="!massiveDocument.create_date" class="header header--field">-</div>
+        </div>
+        <div class="col-sm-4 text-center">
+          <div class="header header--title">{{ 'endDateQuery' | transloco }}</div>
+          <div *ngIf="massiveDocument.end_date" class="header header--field">
+            {{ endDate | date : 'dd-MM-yyyy' }}<br />
+            {{ endDate | date : 'hh:mm:ss a' }}
+          </div>
+          <div *ngIf="!massiveDocument.end_date" class="header header--field">-</div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div class="col-sm-4 text-center">
+          <div class="header header--title">{{ 'totalQueries' | transloco }}</div>
+          <div class="header header--field">{{ massiveDocument.total_queries }}</div>
+        </div>
+        <div class="col-sm-4 text-center">
+          <div class="header header--title">{{ 'totalExecuted' | transloco }}</div>
+          <div class="header header--field">{{ massiveDocument.total_executed }}</div>
+        </div>
+        <div class="col-sm-4 text-center">
+          <div class="header header--title">{{ 'progress' | transloco }}</div>
+          <nz-progress
+            [nzPercent]="massiveDocument.progress * 100"
+            nzType="circle"
+            nzStrokeLinecap="round"
+            [nzWidth]="60"
+            nzStrokeColor="#3DC447"
+          ></nz-progress>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-end">
+    <div class="col-auto">
+      <button
+        nz-button
+        nzShape="round"
+        nzOkType="primary"
+        class="download-inform"
+        [disabled]="massiveDocument.total_queries !== massiveDocument.total_executed"
+        (click)="exportResult()"
+      >
+        {{ 'downloadReport' | transloco }}
+      </button>
+    </div>
+  </div>
+</div>

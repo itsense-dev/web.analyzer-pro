@@ -1,0 +1,28 @@
+@import 'src/assets/styles/main.scss';
+
+.login-form {
+  min-width: 280px;
+}
+
+.login-form-margin {
+  margin-bottom: 16px;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.logo-white {
+  height: 100px;
+  margin: 30px;
+}
+.error {
+  color: #ff4d4f;
+  text-align: left;
+}
+.forgot {
+  color: $color-white;
+  text-align: right;
+  cursor: pointer;
+  margin-bottom: 30px;
+}

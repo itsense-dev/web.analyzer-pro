@@ -1,0 +1,92 @@
+<div class="row container-title-tab mb-3">
+  <div class="col-md-8">
+    <h5 class="finding ms-2">
+      {{ 'findings' | transloco }}:
+      <span class="findings-number">
+        {{ findingNumbers }}
+      </span>
+    </h5>
+  </div>
+  <div class="col-md-4">
+    <input class="input" nz-input [placeholder]="'search' | transloco" [(ngModel)]="search" />
+  </div>
+</div>
+
+<div class="container-card">
+  <h4 class="container-card__title">Informe de cumplimiento</h4>
+  <div class="row container-title-tab align-items-center">
+    <div class="col-md-8 col-lg-9">
+      <span>{{ 'sources' | transloco }}</span>
+    </div>
+    <div class="col-md-4 col-lg-3 text-end pe-5">
+      <span>{{ 'thereAreFinding' | transloco }}</span>
+    </div>
+  </div>
+  <nz-collapse nzGhost nzAccordion [nzExpandIconPosition]="'right'">
+    <nz-collapse-panel
+      *ngFor="let panel of panels | filterList : search; let index = index"
+      [nzHeader]="panel.name"
+      [nzActive]="panel.active"
+      [nzDisabled]="panel.disabled"
+      [nzExtra]="extraTpl"
+      [nzShowArrow]="true"
+      (click)="getIndexPanel(index)"
+      [ngClass]="{ 'animate__animated animate__fadeIn': panel.finding }"
+      [attr.data-finding]="panel.finding"
+    >
+      <ng-template #extraTpl>
+        <div class="row mt-4 mt-sm-0 mt-md-0 status-container">
+          <div class="col-md-6">
+            <span [ngStyle]="{ color: panel.finding ? '#E75E5E' : '' }" class="no-display-mobile">
+              {{ panel.finding ? 'SI' : 'NO' }}
+            </span>
+          </div>
+          <div class="col-md-6">
+            <span
+              *ngIf="panel?.statusCode === 202"
+              nz-icon
+              nzType="loading"
+              nzTheme="outline"
+              class="status-icon loading"
+              nz-tooltip
+              [nzTooltipTitle]="'Consultando fuente'"
+              [nzTooltipColor]="'#01BBC8'"
+            ></span>
+            <span
+              *ngIf="panel?.statusCode === 200"
+              class="status-icon status-icon--correct"
+              nz-tooltip
+              [nzTooltipTitle]="'sourceQueriedSuccessfully' | transloco"
+              nzTooltipColor="#00BBC9"
+            ></span>
+            <span
+              *ngIf="panel?.statusCode === 400"
+              class="status-icon status-icon--error"
+              nz-tooltip
+              [nzTooltipTitle]="('sourceNotAvailable' | transloco) + ': 400'"
+              nzTooltipColor="#A30101"
+            ></span>
+            <span
+              *ngIf="panel?.statusCode === 504 || panel?.statusCode === 500"
+              class="status-icon status-icon--forbbiden"
+              nz-tooltip
+              [nzTooltipTitle]="('sourceNotAvailable' | transloco) + ': ' + panel?.statusCode"
+              nzTooltipColor="#A30101"
+            ></span>
+            <span
+              *ngIf="panel?.statusCode === 204"
+              class="status-icon status-icon--no-info"
+              nz-tooltip
+              [nzTooltipTitle]="'sourceQueriedNotInfoFound' | transloco"
+              nzTooltipColor="#002F4E"
+            ></span>
+          </div>
+        </div>
+      </ng-template>
+      <app-generate-report-result-source
+        [source]="panel.body"
+        [url]="panel.product_url"
+      ></app-generate-report-result-source>
+    </nz-collapse-panel>
+  </nz-collapse>
+</div>

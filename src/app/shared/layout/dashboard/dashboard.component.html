@@ -1,0 +1,141 @@
+<nz-layout>
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+    <span
+      class="trigger close-responsive"
+      nz-icon
+      [nzType]="'close'"
+      (click)="isCollapsed = !isCollapsed"
+    ></span>
+    <div [ngClass]="{ 'menu-admin-bo': rolId === 1 }">
+      <div class="logo mx-lg-5 mb-lg-5 pb-lg-5">
+        <img
+          src="./assets/images/{{ isCollapsed ? 'a-icono' : 'logo-vertical-blanco' }}.svg"
+          alt="analyzer logo"
+          class="animate__animated animate__bounceInDown logo__image"
+          (click)="goToHome()"
+        />
+      </div>
+
+      <ul nz-menu nzTheme="light" nzMode="inline" class="pt-lg-4">
+        <ng-container *ngFor="let menu of menus">
+          <ng-container *ngTemplateOutlet="recursiveListTmpl; context: { menu: menu }">
+          </ng-container>
+          <ng-template #recursiveListTmpl let-menu="menu">
+            <li
+              *ngIf="menu.children && menu.children.length > 0 && menu.active"
+              nz-submenu
+              [nzIcon]="menu.icon"
+              [nzTitle]="'menu.' + menu.title | transloco"
+            >
+              <ul *ngFor="let submenu of menu.children">
+                <li nz-menu-item *ngIf="submenu.active" [routerLink]="submenu.url">
+                  <span nz-icon [nzType]="submenu.icon"></span>
+                  <span>{{ 'menu.' + submenu.title | transloco }}</span>
+                </li>
+              </ul>
+            </li>
+          </ng-template>
+          <li
+            *ngIf="!menu.children || (menu.children.length === 0 && menu.active)"
+            nz-menu-item
+            [routerLink]="menu.url"
+            nzTooltipTitle="{{ isCollapsed ? menu.title : '' }}"
+            nzTooltipPlacement="right"
+            nz-tooltip
+          >
+            <span nz-icon [nzType]="menu.icon ?? ''"></span>
+            <!--<span>{{ 'menu.' + menu.title | transloco }}</span>-->
+            <span [innerHTML]="'menu.' + menu.title | transloco"> </span>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div nz-row [nzGutter]="16">
+        <div nz-col class="gutter-row" [nzSpan]="12">
+          <span
+            class="trigger"
+            nz-icon
+            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            (click)="isCollapsed = !isCollapsed"
+          >
+          </span>
+        </div>
+        <div nz-col class="gutter-row" [nzSpan]="12">
+          <div nz-row nzJustify="end">
+            <div nz-col [nzSpan]="16" class="events">
+              <div nz-row nzJustify="end">
+                <!-- <div nz-col nzSpan="4" class="events">
+                  <div class="events-item">
+                    <img
+                      src="./assets/images/flags/{{ country }}.svg"
+                      alt="flags"
+                      class="flags animate__animated animate__fadeIn"
+                    />
+                  </div>
+                </div> -->
+
+                <!-- <div nz-col [nzSpan]="3" class="events">
+                  <div class="events-item">
+                    <div class="notification">
+                      <span nz-icon nzType="bell" nzTheme="fill"></span>
+                    </div>
+                  </div>
+                </div> -->
+
+                <div
+                  nz-col
+                  [nzSpan]="10"
+                  class="events"
+                  nz-dropdown
+                  [nzDropdownMenu]="menu"
+                  [nzPlacement]="'bottomRight'"
+                  class="animate__animated animate__fadeIn cursor"
+                >
+                  <!--  <div class="events-item notification animate__animated animate__fadeIn">
+                    <span nz-icon nzType="logout" nzTheme="outline"></span>
+                  </div> -->
+                  <span class="title-session">{{ name }}</span>
+                  <span class="no-display-mobile"
+                    >{{ session?.user_info?.user_email | slice : 0 : 10 }}...</span
+                  >
+                  <span nz-icon nzType="down" nzTheme="outline" class="no-display-mobile"></span>
+                  <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item (click)="logout()">
+                        <span nz-icon nzType="logout" nzTheme="outline" class="logout-icon"></span>
+                        Salir
+                      </li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nz-header>
+    <nz-content>
+      <!--
+      <div nz-row [nzGutter]="16" class="title">
+        <div nz-col class="gutter-row" [nzSpan]="12" class="title-container">
+          <h4 class="title-container__name">{{ title }}</h4>
+        </div>
+        <div nz-col class="gutter-row" [nzSpan]="12">
+          packages
+        </div>
+      </div>
+      -->
+
+      <!-- <nz-breadcrumb>
+        <nz-breadcrumb-item>User</nz-breadcrumb-item>
+        <nz-breadcrumb-item>Bill</nz-breadcrumb-item>
+      </nz-breadcrumb> -->
+      <!-- <div class="inner-content"> -->
+      <router-outlet></router-outlet>
+      <!-- </div> -->
+    </nz-content>
+  </nz-layout>
+</nz-layout>

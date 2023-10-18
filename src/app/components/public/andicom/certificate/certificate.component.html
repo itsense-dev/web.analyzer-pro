@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="text-center">
+    <img
+      src="./assets/images/Logo-analyzer-vertical.svg"
+      alt="Logo analyzer"
+      class="logo-analyzer"
+    />
+    <h2 class="congratulations">¡Muchas felicidades!</h2>
+    <p>{{ dataToGenerateCertificate?.name }}</p>
+
+    <div class="linkedin-btn" (click)="shareWithLinkedIn()" *ngIf="imageUrl !== ''">
+      Comparte en LinkedIn
+      <span nz-icon nzType="linkedin" nzTheme="fill"> </span>
+    </div>
+
+    <div class="certificate-image">
+      <nz-spin nzSimple [nzSize]="'large'" *ngIf="imageUrl === ''"></nz-spin>
+      <img [src]="imageUrl" alt="" *ngIf="imageUrl !== ''" />
+    </div>
+  </div>
+</div>

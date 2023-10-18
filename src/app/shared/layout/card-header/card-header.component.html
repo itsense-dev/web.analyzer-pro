@@ -1,0 +1,113 @@
+<div class="container-card-header cont">
+  <div class="container-card-header__title row py-4">
+    <div class="col-md-8 d-flex align-items-center">
+      <span class="text-title">{{ 'queryReport' | transloco }}</span>
+    </div>
+    <div class="col-md-4 d-flex justify-content-end">
+      <table class="mr-4">
+        <tr class="d-flex justify-content-end">
+          <td class="text-header">
+            <span class="text-header__label">
+              <strong>{{ 'country' | transloco }}</strong>
+            </span>
+            <span> {{ country }} </span>
+          </td>
+        </tr>
+        <tr class="d-flex justify-content-end">
+          <td class="text-header">
+            <span class="text-header__label">
+              <strong>{{ 'user' | transloco }}</strong>
+            </span>
+            <span> {{ data?.client_info[0]?.user_name }}</span>
+          </td>
+        </tr>
+        <tr class="d-flex justify-content-end">
+          <td class="text-header">
+            <span class="text-header__label">
+              <strong>{{ 'queryDate' | transloco }}</strong>
+            </span>
+            <span>{{ now | date : 'dd/MM/yyyy' }}</span>
+          </td>
+        </tr>
+        <tr class="d-flex justify-content-end">
+          <td class="text-header">
+            <span class="text-header__label">
+              <strong>{{ 'queryHour' | transloco }}</strong>
+            </span>
+            <span>{{ now | date : 'shortTime' }}</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="container-card-header__bussines row ps-2 ps-sm-3 ps-md-5 pb-4">
+    <div class="row">
+      <div class="col-sm-6 px-2">
+        <div class="row">
+          <div class="col">
+            <b>{{ 'name' | transloco }}</b>
+          </div>
+          <div class="col">{{ infoPerson?.name }}</div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 px-2 mt-3 mt-sm-0 text-end">
+        <button
+          nz-popconfirm
+          nzPopconfirmTitle="Las listas no se han cargado completamente, ¿Desea generar el reporte?"
+          (nzOnConfirm)="downloadPdfInform()"
+          nzPopconfirmPlacement="top"
+          nz-button
+          nzShape="round"
+          nzOkType="primary"
+          class="download-inform"
+          *ngIf="!showConfirmButtonAverage"
+        >
+          {{ 'downloadReport' | transloco }}
+        </button>
+
+        <button
+          nz-button
+          nzShape="round"
+          class="download-inform"
+          *ngIf="showConfirmButtonAverage"
+          (click)="downloadPdfInform()"
+        >
+          {{ 'downloadReport' | transloco }}
+        </button>
+      </div>
+      <div class="col-sm-6 px-2 mt-3 mt-sm-0 text-end"></div>
+      <div class="col-sm-6 px-2 mt-3 mt-sm-0 text-end">
+        <div class="linkedin-btn" *ngIf="hideAndicomData" (click)="downloadLinkedinCertificate()">
+          Comparte en LinkedIn
+          <span nz-icon nzType="linkedin" nzTheme="fill"> </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row cont">
+    <div class="col-md-10">
+      <div class="search-progress">
+        <strong>{{ 'searchProgress' | transloco }}...</strong>
+      </div>
+    </div>
+    <div class="col-md-2 text-end">
+      <span class="findings-number">
+        {{ listLoaded }}
+      </span>
+    </div>
+  </div>
+  <div class="progress">
+    <div
+      class="progress-bar progress-bar-striped"
+      role="progressbar"
+      [style]="'width: ' + percent + '%'"
+      [style.animation]="percent < 100 ? 'progressAnimation 2s linear infinite' : 'none'"
+      aria-valuenow="10"
+      aria-valuemin="0"
+      aria-valuemax="100"
+    ></div>
+  </div>
+</div>

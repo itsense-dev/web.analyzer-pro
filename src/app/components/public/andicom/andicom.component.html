@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="text-center">
+    <img
+      src="./assets/images/Logo-analyzer-vertical.svg"
+      alt="Logo analyzer"
+      class="logo-analyzer"
+    />
+  </div>
+  <app-generate-report-result
+    [hideAndicomData]="hideAndicomData"
+    *ngIf="showResult"
+    [country]="'CO'"
+    [showConfirmButtonAverage]="enableGetPdfInformConfirm"
+    (eventPdfButton)="downloadPdfInform($event)"
+    (eventLinkedinButtonButton)="shareWithLinekIn($event)"
+  ></app-generate-report-result>
+</div>
+<div class="linkedin" *ngIf="showResult && hideAndicomData" (click)="shareWithLinekIn()">
+  <span nz-icon nzType="linkedin" nzTheme="outline"></span>
+</div>
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Descargar informe"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  nzOkText="Descargar"
+  nzWidth="80%"
+  [nzFooter]="modalFooter"
+>
+  <div *nzModalContent>
+    <nz-spin *ngIf="!pdfRenderUrl" nzSimple [nzSize]="'large'" class="spin-loading"></nz-spin>
+    <div *ngIf="pdfRenderUrl">
+      <iframe [src]="pdfRenderUrl"></iframe>
+    </div>
+  </div>
+  <ng-template #modalFooter> </ng-template>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isVisibleattemps"
+  [nzFooter]="modalFooterAttemps"
+  nzWidth="350px"
+  (nzOnCancel)="showInfoModal()"
+>
+  <div *nzModalContent class="container text-center">
+    <span nz-icon nzType="bell" nzTheme="outline"></span>
+    <p class="container__paragraph">{{ 'freeAttempsAndicom' | transloco }}</p>
+  </div>
+  <ng-template #modalFooterAttemps> </ng-template>
+</nz-modal>

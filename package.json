@@ -1,0 +1,89 @@
+{
+  "name": "analyzer-pro",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "build:develop": "ng build --configuration=demo",
+    "build:uat": "ng build --configuration=demo",
+    "build:main": "ng build --configuration=production",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "lint": "node ./node_modules/@angular/cli/bin/ng lint",
+    "prettier:fix": "prettier --config ./.prettierrc.json --write \"src/**/*.{js,jsx,ts,scss,json,html}\"",
+    "prettier:check": "prettier --config ./.prettierrc.json --check  \"src/**/*.{js,jsx,ts,scss,json,html}\"",
+    "prettyFix": "prettier --config ./.prettierrc.json --write \"src/**/*.{component.ts,component.css,module.ts,html}\"",
+    "prepare": "husky install"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "~13.3.0",
+    "@angular/common": "~13.3.0",
+    "@angular/compiler": "~13.3.0",
+    "@angular/core": "~13.3.0",
+    "@angular/forms": "~13.3.0",
+    "@angular/platform-browser": "~13.3.0",
+    "@angular/platform-browser-dynamic": "~13.3.0",
+    "@angular/router": "~13.3.0",
+    "@aws-amplify/ui-angular": "^2.4.26",
+    "@ngneat/transloco": "^4.1.1",
+    "animate.css": "^4.1.1",
+    "aws-amplify": "^4.3.43",
+    "bootstrap": "^5.1.3",
+    "crypto-js": "^4.1.1",
+    "jwt-decode": "^3.1.2",
+    "ng-zorro-antd": "^13.4.0",
+    "ng2-pdf-viewer": "^9.1.5",
+    "ngx-bootstrap": "^8.0.0",
+    "ngx-mask": "^13.1.15",
+    "ngx-spinner": "^13.1.1",
+    "rxjs": "~7.5.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.11.4"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~13.3.0",
+    "@angular-eslint/builder": "13.5.0",
+    "@angular-eslint/eslint-plugin": "13.5.0",
+    "@angular-eslint/eslint-plugin-template": "13.5.0",
+    "@angular-eslint/schematics": "13.5.0",
+    "@angular-eslint/template-parser": "13.5.0",
+    "@angular/cli": "~13.3.0",
+    "@angular/compiler-cli": "~13.3.0",
+    "@types/crypto-js": "^4.1.1",
+    "@types/jasmine": "~3.10.0",
+    "@types/node": "^12.11.1",
+    "@typescript-eslint/eslint-plugin": "5.27.1",
+    "@typescript-eslint/parser": "5.27.1",
+    "eslint": "^8.17.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
+    "jasmine-core": "~4.0.0",
+    "karma": "~6.3.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage": "~2.1.0",
+    "karma-jasmine": "~4.0.0",
+    "karma-jasmine-html-reporter": "~1.7.0",
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8",
+    "prettier-eslint": "^15.0.1",
+    "typescript": "~4.6.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "git-cz"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged --relative"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,html}": [
+      "eslint --fix"
+    ]
+  }
+}

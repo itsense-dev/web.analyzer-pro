@@ -1,0 +1,113 @@
+<ngx-spinner bdColor="rgba(0, 47, 77, 0.9)" type="ball-8bits">
+  <nz-spin nzSimple nzSize="large"></nz-spin>
+  <div class="loading-list">{{ 'loading' | transloco }}</div>
+</ngx-spinner>
+
+<h3 class="title-page">{{ 'plans' | transloco }}</h3>
+<div class="container">
+  <div class="container-card">
+    <form nz-form [formGroup]="planForm">
+      <div class="row">
+        <h5 class="container-card__title">{{ 'buildPlan' | transloco }}</h5>
+        <nz-form-item>
+          <nz-form-label class="input-required">{{ 'planName' | transloco }}</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <input nz-input type="text" formControlName="planName" />
+          </nz-form-control>
+        </nz-form-item>
+        <div
+          class="error-message"
+          *ngIf="planForm.get('planName')?.invalid && planForm.get('planName')?.touched"
+        >
+          {{ 'requiredField' | transloco }}
+        </div>
+      </div>
+      <div class="row">
+        <nz-form-item>
+          <nz-form-label class="input-required">{{ 'description' | transloco }}</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <textarea formControlName="planDescription" nz-input rows="2"></textarea>
+          </nz-form-control>
+        </nz-form-item>
+        <div
+          class="error-message"
+          *ngIf="
+            planForm.get('planDescription')?.invalid && planForm.get('planDescription')?.touched
+          "
+        >
+          {{ 'requiredField' | transloco }}
+        </div>
+      </div>
+      <div class="row">
+        <nz-form-item>
+          <nz-form-label class="input-required">{{ 'userCount' | transloco }}</nz-form-label>
+          <nz-form-control nzHasFeedback>
+            <input nz-input type="number" formControlName="userCount" />
+          </nz-form-control>
+        </nz-form-item>
+        <div class="col-md-4">
+          <div
+            class="error-message"
+            *ngIf="planForm.get('userCount')?.invalid && planForm.get('userCount')?.touched"
+          >
+            {{ 'requiredField' | transloco }}
+          </div>
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <h5 class="container-card__title">{{ 'addProducts' | transloco }}</h5>
+        <nz-select
+          nzMode="multiple"
+          formControlName="products"
+          nzSize="default"
+          [nzMaxTagCount]="3"
+          nzPlaceHolder="{{ 'selectProduct' | transloco }}"
+          class="interactive-select"
+          (ngModelChange)="onModelChange($event)"
+        >
+          <nz-option
+            *ngFor="let package of packageList"
+            [nzLabel]="package.package_name"
+            [nzValue]="package"
+            nzCheckable
+          >
+          </nz-option>
+        </nz-select>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="container" *ngIf="selectedRows.length > 0">
+  <div class="container-card">
+    <h5 class="container-card__title">{{ 'selectedProducts' | transloco }}</h5>
+    <ul class="lista-vinetas">
+      <li class="country-list" *ngFor="let row of selectedRows">{{ row.package_name }}</li>
+    </ul>
+    <div class="row justify-content-md-center">
+      <div class="col-md-4">
+        <button
+          nz-button
+          nzType="primary"
+          nzShape="round"
+          class="cancel-button"
+          (click)="resetComponent()"
+        >
+          {{ 'cancel' | transloco }}
+        </button>
+      </div>
+      <div class="col-md-4">
+        <button
+          nz-button
+          nzType="primary"
+          nzShape="round"
+          class="button"
+          [disabled]="planForm.invalid || selectedRows.length < 1"
+          (click)="savePlan()"
+        >
+          {{ 'saveChanges' | transloco }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

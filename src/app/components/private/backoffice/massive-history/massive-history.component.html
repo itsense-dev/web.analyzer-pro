@@ -1,0 +1,151 @@
+<ngx-spinner bdColor="rgba(0, 47, 77, 0.9)" type="ball-8bits">
+  <nz-spin nzSimple nzSize="large"></nz-spin>
+  <div class="loading-list">{{ 'loading' | transloco }}</div>
+</ngx-spinner>
+
+<h3 class="title-page">{{ 'queryMassiveHistoric' | transloco }}</h3>
+<div nz-row nzJustify="end" *ngIf="rolId !== baseRoles.SUPER_ADMIN">
+  <div nz-col nzXl="4" nzXl="6">
+    <button class="new-search-button" (click)="redirectView()">
+      <span class="new-search-button__icon" nz-icon nzType="search"></span>
+      <span class="new-search-button__label">{{ 'newQuery' | transloco }}</span>
+    </button>
+  </div>
+</div>
+<div class="container">
+  <div class="container-card">
+    <div nz-row *ngIf="rolId === baseRoles.SUPER_ADMIN">
+      <div nz-col nzXl="8" nzXs="24">
+        <nz-form-item>
+          <nz-form-label nzXl="5" nzXs="6" class="required">{{
+            'client' | transloco
+          }}</nz-form-label>
+          <nz-form-control [nzSpan]="12" nzHasFeedback>
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              [(ngModel)]="client_id"
+              nzPlaceHolder="{{ 'selectClient' | transloco }}"
+            >
+              <nz-option
+                *ngFor="let item of clientsList"
+                [nzLabel]="item.name"
+                [nzValue]="item.client_id"
+              ></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row *ngIf="rolId === baseRoles.SUPER_ADMIN">
+      <h3 class="message">{{ 'reportDuration' | transloco }}</h3>
+    </div>
+    <nz-divider *ngIf="rolId === baseRoles.SUPER_ADMIN"></nz-divider>
+    <div nz-row>
+      <div nz-col nzXl="8" nzXs="24">
+        <nz-input-group nzSearch>
+          <input
+            type="text"
+            nz-input
+            placeholder="{{ 'insertWord' | transloco }}"
+            [(ngModel)]="filter"
+          />
+        </nz-input-group>
+      </div>
+      <div nz-col nzSpan="1"></div>
+      <div nz-col nzXl="6" nzXs="24">
+        <nz-range-picker
+          nzSize="default"
+          [(ngModel)]="selectedStartDate"
+          [(ngModel)]="selectedEndDate"
+        ></nz-range-picker>
+      </div>
+      <div nz-col nzSpan="8">
+        <div nz-row>
+          <button class="icon-button-search" (click)="searchMassiveHistoric()">
+            <span nz-icon nzType="search" class="icon-button-search--icon"></span>
+            <span class="icon-button-search--text">{{ 'search' | transloco }}</span>
+          </button>
+          <button class="icon-button-delete" (click)="cleanFilters()">
+            <span nz-icon nzType="close" class="icon-button-delete--icon"></span>
+            <span class="icon-button-delete--text">{{ 'cleanFilter' | transloco }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div nz-row *ngIf="rolId !== baseRoles.SUPER_ADMIN">
+      <br />
+      <h3 class="message">{{ 'reportDuration' | transloco }}</h3>
+    </div>
+    <nz-table
+      #basicTable
+      class="table-responsive"
+      [nzData]="historyList"
+      [nzFrontPagination]="false"
+      *ngIf="historyList?.length !== 0"
+    >
+      <thead class="header">
+        <tr class="header--title">
+          <th nzAlign="center">{{ 'loadFile' | transloco }}</th>
+          <th nzAlign="center">{{ 'consultStartDate' | transloco }}</th>
+          <th nzAlign="center">{{ 'consultEndDate' | transloco }}</th>
+          <th nzAlign="center">{{ 'totalQuery' | transloco }}</th>
+          <th nzAlign="center">{{ 'totalExcecuted' | transloco }}</th>
+          <th nzAlign="center">{{ 'fileName' | transloco }}</th>
+          <th nzAlign="center">{{ 'progress' | transloco }}</th>
+          <th nzAlign="center"></th>
+        </tr>
+      </thead>
+      <tbody class="header">
+        <tr class="header--field" *ngFor="let data of historyList">
+          <td nzAlign="center" style="font-size: 25px">
+            <span
+              nz-icon
+              nzType="download"
+              nzTheme="outline"
+              (click)="downloadLoadedFile(data)"
+            ></span>
+          </td>
+          <td nzAlign="center">{{ data.create_date.split('T')[0] }}</td>
+          <td>{{ data.end_date.split('T')[0] }}</td>
+          <td nzAlign="center">{{ data.total_queries }}</td>
+          <td nzAlign="center">{{ data.total_executed }}</td>
+          <td nzAlign="center">{{ data.file_name }}</td>
+          <td>
+            <nz-progress
+              [nzPercent]="data.progress * 100"
+              nzType="circle"
+              [nzWidth]="50"
+            ></nz-progress>
+          </td>
+          <td>
+            <div>
+              <button
+                nz-button
+                nzType="primary"
+                nzShape="round"
+                class="downloadReport"
+                (click)="downloadReport(data)"
+              >
+                {{ 'downloadReport' | transloco }}
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <div class="row justify-content-center">
+      <div class="col-auto">
+        <nz-pagination
+          *ngIf="historyList?.length !== 0"
+          [nzPageIndex]="pageIndex"
+          [nzTotal]="totalRows"
+          nzShowSizeChanger
+          [nzResponsive]="true"
+          (nzPageIndexChange)="onPageIndexChange($event)"
+          (nzPageSizeChange)="onPageSizeChange($event)"
+        ></nz-pagination>
+      </div>
+    </div>
+  </div>
+</div>

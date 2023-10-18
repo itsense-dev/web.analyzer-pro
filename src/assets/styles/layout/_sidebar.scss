@@ -1,0 +1,56 @@
+@import '../abstracts/variables/colors';
+
+.ant-layout.ant-layout-has-sider {
+  height: 100vh;
+}
+
+.ant-layout {
+  background-color: $color-cultured;
+}
+
+.ant-layout-sider {
+  background-color: $color-cultured;
+  box-shadow: 0px 25px 25px #cccccc;
+}
+
+.ant-menu.ant-menu-light,
+.ant-menu-light .ant-menu-sub,
+.ant-menu.ant-menu-light .ant-menu-sub {
+  background-color: $color-cultured-average;
+  color: $color-dark-silver;
+}
+
+.ant-layout-header {
+  box-shadow: 0px -1px 6px 0px $color-dark-silver;
+}
+
+.ant-layout-sider[ng-reflect-nz-collapsed='true'] {
+  @media (max-width: 440px) {
+    display: none;
+  }
+}
+
+.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.close-responsive {
+  display: none;
+}
+
+@media only screen and (max-width: 400px) {
+  .ant-layout-sider {
+    position: absolute;
+    height: 100%;
+  }
+  .ant-layout-sider-collapsed {
+    margin-left: -80px;
+  }
+  .close-responsive {
+    display: block;
+    color: $color-cultured;
+  }
+}

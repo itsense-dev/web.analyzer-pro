@@ -1,0 +1,87 @@
+@import 'src/assets/styles/abstracts/variables/_colors.scss';
+.flag-header {
+  height: 22px;
+  margin-left: 10px;
+
+  -webkit-box-shadow: 12px 6px 19px -1px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 12px 6px 19px -1px rgba(0, 0, 0, 0.2);
+  box-shadow: 12px 6px 19px -1px rgba(0, 0, 0, 0.2);
+}
+.download-inform {
+  background-color: $color-prussian-blue;
+  color: $color-white;
+  border: 0;
+  transition: background-color color box-shadow 0.2s ease-in-out;
+  &:hover:not([disabled]) {
+    background-color: $color-white;
+    color: $color-prussian-blue;
+    box-shadow: 0px 0px 8px 2px $color-white;
+    transition: background-color color box-shadow 0.2s ease-in-out;
+  }
+}
+::ng-deep .ant-btn-primary {
+  border: none;
+  background: $color-prussian-blue;
+}
+
+.search-progress {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: $color-prussian-blue;
+}
+.progress {
+  height: 20px;
+  margin: 20px;
+  &-bar {
+    border-radius: 6px;
+    background-color: $color-prussian-blue;
+    transition: width 3s ease;
+  }
+}
+@keyframes progressAnimation {
+  0% {
+    box-shadow: none;
+  }
+  50% {
+    box-shadow: inset 0px 0px 6px 1px $color-white;
+  }
+  100% {
+    box-shadow: none;
+  }
+}
+
+.findings-number {
+  display: inline-block;
+  width: 64px;
+  color: $color-white;
+  background-color: $color-prussian-blue;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0;
+  border-radius: 48px;
+  text-align: center;
+}
+.cont {
+  margin: 20px;
+}
+.text-header {
+  &__label {
+    margin-right: 5px;
+  }
+}
+
+.linkedin-btn {
+  background-color: $color-linkedin;
+  width: fit-content;
+  margin: auto;
+  margin-top: 15px;
+  padding: 4px 16px;
+  border-radius: 30px;
+  color: #fff;
+  font-size: 14px;
+  float: right;
+  cursor: pointer;
+  span {
+    font-size: 16px;
+  }
+}

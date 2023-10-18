@@ -1,0 +1,163 @@
+<h4 class="container-card__title">{{ 'addUser' | transloco }}</h4>
+
+<form nz-form [formGroup]="validateForm">
+  <div class="row">
+    <div class="col-12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">{{ 'client' | transloco }}</nz-form-label>
+        <nz-form-control [nzSpan]="null" nzHasFeedback>
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            formControlName="client_id"
+            nzPlaceHolder="{{ 'selectClient' | transloco }}"
+            (ngModelChange)="getPlanByClientsList()"
+          >
+            <nz-option
+              *ngFor="let item of clientsList"
+              [nzLabel]="item.name"
+              [nzValue]="item.client_id"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <!--<div class="row">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="null">Plan</nz-form-label>
+      <nz-select
+        nzMode="multiple"
+        nzPlaceHolder="Please select"
+        [nzOptions]="planListValues"
+        formControlName="subscription_id"
+      >
+      </nz-select>
+    </nz-form-item>
+  </div>-->
+  <div class="row">
+    <div class="col-12">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null">{{ 'plan' | transloco }}</nz-form-label>
+        <nz-form-control [nzSpan]="null" nzHasFeedback>
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            formControlName="subscription_id"
+            nzPlaceHolder="{{ 'selectPlan' | transloco }}"
+          >
+            <nz-option
+              *ngFor="let item of planList"
+              [nzLabel]="item.plan_name"
+              [nzValue]="item.subscription_id"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <nz-avatar [nzSrc]="avatarUrl" [nzSize]="size" class="bordered-avatar"></nz-avatar>
+    </div>
+    <div class="col-8">
+      <h5 class="container-card__title">{{ 'personalData' | transloco }}</h5>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null" nzRequired>{{ 'completeName' | transloco }}</nz-form-label>
+        <nz-form-control
+          [nzSpan]="null"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="userErrorTpl"
+        >
+          <input nz-input formControlName="name" placeholder="" />
+          <ng-template #userErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">{{
+              'addField' | transloco
+            }}</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null" nzRequired>{{ 'charge' | transloco }}</nz-form-label>
+        <nz-form-control
+          [nzSpan]="null"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="userErrorTpl"
+        >
+          <input nz-input formControlName="user_position" placeholder="" />
+          <ng-template #userErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">{{
+              'addField' | transloco
+            }}</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-8">
+      <h5 class="container-card__title">{{ 'contacts' | transloco }}</h5>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null" nzRequired>E-mail</nz-form-label>
+        <nz-form-control [nzSpan]="null" nzHasFeedback [nzErrorTip]="emailErrorTpl">
+          <input nz-input formControlName="email" placeholder="" type="email" />
+          <ng-template #emailErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('email')">{{
+              'validEmail' | transloco
+            }}</ng-container>
+            <ng-container *ngIf="control.hasError('required')">{{
+              'addEmail' | transloco
+            }}</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null" nzRequired>{{ 'contactNumber' | transloco }}</nz-form-label>
+        <nz-form-control [nzSpan]="null" nzHasFeedback>
+          <input nz-input formControlName="phone_number" placeholder="" type="text" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="null" nzRequired>{{ 'address' | transloco }}</nz-form-label>
+        <nz-form-control [nzSpan]="null" nzHasFeedback>
+          <input nz-input formControlName="address" placeholder="" type="text" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+</form>
+<div class="row">
+  <div *ngFor="let checkbox of rolsListMaped; let i = index">
+    <label
+      nz-checkbox
+      [(ngModel)]="checkbox.checked"
+      (click)="getCheckedValues()"
+      (ngModelChange)="checkboxChanged($event, i)"
+      >{{ checkbox.label }}</label
+    >
+  </div>
+</div>
+<div class="row justify-content-md-center">
+  <div class="col col-lg-2">
+    <button nz-button nzType="default" nzShape="round" (click)="resetForm($event)">
+      {{ 'cancel' | transloco }}
+    </button>
+  </div>
+  <div class="col col-lg-2">
+    <button
+      nz-button
+      nzType="primary"
+      class="button"
+      nzShape="round"
+      class="button"
+      [disabled]="!validateForm.valid"
+      (click)="saveChanges()"
+    >
+      {{ idUserEdit ? ('saveChanges' | transloco) : ('addUser' | transloco) }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="container-source">
+  <div class="container-source-card">
+    <div class="row">
+      <div class="col">
+        <h4 class="container-source-card__title">{{ 'helloWelcomeAgain' | transloco }}</h4>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-xl-8 col-lg-7 col-md-6 pe-md-2 py-2">
+        <div class="container-card">
+          <div class="row justify-content-center mb-3">
+            <div class="col-lg-7 col-xl-5 col-md-10 col-sm-8">
+              <app-tachometer
+                *ngIf="plan"
+                [plan]="plan.plan_name"
+                [queriesAvailable]="plan.queries_available"
+                [queriesAssigned]="plan.queries_assigned"
+                [active]="plan.state ? true : false"
+              >
+              </app-tachometer>
+            </div>
+          </div>
+          <div class="row">
+            <app-queries-monitor></app-queries-monitor>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-5 col-md-6 ps-md-2 py-2">
+        <div class="container-card">
+          <app-user-info
+            [name]="userProfile?.name"
+            [email]="userProfile?.email"
+            [logo]="userProfile?.logo"
+          ></app-user-info>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

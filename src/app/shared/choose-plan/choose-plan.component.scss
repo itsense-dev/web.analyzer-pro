@@ -1,0 +1,74 @@
+@import 'src/assets/styles/main.scss';
+
+.container {
+  width: 320px;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 72px;
+  height: 72px;
+
+  &__text {
+    font-size: 1.5em;
+    color: $color-dark-silver;
+    font-weight: 700;
+    text-align: center;
+  }
+}
+
+.container-card {
+  box-shadow: 4px 4px 8px 2px $color-chinese-silver;
+
+  &__label {
+    font-size: 0.8em;
+    color: $color-dark-silver;
+    &--bold {
+      font-weight: bold;
+    }
+  }
+  &__link {
+    font-size: 0.8em;
+    color: $color-prussian-blue;
+    cursor: default;
+    text-decoration: none;
+    text-align: center;
+    &--bold {
+      font-weight: bold;
+    }
+  }
+}
+
+.tachometer {
+  position: relative;
+  width: 200px;
+  height: 126px;
+
+  &__image {
+    width: 100%;
+  }
+  &__available {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  &__quantity {
+    text-align: center;
+    font-size: 1.5rem;
+    color: $color-turquoise-surf;
+  }
+  &__label {
+    font-size: 0.8rem;
+    color: $color-prussian-blue;
+    font-weight: bold;
+  }
+}
+
+::ng-deep .ant-btn-primary {
+  width: 100%;
+  border: none;
+  background: $color-prussian-blue;
+}

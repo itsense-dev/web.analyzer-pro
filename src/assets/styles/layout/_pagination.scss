@@ -1,0 +1,23 @@
+nz-pagination li[nz-pagination-item] {
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+}
+
+nz-pagination li[nz-pagination-item] > button.ant-pagination-item-link {
+  border-radius: 8px;
+  i {
+    margin-bottom: 16px;
+  }
+}
+.ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-ellipsis,
+.ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis {
+  margin-top: 2px;
+}
+
+nz-pagination .ant-pagination-item a {
+  margin-top: 2px;
+  font-size: 1.1em;
+  color: $color-dark-silver;
+  text-decoration: none;
+}

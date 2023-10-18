@@ -1,0 +1,133 @@
+<div class="container-source">
+  <div class="container-source-card">
+    <h4 class="container-source-card__title">{{ 'clients' | transloco }}</h4>
+    <div class="row justify-content-between mt-4 mb-3">
+      <div class="col col-sm-8 col-md-6">
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+          <input
+            class="input"
+            type="text"
+            nz-input
+            [placeholder]="'search' | transloco"
+            [(ngModel)]="filter"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button class="search" nz-button nzType="primary" nzSearch>
+            <i nz-icon nzType="search"></i>
+          </button>
+        </ng-template>
+      </div>
+      <div class="col-auto">
+        <button nz-button nzType="primary" class="button" nzShape="round" (click)="createClient()">
+          {{ 'addClient' | transloco }}
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <nz-table #basicTable [nzData]="clientsList" [nzFrontPagination]="true" [nzPageSize]="10">
+        <thead>
+          <tr>
+            <th>{{ 'client' | transloco }}</th>
+            <th nzWidth="128px">{{ 'state' | transloco }}</th>
+            <th>{{ 'plans' | transloco }}</th>
+            <th>{{ 'assignedUsers' | transloco }}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable.data | clientPipeFilter : filter">
+            <td>
+              <div class="row">
+                <div class="col-auto">
+                  <nz-avatar *ngIf="!data.logo" nzIcon="user"></nz-avatar>
+                  <nz-avatar *ngIf="data.logo" nzIcon="user" [nzSrc]="data.logo"></nz-avatar>
+                </div>
+                <div class="col d-flex align-items-center">
+                  {{ data.name }}
+                </div>
+              </div>
+            </td>
+            <td>
+              <nz-switch
+                [ngModel]="true"
+                [nzCheckedChildren]="checkedTemplate"
+                [nzUnCheckedChildren]="unCheckedTemplate"
+                (click)="changeClientState(data)"
+              >
+              </nz-switch>
+              <ng-template #checkedTemplate>
+                <span nz-icon nzType="check">{{ 'active' | transloco }}</span>
+              </ng-template>
+              <ng-template #unCheckedTemplate>
+                <span nz-icon nzType="close">{{ 'disabled' | transloco }}</span>
+              </ng-template>
+            </td>
+            <td>
+              <span
+                nz-icon
+                nzType="eye"
+                nzTheme="outline"
+                (click)="showModal(data.client_id)"
+              ></span>
+              <nz-modal
+                [(nzVisible)]="isVisible"
+                [nzTitle]="'plans' | transloco"
+                (nzOnCancel)="closeModal()"
+                (nzOnOk)="closeModal()"
+              >
+                <ng-container *nzModalContent>
+                  <nz-table #basicTable [nzData]="plansList">
+                    <thead>
+                      <tr>
+                        <th>{{ 'plan' | transloco }}</th>
+                        <th>{{ 'suscriptionDate' | transloco }}</th>
+                        <th>{{ 'expirationPlanDate' | transloco }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let plan of plansList">
+                        <td>
+                          {{ plan.plan_name }}
+                        </td>
+                        <td>{{ plan.subscription_date }}</td>
+                        <td>{{ plan.due_date_plan }}</td>
+                      </tr>
+                    </tbody>
+                  </nz-table>
+                </ng-container>
+              </nz-modal>
+            </td>
+            <td>{{ data.assigned_user }}</td>
+            <td>
+              <div class="row justify-content-end">
+                <div class="col-auto p-0 px-1">
+                  <div class="icon-container-edit">
+                    <span
+                      nz-icon
+                      nzType="edit"
+                      nzTheme="outline"
+                      class="custom-icon"
+                      (click)="redirectView(data.client_id)"
+                    ></span>
+                  </div>
+                </div>
+                <div class="col-auto p-0 px-1">
+                  <div class="icon-container-del">
+                    <span
+                      nz-icon
+                      nzType="delete"
+                      nzTheme="outline"
+                      class="custom-icon"
+                      (click)="deleteClientById(data.client_id)"
+                    ></span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+</div>

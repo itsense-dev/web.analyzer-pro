@@ -1,0 +1,63 @@
+@import '../abstracts/variables/colors';
+
+.container {
+  &-card {
+    background-color: $color-white;
+    padding: 30px 30px;
+    border-radius: 20px;
+    margin: 20px;
+    box-shadow: 0px 12px 12px rgba(0, 0, 0, 0.06);
+    &__title {
+      color: $color-prussian-blue;
+      font-size: 24px;
+      margin: 0px 0 30px 0;
+    }
+    &__subtitle {
+      color: $color-turquoise-surf;
+      font-size: 18px;
+    }
+  }
+  &-card-header {
+    &__title {
+      background: $color-white;
+      border-radius: 1em 1em 0 0;
+    }
+    &__profile {
+      background: $color-american-sivler;
+      border-radius: 0em 0em 1em 1em;
+      color: $color-prussian-blue;
+      z-index: 10;
+      position: relative;
+    }
+    &__bussines {
+      background: $color-turquoise-surf;
+      border-radius: 0em 0em 1em 1em;
+      color: $color-white;
+      margin-top: -10px !important;
+      padding-top: 20px;
+    }
+  }
+}
+
+.container-source {
+  &-card {
+    border-radius: 1em;
+    background: transparent;
+    padding: 35px 20px;
+    &__title {
+      color: $color-dark-silver;
+    }
+  }
+}
+
+.container-result {
+  &-card {
+    background: $color-white;
+    padding: 0px;
+    padding-bottom: 20px;
+    border-radius: 1em 1em 0 0;
+    -webkit-box-shadow: 12px 6px 19px -1px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 12px 6px 19px -1px rgba(0, 0, 0, 0.2);
+    box-shadow: 12px 6px 19px -1px rgba(0, 0, 0, 0.2);
+  }
+}

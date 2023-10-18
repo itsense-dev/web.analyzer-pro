@@ -1,0 +1,29 @@
+@import 'src/assets/styles/main.scss';
+
+.logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  box-shadow: 0px 0px 10px 2px $color-american-sivler;
+  background-position: center;
+  background-size: 80%;
+  background-repeat: no-repeat;
+}
+
+.name {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: $color-prussian-blue;
+}
+.email {
+  font-size: 0.8em;
+  color: $color-dark-silver;
+}
+.active {
+  font-size: 0.8rem;
+  color: $color-green;
+  font-weight: bold;
+  &::before {
+    content: '\2022';
+  }
+}

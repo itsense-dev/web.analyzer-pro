@@ -1,0 +1,111 @@
+@import 'src/assets/styles/abstracts/variables/_colors.scss';
+
+.container-card {
+  position: relative;
+  &__title {
+    display: inline-block;
+    color: $color-turquoise-surf;
+    &--gray {
+      color: $color-dark-silver;
+      @media (max-width: 768px) {
+        margin: 64px 0px 0px 0px;
+      }
+      @media (min-width: 768px) {
+        margin: 0px;
+      }
+    }
+  }
+  &__subtitle {
+    display: inline-block;
+    &--gray {
+      color: $color-dark-silver;
+    }
+  }
+  &__field-name {
+    margin: 8px 0px;
+    color: $color-turquoise-surf;
+    font-size: 1em;
+  }
+}
+.tag {
+  position: absolute;
+  padding: 16px;
+  top: 0px;
+  left: 32px;
+  color: $color-white;
+  font-size: 0.8em;
+  font-weight: 500;
+  background-color: $color-turquoise-surf;
+  border: none;
+  border-radius: 0px 0px 20px 20px;
+  text-align: center;
+  width: 40%;
+  max-width: 300px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    max-width: 100%;
+    right: 0px;
+    left: 0px;
+    border-radius: 20px 20px 0px 0px;
+  }
+
+  &__title {
+    font-size: 1.2em;
+    max-width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+
+.header {
+  font-size: 0.8em;
+  color: $color-prussian-blue;
+  transition: color 0.2s ease-in-out;
+  &--title {
+    font-weight: 600;
+    line-height: 0.8rem;
+    height: 32px;
+  }
+  &--icon {
+    font-size: 1.4em;
+    &:hover {
+      cursor: pointer;
+      color: $color-turquoise-surf;
+      transition: color 0.2s ease-in-out;
+    }
+  }
+  &--field {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 64px;
+    font-size: 1em;
+    color: $color-dark-silver;
+  }
+  &--no-wrap {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+}
+
+.download-inform {
+  background-color: $color-prussian-blue;
+  color: $color-white;
+  border: 0;
+  transition: background-color color box-shadow 0.2s ease-in-out;
+  &:hover:not([disabled]) {
+    background-color: $color-turquoise-surf;
+    box-shadow: 0px 0px 4px 1px $color-turquoise-surf;
+    transition: background-color color box-shadow 0.2s ease-in-out;
+  }
+  &:is([disabled]) {
+    background-color: $color-chinese-silver;
+    color: $color-dark-silver;
+  }
+}

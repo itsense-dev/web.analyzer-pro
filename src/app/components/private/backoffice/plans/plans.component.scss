@@ -1,0 +1,78 @@
+@import 'src/assets/styles/abstracts/variables/_colors';
+[nz-form] {
+  max-width: 900px;
+}
+
+.title-page {
+  color: $color-turquoise-surf;
+  margin-top: 20px;
+  margin-left: 40px;
+}
+
+.error-message {
+  font-size: 0.8em;
+  color: $color-red-error;
+}
+
+input {
+  background-color: $color-platinum;
+  padding: 5px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.input-required {
+  margin-top: 20px;
+  font-size: 1em;
+  line-height: 2;
+  color: $color-dark-silver;
+  font-weight: 350;
+  height: 32px;
+}
+
+.input-required::after {
+  content: '*';
+  color: $color-red-error;
+  margin-right: 3px;
+}
+
+nz-form-item {
+  display: inline-block;
+}
+
+.flex-input {
+  display: flex;
+}
+
+textarea {
+  background-color: $color-platinum;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.lista-vinetas {
+  list-style-type: none;
+}
+
+.lista-vinetas li::before {
+  content: '\2022';
+  color: $color-turquoise-surf;
+  font-size: 1.5em;
+  margin-right: 10px;
+  margin-left: 0;
+}
+
+.country-list {
+  font-size: 1em;
+  color: $color-dark-silver;
+  font-weight: 350;
+}
+
+.cancel-button {
+  height: 40px;
+  border-radius: 16px;
+  width: 150px;
+  background: $color-dark-silver;
+  box-shadow: 2px 2px 4px 2px $color-chinese-silver;
+}

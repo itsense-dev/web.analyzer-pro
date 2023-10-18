@@ -1,0 +1,44 @@
+@import 'src/assets/styles/abstracts/variables/_colors';
+
+nz-button-group {
+  margin: 0 8px 8px 0;
+}
+
+nz-select {
+  width: 200px;
+}
+
+.custom-description {
+  font-weight: bold;
+}
+
+.title-page {
+  color: $color-turquoise-surf;
+  margin: 0px 0px 0px 40px;
+}
+
+.custom-description-item {
+  margin-bottom: 10px;
+}
+.icon-container-edit {
+  background-color: $color-dark-silver; /* Set your desired background color */
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-container-del {
+  background-color: $color-red-dark;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.custom-icon {
+  font-size: 15px;
+  color: white;
+}

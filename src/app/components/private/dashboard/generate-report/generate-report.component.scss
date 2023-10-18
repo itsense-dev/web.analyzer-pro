@@ -1,0 +1,168 @@
+@import 'src/assets/styles/abstracts/variables/_colors.scss';
+nz-select {
+  width: 100%;
+}
+
+.flags-input {
+  height: 10px;
+}
+
+.footer {
+  position: fixed;
+  bottom: 30px;
+  right: 32px;
+
+  background-color: transparent;
+  text-align: center;
+  padding: 10px;
+
+  &-container {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.download-inform {
+  background-color: $color-prussian-blue;
+  color: $color-white;
+}
+
+::ng-deep .ant-btn-primary {
+  border: none;
+  background: $color-prussian-blue;
+}
+
+iframe {
+  width: 100%;
+  height: 400px;
+  overflow: scroll;
+}
+
+.spin-loading {
+  text-align: center;
+}
+
+::ng-deep .form-check-input:checked {
+  background-color: $color-turquoise-surf;
+  border-color: $color-turquoise-surf;
+}
+
+.container-card {
+  position: relative;
+  &__title {
+    display: inline-block;
+    color: $color-turquoise-surf;
+    &--gray {
+      color: $color-dark-silver;
+      @media (max-width: 768px) {
+        margin: 64px 0px 0px 0px;
+      }
+      @media (min-width: 768px) {
+        margin: 0px;
+      }
+    }
+  }
+  &__subtitle {
+    display: inline-block;
+    &--gray {
+      color: $color-dark-silver;
+    }
+  }
+  &__field-name {
+    margin: 8px 0px;
+    color: $color-turquoise-surf;
+    font-size: 1em;
+  }
+}
+.tag {
+  position: absolute;
+  padding: 16px;
+  top: 0%;
+  right: 32px;
+  color: $color-white;
+  font-size: 0.8em;
+  font-weight: 500;
+  background-color: $color-turquoise-surf;
+  border: none;
+  border-radius: 0px 0px 20px 20px;
+  text-align: center;
+
+  @media (max-width: 600px) {
+    right: 0px;
+    left: 0px;
+    border-radius: 20px 20px 0px 0px;
+  }
+
+  &__title {
+    font-size: 1.2em;
+    max-width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+
+.counter {
+  color: $color-dark-silver;
+  display: inline-block;
+  background-color: $color-red-error-alpha;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7em;
+  &__label {
+    display: inline-block;
+  }
+  &__quantity {
+    display: inline-block;
+    font-weight: 700;
+    color: $color-prussian-blue;
+  }
+}
+
+.hint {
+  display: flex;
+  font-size: 0.8em;
+  color: $color-dark-silver;
+  &__exclamation {
+    font-size: 1.2em;
+    margin: 3px 3px 3px 0px;
+  }
+}
+
+.new-search-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  height: 96px;
+  width: 96px;
+  color: $color-white;
+  background-color: $color-prussian-blue;
+  padding: 16px;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover:not([disabled]) {
+    background-color: $color-turquoise-surf;
+    transition: background-color 0.2s ease-in-out;
+  }
+  &__icon {
+    font-size: 2.2em;
+  }
+  &__label {
+    line-height: 1;
+    font-weight: 600;
+    font-size: 0.9em;
+  }
+}
+
+.ant-radio-wrapper-checked {
+  color: $color-turquoise-surf;
+  transition: color 0.2s ease-in-out;
+}
+.checkbox-blue-label.ant-checkbox-wrapper {
+  color: $color-turquoise-surf;
+  font-weight: 700;
+}

@@ -1,0 +1,156 @@
+<ngx-spinner bdColor="rgba(0, 47, 77, 0.9)" type="ball-8bits">
+  <nz-spin nzSimple nzSize="large"></nz-spin>
+  <div class="loading-list">{{ 'loading' | transloco }}</div>
+</ngx-spinner>
+
+<h3 class="title-page">{{ 'querySingleHistoric' | transloco }}</h3>
+<div nz-row nzJustify="end" *ngIf="rolId !== baseRoles.SUPER_ADMIN">
+  <div nz-col nzXl="4" nzXl="6">
+    <button class="new-search-button" (click)="redirectView()">
+      <span class="new-search-button__icon" nz-icon nzType="search"></span>
+      <span class="new-search-button__label">{{ 'newQuery' | transloco }}</span>
+    </button>
+  </div>
+</div>
+<div class="container">
+  <div class="container-card">
+    <div nz-row>
+      <div nz-col nzXl="8" nzXs="24">
+        <nz-form-item>
+          <nz-form-label nzXl="5" nzXs="6" class="required">{{
+            'country' | transloco
+          }}</nz-form-label>
+          <nz-form-control [nzSpan]="12" nzHasFeedback>
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              [(ngModel)]="country_id"
+              nzPlaceHolder="{{ 'selectCountry' | transloco }}"
+            >
+              <nz-option
+                *ngFor="let item of countryList"
+                [nzLabel]="item.country_name"
+                [nzValue]="item.country_id"
+              ></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzXl="12" *ngIf="rolId !== baseRoles.SUPER_ADMIN">
+        <h3 class="message">{{ 'reportDuration' | transloco }}</h3>
+      </div>
+      <div nz-col nzXl="8" nzXs="24" *ngIf="rolId === baseRoles.SUPER_ADMIN">
+        <nz-form-item>
+          <nz-form-label nzXl="5" nzXs="6" class="required">{{
+            'client' | transloco
+          }}</nz-form-label>
+          <nz-form-control [nzSpan]="12" nzHasFeedback>
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              [(ngModel)]="name"
+              nzPlaceHolder="{{ 'selectClient' | transloco }}"
+            >
+              <nz-option
+                *ngFor="let item of clientsList"
+                [nzLabel]="item.name"
+                [nzValue]="item.name"
+              ></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <br />
+    <div nz-row *ngIf="rolId === baseRoles.SUPER_ADMIN">
+      <h3 class="message">{{ 'reportDuration' | transloco }}</h3>
+    </div>
+    <nz-divider></nz-divider>
+    <div nz-row>
+      <div nz-col nzXl="8" nzXs="24">
+        <nz-input-group nzSearch>
+          <input
+            type="text"
+            nz-input
+            placeholder="{{ 'insertWord' | transloco }}"
+            [(ngModel)]="filter"
+          />
+        </nz-input-group>
+      </div>
+      <div nz-col nzSpan="1"></div>
+      <div nz-col nzXl="6" nzXs="24">
+        <nz-range-picker
+          nzSize="default"
+          [(ngModel)]="selectedStartDate"
+          [(ngModel)]="selectedEndDate"
+        ></nz-range-picker>
+      </div>
+      <div nz-col nzXl="8">
+        <div nz-row>
+          <button class="icon-button-search" (click)="searchHistoric()">
+            <span nz-icon nzType="search" class="icon-button-search--icon"></span>
+            <span class="icon-button-search--text">{{ 'search' | transloco }}</span>
+          </button>
+          <button class="icon-button-delete" (click)="cleanFilters()">
+            <span nz-icon nzType="close" class="icon-button-delete--icon"></span>
+            <span class="icon-button-delete--text">{{ 'cleanFilter' | transloco }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <nz-table
+      #basicTable
+      [nzData]="historyList"
+      [nzFrontPagination]="false"
+      *ngIf="historyList?.length !== 0"
+    >
+      <thead class="header">
+        <tr class="header--title">
+          <th nzAlign="center">{{ 'country' | transloco }}</th>
+          <th nzAlign="center">{{ 'personType' | transloco }}</th>
+          <th nzAlign="center">{{ 'idType' | transloco }}</th>
+          <th nzAlign="center">{{ 'idNumber' | transloco }}</th>
+          <th nzAlign="center">{{ 'queryDate' | transloco }}</th>
+          <th nzAlign="center">{{ 'reportGeneratedBy' | transloco }}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody class="header">
+        <tr class="header--field" *ngFor="let data of historyList">
+          <td nzAlign="center">{{ data?.country }}</td>
+          <td nzAlign="center">{{ data?.person_type }}</td>
+          <td nzAlign="center">{{ data?.id_type }}</td>
+          <td nzAlign="center">{{ data?.id_number }}</td>
+          <td nzAlign="center">{{ data?.consult_date }}</td>
+          <td nzAlign="center">{{ data?.report_generated_by }}</td>
+          <td>
+            <div>
+              <button
+                nz-button
+                nzType="primary"
+                nzShape="round"
+                class="downloadReport"
+                (click)="downloadReport(data)"
+              >
+                {{ 'downloadReport' | transloco }}
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <div class="row justify-content-center">
+      <div class="col-auto">
+        <nz-pagination
+          *ngIf="historyList?.length !== 0"
+          [nzPageIndex]="pageIndex"
+          [nzTotal]="totalRows"
+          nzShowSizeChanger
+          [nzResponsive]="true"
+          (nzPageIndexChange)="onPageIndexChange($event)"
+          (nzPageSizeChange)="onPageSizeChange($event)"
+        ></nz-pagination>
+      </div>
+    </div>
+  </div>
+</div>

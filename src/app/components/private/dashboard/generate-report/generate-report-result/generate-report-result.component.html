@@ -1,0 +1,26 @@
+<app-card-header
+  *ngIf="listOfCrawlers"
+  [data]="listOfCrawlers"
+  [country]="country"
+  [hideAndicomData]="hideAndicomData"
+  [showConfirmButtonAverage]="showConfirmButtonAverage"
+  (eventPdfButton)="downloadPdfInform($event)"
+  [percent]="percent"
+  (eventLinkedinButtonButton)="downloadLinkedinCertificate($event)"
+></app-card-header>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <nz-tabset nzType="card">
+        <nz-tab [nzTitle]="'report' | transloco">
+          <app-generate-report-result-expansion [list]="listOfCrawlers">
+          </app-generate-report-result-expansion>
+        </nz-tab>
+        <nz-tab [nzTitle]="'sourcesNotAvailable' | transloco">
+          <app-generate-report-result-notfound></app-generate-report-result-notfound>
+        </nz-tab>
+      </nz-tabset>
+    </div>
+  </div>
+</div>

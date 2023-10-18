@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700&display=swap');
+
+.text-title {
+  font-size: 28px;
+  color: $color-prussian-blue;
+  font-weight: bold;
+}
+
+.text-header {
+  font-size: 13px;
+  color: $color-prussian-blue;
+  &-label {
+    font-weight: bold;
+  }
+}
+.text-profile {
+  font-weight: bold;
+  &-subtitle {
+    font-size: 20px;
+  }
+  &-label {
+    font-size: 18px;
+  }
+}
+.text-source {
+  font-weight: bold;
+  color: $color-prussian-blue;
+  &-name {
+    font-size: 20px;
+    color: $color-turquoise-surf;
+  }
+  &-url {
+    font-size: 14px;
+  }
+  &-title {
+    font-size: 16px;
+    color: $color-turquoise-surf !important;
+  }
+  &-subtitle {
+    font-size: 18px;
+  }
+}
+
+.datasource {
+  color: $color-dark-silver;
+  &-key {
+    text-transform: capitalize;
+  }
+}
+
+.text-notfound {
+  color: #707070 !important;
+  font-size: 16px;
+  font-weight: bold;
+}

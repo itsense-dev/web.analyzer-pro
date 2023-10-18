@@ -1,0 +1,51 @@
+@import 'src/assets/styles/abstracts/variables/_colors';
+button {
+  margin-left: 8px;
+}
+
+.container-source-card {
+  &__title {
+    color: $color-turquoise-surf;
+  }
+}
+
+input {
+  background-color: $color-platinum;
+  padding: 5px;
+  border-radius: 10px;
+  width: 100%;
+}
+:host ::ng-deep .avatar-uploader > .ant-upload {
+  width: 200px;
+  height: 200px;
+}
+
+.title-page {
+  color: $color-turquoise-surf;
+  margin: 0px 0px 0px 40px;
+}
+
+.upload-logo {
+  width: 128px;
+  height: 128px;
+  color: $color-white;
+  background-color: $color-prussian-blue;
+  border-radius: 50%;
+  transition: background-color 0.3s ease-in-out;
+  cursor: pointer;
+
+  &__default {
+    font-size: 4em;
+    color: $color-white;
+  }
+  &__image {
+    width: 100%;
+    height: 100%;
+    border: 2px solid $color-turquoise-surf;
+    border-radius: 50%;
+  }
+  &:hover {
+    background-color: $color-turquoise-surf;
+    transition: background-color 0.3s ease-in-out;
+  }
+}

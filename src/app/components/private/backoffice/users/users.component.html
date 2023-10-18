@@ -1,0 +1,177 @@
+<nz-divider></nz-divider>
+<h3 class="title-page">{{ 'users' | transloco }}</h3>
+<div class="container">
+  <div class="container-card">
+    <div nz-row nzJustify="end">
+      <div nz-col nzSpan="4">
+        <button
+          nz-button
+          nzType="primary"
+          nzShape="round"
+          class="button"
+          (click)="showModalCreateUser()"
+        >
+          {{ 'addUser' | transloco }}
+        </button>
+      </div>
+    </div>
+    <form nz-form [formGroup]="validateForm">
+      <div nz-row>
+        <div nz-col nzSpan="8">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="5">{{ 'client' | transloco }}</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzHasFe edback>
+              <nz-select
+                nzShowSearch
+                nzAllowClear
+                formControlName="client"
+                nzPlaceHolder="{{ 'selectClient' | transloco }}"
+                (ngModelChange)="getPlansByClient($event)"
+              >
+                <nz-option
+                  *ngFor="let item of clientsList"
+                  [nzLabel]="item.name"
+                  [nzValue]="item.client_id"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col nzSpan="8" *ngIf="clientPlans">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="5">{{ 'plan' | transloco }}</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzHasFe edback>
+              <nz-select
+                nzShowSearch
+                nzAllowClear
+                formControlName="suscription"
+                nzPlaceHolder="{{ 'selectClient' | transloco }}"
+                (ngModelChange)="getSuscriptionDetails($event)"
+              >
+                <nz-option
+                  *ngFor="let item of clientPlans"
+                  [nzLabel]="item.plan_name"
+                  [nzValue]="item.subscription_id"
+                ></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+    <nz-divider></nz-divider>
+    <nz-divider></nz-divider>
+    <div class="row" *ngIf="subscription">
+      <nz-descriptions>
+        <nz-descriptions-item nzTitle="{{ 'planName' | transloco }}">{{
+          subscription.plan_name
+        }}</nz-descriptions-item>
+
+        <nz-descriptions-item nzTitle="{{ 'description' | transloco }}">{{
+          subscription.plan_description
+        }}</nz-descriptions-item>
+      </nz-descriptions>
+      <nz-descriptions>
+        <nz-descriptions-item nzTitle="{{ 'suscriptionDate' | transloco }}">{{
+          subscription.subscription_date
+        }}</nz-descriptions-item>
+
+        <nz-descriptions-item nzTitle="{{ 'state' | transloco }}">{{
+          subscription.subscription_status
+        }}</nz-descriptions-item>
+      </nz-descriptions>
+    </div>
+
+    <nz-divider></nz-divider>
+    <div nz-row>
+      <div nz-col nzSpan="12">
+        <nz-input-group nzSearch>
+          <input type="text" nz-input placeholder="input search text" [(ngModel)]="filter" />
+        </nz-input-group>
+      </div>
+    </div>
+
+    <nz-table #basicTable [nzData]="usersList">
+      <thead>
+        <tr>
+          <th>{{ 'name' | transloco }}</th>
+          <th>{{ 'state' | transloco }}</th>
+          <th>{{ 'charge' | transloco }}</th>
+          <th>{{ 'assigned' | transloco }}</th>
+          <th>{{ 'used' | transloco }}</th>
+          <th>{{ 'remaining' | transloco }}</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of usersList | usersPipeFilter : filter">
+          <td>
+            <nz-avatar nzIcon="user" nzSrc="{{ data.logo }}"></nz-avatar>
+            {{ data.name }}
+          </td>
+          <td>
+            <nz-switch
+              [ngModel]="data.active_record"
+              [nzCheckedChildren]="checkedTemplate"
+              [nzUnCheckedChildren]="unCheckedTemplate"
+              (click)="changeClientState(data)"
+            >
+            </nz-switch>
+            <ng-template #checkedTemplate
+              ><span nz-icon nzType="check"> {{ 'active' | transloco }} </span></ng-template
+            >
+            <ng-template #unCheckedTemplate
+              ><span nz-icon nzType="close"> {{ 'inactive' | transloco }} </span></ng-template
+            >
+          </td>
+          <td>
+            {{ data.user_position }}
+          </td>
+          <td>
+            {{ data.n_assigned_queries }}
+          </td>
+          <td>
+            {{ data.n_consumed_queries }}
+          </td>
+          <td>
+            {{ data.n_remaining_queries }}
+          </td>
+          <td>
+            <div class="icon-container-edit">
+              <span
+                nz-icon
+                nzType="edit"
+                nzTheme="outline"
+                class="custom-icon"
+                (click)="redirectView(data.user_id)"
+              ></span>
+            </div>
+          </td>
+          <td>
+            <div class="icon-container-del">
+              <span
+                nz-icon
+                nzType="delete"
+                nzTheme="outline"
+                class="custom-icon"
+                (click)="deleteUserById(data.user_id)"
+              ></span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<nz-modal
+  [(nzVisible)]="isVisibleCreateUser"
+  (nzOnCancel)="isVisibleCreateUser = false"
+  [nzWidth]="'50%'"
+>
+  <div *nzModalContent>
+    <app-create-users [idUserEdit]="idUserEdit" (closeModal)="okAction($event)"></app-create-users>
+  </div>
+  <div *nzModalFooter></div>
+</nz-modal>

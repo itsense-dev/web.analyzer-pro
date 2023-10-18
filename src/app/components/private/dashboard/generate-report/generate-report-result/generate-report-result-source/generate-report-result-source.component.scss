@@ -1,0 +1,53 @@
+@import '/src/assets/styles/main.scss';
+
+div .ant-collapse-header[aria-expanded='true'] {
+  display: none !important;
+  background-color: black;
+}
+a:link,
+a:visited,
+a:active {
+  text-decoration: none;
+}
+::ng-depp nz-timeline {
+  user-select: auto;
+}
+.button-pdf {
+  border-radius: 2em;
+}
+.div-icon-pdf {
+  color: $color-dark-cian;
+}
+.link {
+  color: $color-prussian-blue;
+  font-weight: 600;
+  margin-right: 5px;
+}
+.mg-btn-actions {
+  margin: 6px 0 20px 0;
+}
+.image {
+  width: 100%;
+}
+
+.container-source-card {
+  padding-top: 0px;
+}
+.finding {
+  background-color: $color-red-error;
+  color: $color-white;
+  padding: 1px 4px;
+  margin: 0px 4px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+}
+
+.hint {
+  display: flex;
+  font-size: 1em;
+  color: $color-dark-silver;
+  &__exclamation {
+    font-size: 1.2em;
+    margin: 3px 3px 3px 0px;
+  }
+}

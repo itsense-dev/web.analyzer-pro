@@ -1,0 +1,52 @@
+@import 'src/assets/styles/abstracts/variables/_colors';
+
+.search {
+  margin-left: -8px;
+  border-radius: 8px !important;
+  width: 48px;
+  z-index: 50;
+}
+
+.ant-table-tbody > tr > td {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.container-source-card {
+  &__title {
+    color: $color-turquoise-surf;
+  }
+}
+
+form nz-form-item {
+  margin-right: 16px;
+  margin-bottom: 8px;
+}
+.icon-container-edit {
+  background-color: $color-dark-silver; /* Set your desired background color */
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.icon-container-del {
+  background-color: $color-red-dark;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.custom-icon {
+  font-size: 15px;
+  color: $color-white;
+}
+.title-page {
+  color: $color-turquoise-surf;
+  margin: 0px 0px 0px 40px;
+}

@@ -1,0 +1,16 @@
+export enum Messages {
+  SYSTEM_NOT_AVAILABLE = 'Sistema no disponible',
+  SYSTEM_NOT_AVAILABLE_MESSAGE = 'El sistema no se encuentra disponible en este momento, por favor intentalo de nuevo más tarde',
+  FORMAT_NOT_VALID = 'Extensión no es valida',
+  FORMAT_NOT_VALID_MESSAGE = 'la extensión de la imagen no es valida, solo permite PNG o JPG',
+  SIZE_NOT_VALID = 'Tamaño no permitido',
+  SIZE_NOT_VALID_MESSAGE = 'La imagen excede el tamaño maximo permitido 2MB',
+  INPUT_REQUIRED = 'Faltan campos por llenar',
+  INPUT_REQUIRED_MESSAGE = 'No se han digitado todos los campos requeridos',
+  MASSIVE_QUERY = 'Consulta Masiva',
+  MASSIVE_QUERY_MESSAGE = 'Tu consulta masiva será procesada pronto y podrás ver su avance en tu historial de consultas masivas.',
+  CREATION_SUCCESS = 'Creación exitosa',
+  CREATION_SUCCESS_MESSAGE = 'Se ha creado correctamente',
+  UPDATE_SUCCESS = 'Actualización exitosa',
+  UPDATE_SUCCESS_MESSAGE = 'Se ha actualizado correctamente',
+}

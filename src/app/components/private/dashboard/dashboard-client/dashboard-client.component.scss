@@ -1,0 +1,8 @@
+@import 'src/assets/styles/main.scss';
+
+.container-source-card {
+  background-color: transparent;
+  &__title {
+    color: $color-dark-silver;
+  }
+}

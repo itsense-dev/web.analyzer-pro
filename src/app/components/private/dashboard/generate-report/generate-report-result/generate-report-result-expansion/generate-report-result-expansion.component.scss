@@ -1,0 +1,110 @@
+@import 'src/assets/styles/abstracts/variables/_colors';
+.loading {
+  color: #01bbc8;
+  font-size: 20px;
+}
+
+.ok {
+  color: #1e9b05;
+  font-size: 20px;
+}
+
+.no-found {
+  color: #cfa910;
+  font-size: 20px;
+}
+.bad-request {
+  color: #af3e02;
+  font-size: 20px;
+}
+
+.status-icon {
+  margin-left: -15px;
+}
+
+.status-container {
+  margin-left: -110px;
+}
+
+.has-risk {
+  background-color: red;
+}
+
+.container-result {
+  margin: 10px;
+}
+.container-result-card {
+  padding: 15px;
+}
+.container-title-tab {
+  font-size: 1em;
+  font-weight: bold;
+  color: $color-prussian-blue;
+  margin: 5px 10px;
+}
+.container-card {
+  margin: 0px;
+}
+
+.findings-number {
+  display: inline-block;
+  width: 64px;
+  background-color: $color-prussian-blue;
+  color: $color-white;
+  border-radius: 48px;
+  padding: 2px;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.finding {
+  color: $color-prussian-blue;
+}
+
+.status-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  &--correct {
+    background-image: url('../../../../../../../assets/images/filled-correct.svg');
+  }
+  &--error {
+    background-image: url('../../../../../../../assets/images/filled-error.svg');
+  }
+  &--forbbiden {
+    background-image: url('../../../../../../../assets/images/filled-forbbiden.svg');
+  }
+  &--no-info {
+    background-image: url('../../../../../../../assets/images/filled-no-info.svg');
+  }
+}
+
+nz-collapse-panel[data-finding='true'] {
+  &:has(.ant-collapse-header[aria-expanded='false']) {
+    background-color: $color-light-red;
+  }
+  border-radius: 10px;
+  //margin: 0 5px;
+}
+::ng-deep nz-collapse-panel[data-finding='true'] .ant-collapse-header:hover[aria-expanded='false'] {
+  //box-shadow: inset 0px 0px 6px 1px $color-red-error-alpha;
+  color: $color-red-dark !important;
+  box-shadow: 0px 0px 4px 1px $color-red-error-alpha;
+}
+/*
+[ngStyle]="{
+  'background-color': panel.finding ? '#FEC6C6' : '',
+  'border-radius': '10px',
+  margin: '0 5px'
+}"
+*/
+@media only screen and (max-width: 400px) {
+  .status-icon {
+    position: absolute;
+    left: -7px;
+    top: 10px;
+  }
+}
