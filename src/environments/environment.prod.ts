@@ -8,6 +8,7 @@ export const environment = {
   api: 'https://ozujxe4oc5.execute-api.us-east-1.amazonaws.com/prod',
   apiAdmin: 'https://7p680oe6na.execute-api.us-east-1.amazonaws.com/prod',
   apiAndicom: 'https://andicom.analyzerinc.com/api/',
+  downloadReport: 'http://3.221.224.186:11000',
   amplify: {
     auth: {
       mandatorySignIn: true,
