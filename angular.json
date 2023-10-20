@@ -43,7 +43,7 @@
             "scripts": []
           },
           "configurations": {
-            "prod": {
+            "production": {
               "budgets": [
                 {
                   "type": "initial",
@@ -94,13 +94,13 @@
               "namedChunks": true
             }
           },
-          "defaultConfiguration": "prod"
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "prod": {
-              "browserTarget": "analyzer-pro:build:prod"
+            "production": {
+              "browserTarget": "analyzer-pro:build:production"
             },
             "development": {
               "browserTarget": "analyzer-pro:build:development"
