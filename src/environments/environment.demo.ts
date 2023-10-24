@@ -8,13 +8,12 @@ export const environment = {
   api: 'https://cuwma9g3ad.execute-api.us-east-1.amazonaws.com/dev',
   apiAdmin: 'https://ve6g2uvg4c.execute-api.us-east-1.amazonaws.com/dev',
   apiAndicom: 'https://51hdafc2kk.execute-api.us-east-1.amazonaws.com/dev',
-  downloadReport: 'https://cuwma9g3ad.execute-api.us-east-1.amazonaws.com/dev',
   amplify: {
     auth: {
       mandatorySignIn: true,
       region: 'us-east-1',
       userPoolId: 'us-east-1_Va4QHFFW7',
-      userPoolWebClientId: '3c2rrf147f8ii0iupe9fiovkb8',
+      userPoolWebClientId: '5gvo0v8ntjpaombmq9qpiun6n7',
       authenticationFlowType: 'USER_PASSWORD_AUTH',
       oauth: {
         domain: 'dev-users-analyzer-pro.auth.us-east-1.amazoncognito.com',

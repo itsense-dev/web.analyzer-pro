@@ -9,6 +9,6 @@ import { PayloadPDF, ResponsePDF } from 'src/models/websocket-response.model';
 export class DownloadPdfInformService {
   constructor(private http: HttpClient) {}
   downloadPdf(payload: PayloadPDF) {
-    return this.http.post<ResponsePDF>(`${environment.downloadReport}/download-report`, payload);
+    return this.http.post<ResponsePDF>(`${environment.api}/download-report`, payload);
   }
 }
