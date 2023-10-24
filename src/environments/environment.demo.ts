@@ -12,11 +12,11 @@ export const environment = {
     auth: {
       mandatorySignIn: true,
       region: 'us-east-1',
-      userPoolId: 'us-east-1_Va4QHFFW7',
-      userPoolWebClientId: '5gvo0v8ntjpaombmq9qpiun6n7',
+      userPoolId: 'us-east-1_QOtmQbgTb',
+      userPoolWebClientId: 'q4ut732o1kjngb9v53u6oaqsq',
       authenticationFlowType: 'USER_PASSWORD_AUTH',
       oauth: {
-        domain: 'dev-users-analyzer-pro.auth.us-east-1.amazoncognito.com',
+        domain: 'analyzerprod-dev.auth.us-east-1.amazoncognito.com',
         scope: ['email', 'openid', 'profile', 'aws.cognito.signin.user.admin'],
         redirectSignIn: 'http://localhost:4200/load-session',
         redirectSignOut: 'http://localhost:4200/',
