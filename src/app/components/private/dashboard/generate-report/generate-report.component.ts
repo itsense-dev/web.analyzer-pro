@@ -283,7 +283,7 @@ export class GenerateReportComponent implements OnInit {
     crawlerData.body = crawlerResponse?.body;
     crawlerData.statusCode = crawlerResponse?.statusCode;
     crawlerData.body.statusCode = crawlerResponse?.statusCode;
-    crawlerData.finding = crawlerResponse?.body?.request_detail?.finding;
+    crawlerData.finding = crawlerResponse?.finding;
 
     document.detail[position] = crawlerData;
 
