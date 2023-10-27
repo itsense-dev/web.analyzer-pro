@@ -53,11 +53,12 @@ export class GenerateReportResultExpansionComponent implements OnInit {
   }
 
   concatDataWithWs(data: any) {
-    const allLists = <Array<any>>data.detail;
+    let dataCopied = JSON.parse(JSON.stringify(data));
+    const allLists = <Array<any>>dataCopied.detail;
     const crawlersSuccess = allLists.filter((crawler) => crawler.statusCode < 400);
-    data.detail = crawlersSuccess;
+    dataCopied.detail = crawlersSuccess;
 
-    this.getDataList(data);
+    this.getDataList(dataCopied);
     this.setPercent.emit(5);
   }
 

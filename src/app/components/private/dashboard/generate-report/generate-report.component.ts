@@ -214,25 +214,49 @@ export class GenerateReportComponent implements OnInit {
   }
 
   socketConnect() {
-    const socket$ = new WebSocketSubject(environment.socketApi);
-    const messages$ = socket$.asObservable();
-    socket$.next({ action: 'getConnectionId', message: '' });
-    messages$.subscribe((connectionId) => {
-      const id: any = connectionId;
-      this.transportDataWsService.message.emit(id);
-      if (typeof id === 'object') {
-        this.payloadToGetPdfInform = id;
-        this.enableGetPdfInform();
-      }
-      try {
-        const content = JSON.parse(id);
-      } catch (e) {
-        if (typeof connectionId === 'string') {
-          this.cryptsService.cryptData(ListResponse.SOCKET, connectionId);
-          this.connectionId = String(connectionId);
+    const socket = new WebSocketSubject(environment.socketApi);
+    const messages = socket.asObservable();
+
+    // Request to start connection
+    socket.next({ action: 'getConnectionId', message: '' });
+
+    // Manage income messages
+    messages.subscribe({
+      next: (message) => {
+        switch (typeof message) {
+          case 'string':
+            const connectionId = message;
+            this.cryptsService.cryptData(ListResponse.SOCKET, connectionId);
+            this.connectionId = connectionId;
+            break;
+          case 'object':
+            const crawlerResponse = message;
+            const document = this.updateDocument(crawlerResponse);
+            this.transportDataWsService.message.emit(document);
+
+            this.payloadToGetPdfInform = document;
+            this.enableGetPdfInform();
+            break;
         }
-      }
+      },
     });
+  }
+
+  updateDocument(crawlerResponse: any) {
+    let document = this.cryptsService.decryptData(ListResponse.V2_LISTS);
+    const position = crawlerResponse?.body?.request_detail?.position;
+
+    //crawlerResponse.statusCode = 200;
+    let crawlerData = document.detail[position];
+    crawlerData.body = crawlerResponse?.body;
+    crawlerData.statusCode = crawlerResponse?.statusCode;
+    crawlerData.body.statusCode = crawlerResponse?.statusCode;
+    crawlerData.finding = crawlerResponse?.body?.request_detail?.finding;
+
+    document.detail[position] = crawlerData;
+
+    this.cryptsService.cryptData(ListResponse.V2_LISTS, document);
+    return document;
   }
 
   async enableGetPdfInform() {
