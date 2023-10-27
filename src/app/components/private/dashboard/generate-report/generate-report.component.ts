@@ -21,6 +21,7 @@ import { TypeOfPerson } from 'src/enum/type-of-person.enum';
 import { ClientService } from 'src/app/services/apis/client/client.service';
 import { Package } from 'src/models/package.model';
 import { Plan } from 'src/models/plan.model';
+import { from, zip } from 'rxjs';
 
 @Component({
   selector: 'app-generate-report',
@@ -180,13 +181,12 @@ export class GenerateReportComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private clientService: ClientService
   ) {
-    this.formRequest.get('country')?.valueChanges.subscribe({
-      next: (value) => {
-        this.changeCountry(value);
-      },
-    });
-
-    this.loadCountries();
+    // this.formRequest.get('country')?.valueChanges.subscribe({
+    //   next: (value) => {
+    //     this.changeCountry(value);
+    //   },
+    // });
+    //this.loadCountries();
   }
 
   ngOnInit(): void {
@@ -204,35 +204,91 @@ export class GenerateReportComponent implements OnInit {
     this.countries = user?.countries;
 
     if (this.countries?.length > 0) {
-      const firstCountry = this.countries[0];
+      let countriesObservables = [];
+      for (const country of this.countries) {
+        countriesObservables.push(
+          this.requestListsService.getDocumentTypeByCountry(country.country_id)
+        );
+      }
+      zip(countriesObservables).subscribe({
+        next: (responses) => {
+          for (let indexCountry = 0; indexCountry < responses.length; indexCountry++) {
+            const responseByCountry = responses[indexCountry];
+            const documentResult = responseByCountry.data?.find(
+              (document: any) => document.person_type === this.selectedPersonType
+            );
+            if (documentResult) {
+              this.identityTypesFiltered = responseByCountry.data;
+              this.identityTypesAvailable = this.identityTypesFiltered.filter(
+                (identityType: { person_type: number }) =>
+                  identityType.person_type === this.selectedPersonType ||
+                  identityType.person_type === TypeOfPerson.HYBRID
+              );
+              const countryFormControl = this.formRequest.get('country');
+              if (countryFormControl) {
+                const firstCountry = this.countries[indexCountry];
+                countryFormControl.setValue(firstCountry);
+                this.changeCountry(firstCountry);
+              }
+              break;
+            }
+          }
+        },
+      });
+
+      /*const firstCountry = this.countries[0];
       const countryFormControl = this.formRequest.get('country');
       if (countryFormControl) {
         countryFormControl.setValue(firstCountry);
         this.changeCountry(firstCountry);
-      }
+      }*/
     }
   }
 
   socketConnect() {
-    const socket$ = new WebSocketSubject(environment.socketApi);
-    const messages$ = socket$.asObservable();
-    socket$.next({ action: 'getConnectionId', message: '' });
-    messages$.subscribe((connectionId) => {
-      const id: any = connectionId;
-      this.transportDataWsService.message.emit(id);
-      if (typeof id === 'object') {
-        this.payloadToGetPdfInform = id;
-        this.enableGetPdfInform();
-      }
-      try {
-        const content = JSON.parse(id);
-      } catch (e) {
-        if (typeof connectionId === 'string') {
-          this.cryptsService.cryptData(ListResponse.SOCKET, connectionId);
-          this.connectionId = String(connectionId);
+    const socket = new WebSocketSubject(environment.socketApi);
+    const messages = socket.asObservable();
+
+    // Request to start connection
+    socket.next({ action: 'getConnectionId', message: '' });
+
+    // Manage income messages
+    messages.subscribe({
+      next: (message) => {
+        switch (typeof message) {
+          case 'string':
+            const connectionId = message;
+            this.cryptsService.cryptData(ListResponse.SOCKET, connectionId);
+            this.connectionId = connectionId;
+            break;
+          case 'object':
+            const crawlerResponse = message;
+            const document = this.updateDocument(crawlerResponse);
+            this.transportDataWsService.message.emit(document);
+
+            this.payloadToGetPdfInform = document;
+            this.enableGetPdfInform();
+            break;
         }
-      }
+      },
     });
+  }
+
+  updateDocument(crawlerResponse: any) {
+    let document = this.cryptsService.decryptData(ListResponse.V2_LISTS);
+    const position = crawlerResponse?.body?.request_detail?.position;
+
+    //crawlerResponse.statusCode = 200;
+    let crawlerData = document.detail[position];
+    crawlerData.body = crawlerResponse?.body;
+    crawlerData.statusCode = crawlerResponse?.statusCode;
+    crawlerData.body.statusCode = crawlerResponse?.statusCode;
+    crawlerData.finding = crawlerResponse?.body?.request_detail?.finding;
+
+    document.detail[position] = crawlerData;
+
+    this.cryptsService.cryptData(ListResponse.V2_LISTS, document);
+    return document;
   }
 
   async enableGetPdfInform() {
@@ -256,12 +312,13 @@ export class GenerateReportComponent implements OnInit {
     this.formRequest.controls['id_number'].setValue(undefined);
     this.formRequest.controls['name'].setValue(undefined);
     this.identityTypesFiltered = [];
-    this.identityTypesFiltered = this.identityTypes; // this.identityTypes.filter((item) => item?.countryId === $event?.country_id);
+    this.identityTypesFiltered = this.identityTypes;
+    //this.identityTypes.filter((item) => item?.countryId === $event?.country_id);
 
-    this.loadDocumentType($event?.country_id);
+    //this.loadDocumentType($event?.country_id);
   }
 
-  loadDocumentType(country: string) {
+  /*loadDocumentType(country: string) {
     this.spinner.show();
     this.requestListsService.getDocumentTypeByCountry(country).subscribe({
       next: (response: any) => {
@@ -276,7 +333,7 @@ export class GenerateReportComponent implements OnInit {
         );
       },
     });
-  }
+  }*/
 
   requestInform() {
     if (!this.connectionId) {
@@ -375,6 +432,7 @@ export class GenerateReportComponent implements OnInit {
 
   selectPersonType(personType: number) {
     this.selectedPersonType = <TypeOfPerson>(<unknown>personType);
+    this.loadCountries();
     this.packagesFiltered = this.packages.filter(
       (packageItem) =>
         this.selectedPersonType === packageItem.person_type ||
@@ -385,10 +443,10 @@ export class GenerateReportComponent implements OnInit {
       selected: item.checked,
     }));
 
-    this.identityTypesAvailable = this.identityTypesFiltered.filter(
+    /*this.identityTypesAvailable = this.identityTypesFiltered.filter(
       (identityType: { person_type: number }) =>
         identityType.person_type === personType || identityType.person_type === TypeOfPerson.HYBRID
-    );
+    );*/
     const dataToPatch = { country: this.formRequest.value.country, holder_authorization: true };
     this.formRequest.reset(dataToPatch, { emitEvent: false });
   }
