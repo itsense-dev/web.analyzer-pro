@@ -44,10 +44,8 @@ export class ProtectedRoutesGuard implements CanActivate {
       .subscribe((event: any) => {
         const currentRoute = event.url;
 
-        console.log(currentRoute);
-        console.log(safetyMesh);
+
         const canViewRoute = safetyMesh.filter((item) => item?.url === currentRoute);
-        console.log(canViewRoute);
       });
  */
     return true;

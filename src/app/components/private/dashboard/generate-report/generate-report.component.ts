@@ -212,8 +212,6 @@ export class GenerateReportComponent implements OnInit {
       }
       zip(countriesObservables).subscribe({
         next: (responses) => {
-          console.log(responses);
-          console.log(this.selectedPersonType);
           for (let indexCountry = 0; indexCountry < responses.length; indexCountry++) {
             const responseByCountry = responses[indexCountry];
             const documentResult = responseByCountry.data?.find(
@@ -232,7 +230,6 @@ export class GenerateReportComponent implements OnInit {
                 countryFormControl.setValue(firstCountry);
                 this.changeCountry(firstCountry);
               }
-              console.log(this.formRequest);
               break;
             }
           }
@@ -298,7 +295,6 @@ export class GenerateReportComponent implements OnInit {
   }
 
   /*loadDocumentType(country: string) {
-    console.log(country);
     this.spinner.show();
     this.requestListsService.getDocumentTypeByCountry(country).subscribe({
       next: (response: any) => {
