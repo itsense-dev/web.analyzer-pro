@@ -7,7 +7,7 @@ export const environment = {
   },
   api: 'https://ozujxe4oc5.execute-api.us-east-1.amazonaws.com/prod',
   apiAdmin: 'https://7p680oe6na.execute-api.us-east-1.amazonaws.com/prod',
-  apiAndicom: 'https://51hdafc2kk.execute-api.us-east-1.amazonaws.com/dev',
+  apiAndicom: 'https://andicom.analyzerinc.com/api/',
   amplify: {
     auth: {
       mandatorySignIn: true,
@@ -16,10 +16,10 @@ export const environment = {
       userPoolWebClientId: '3c2rrf147f8ii0iupe9fiovkb8',
       authenticationFlowType: 'USER_PASSWORD_AUTH',
       oauth: {
-        domain: 'dev-users-analyzer-pro.auth.us-east-1.amazoncognito.com',
+        domain: 'users.analyzerinc.com',
         scope: ['email', 'openid', 'profile', 'aws.cognito.signin.user.admin'],
-        redirectSignIn: 'http://localhost:4200/load-session',
-        redirectSignOut: 'http://localhost:4200/',
+        redirectSignIn: 'https://users.analyzerinc.com/load-session',
+        redirectSignOut: 'https://users.analyzerinc.com/',
         responseType: 'code',
       },
       federationTarget: 'COGNITO_USER_POOLS',
