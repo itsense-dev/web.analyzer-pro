@@ -18,8 +18,8 @@ export const environment = {
       oauth: {
         domain: 'analyzerprod-dev.auth.us-east-1.amazoncognito.com',
         scope: ['email', 'openid', 'profile', 'aws.cognito.signin.user.admin'],
-        redirectSignIn: 'http://localhost:4200/load-session',
-        redirectSignOut: 'http://localhost:4200/',
+        redirectSignIn: 'https://users.analyzerinc.com/load-session',
+        redirectSignOut: 'https://users.analyzerinc.com/',
         responseType: 'code',
       },
       federationTarget: 'COGNITO_USER_POOLS',
