@@ -210,6 +210,7 @@ export class GenerateReportComponent implements OnInit {
           this.requestListsService.getDocumentTypeByCountry(country.country_id)
         );
       }
+      this.identityTypesFiltered = [];
       zip(countriesObservables).subscribe({
         next: (responses) => {
           for (let indexCountry = 0; indexCountry < responses.length; indexCountry++) {
@@ -218,21 +219,30 @@ export class GenerateReportComponent implements OnInit {
               (document: any) => document.person_type === this.selectedPersonType
             );
             if (documentResult) {
-              this.identityTypesFiltered = responseByCountry.data;
+              for (const documentCountry of responseByCountry.data) {
+                this.identityTypesFiltered.push(documentCountry);
+              }
+
+              /*this.identityTypesFiltered = responseByCountry.data;
               this.identityTypesAvailable = this.identityTypesFiltered.filter(
                 (identityType: { person_type: number }) =>
                   identityType.person_type === this.selectedPersonType ||
                   identityType.person_type === TypeOfPerson.HYBRID
-              );
+              );*/
               const countryFormControl = this.formRequest.get('country');
               if (countryFormControl) {
                 const firstCountry = this.countries[indexCountry];
                 countryFormControl.setValue(firstCountry);
                 this.changeCountry(firstCountry);
               }
-              break;
+              //              break;
             }
           }
+          this.identityTypesAvailable = this.identityTypesFiltered.filter(
+            (identityType: { person_type: number }) =>
+              identityType.person_type === this.selectedPersonType ||
+              identityType.person_type === TypeOfPerson.HYBRID
+          );
         },
       });
 
@@ -287,8 +297,8 @@ export class GenerateReportComponent implements OnInit {
     this.formRequest.controls['id_type'].setValue(undefined);
     this.formRequest.controls['id_number'].setValue(undefined);
     this.formRequest.controls['name'].setValue(undefined);
-    this.identityTypesFiltered = [];
-    this.identityTypesFiltered = this.identityTypes;
+    //this.identityTypesFiltered = [];
+    //this.identityTypesFiltered = this.identityTypes;
     //this.identityTypes.filter((item) => item?.countryId === $event?.country_id);
 
     //this.loadDocumentType($event?.country_id);
