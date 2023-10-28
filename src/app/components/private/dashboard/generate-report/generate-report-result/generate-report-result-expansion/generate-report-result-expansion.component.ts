@@ -53,10 +53,6 @@ export class GenerateReportResultExpansionComponent implements OnInit {
   }
 
   concatDataWithWs(data: any) {
-    const allLists = <Array<any>>data.detail;
-    const crawlersSuccess = allLists.filter((crawler) => crawler.statusCode < 400);
-    data.detail = crawlersSuccess;
-
     this.getDataList(data);
     this.setPercent.emit(5);
   }
@@ -104,13 +100,13 @@ export class GenerateReportResultExpansionComponent implements OnInit {
             }
         }
         //debugger;
-      } else {
+      } else if (panel.statusCode < 400) {
         processedPanels.push(panel);
       }
     }
     this.panels = processedPanels;
 
-    this.totalList = this.panels.length;
+    this.totalList = processedPanels.length;
     this.totalFinished = 0;
     this.findingNumbers = 0;
     for (const sourcePanel of this.panels) {
