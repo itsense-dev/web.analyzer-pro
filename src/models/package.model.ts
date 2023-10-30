@@ -7,5 +7,6 @@ export interface Package {
   queries_assigned: number;
   queries_available: number;
   person_type: TypeOfPerson;
+  country_id: string;
   checked: boolean;
 }
