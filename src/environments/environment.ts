@@ -5,18 +5,18 @@ export const environment = {
   country: {
     code: 'CO',
   },
-  api: 'https://cuwma9g3ad.execute-api.us-east-1.amazonaws.com/dev',
-  apiAdmin: 'https://ve6g2uvg4c.execute-api.us-east-1.amazonaws.com/dev',
-  apiAndicom: 'https://51hdafc2kk.execute-api.us-east-1.amazonaws.com/dev',
+  api: 'https://ozujxe4oc5.execute-api.us-east-1.amazonaws.com/prod',
+  apiAdmin: 'https://7p680oe6na.execute-api.us-east-1.amazonaws.com/prod',
+  apiAndicom: 'https://andicom.analyzerinc.com/api/',
   amplify: {
     auth: {
       mandatorySignIn: true,
       region: 'us-east-1',
-      userPoolId: 'us-east-1_QOtmQbgTb',
-      userPoolWebClientId: 'q4ut732o1kjngb9v53u6oaqsq',
+      userPoolId: 'us-east-1_JGcdptZC4',
+      userPoolWebClientId: '3c2rrf147f8ii0iupe9fiovkb8',
       authenticationFlowType: 'USER_PASSWORD_AUTH',
       oauth: {
-        domain: 'analyzerprod-dev.auth.us-east-1.amazoncognito.com',
+        domain: 'users.analyzerinc.com',
         scope: ['email', 'openid', 'profile', 'aws.cognito.signin.user.admin'],
         redirectSignIn: 'https://users.analyzerinc.com/load-session',
         redirectSignOut: 'https://users.analyzerinc.com/',
@@ -44,7 +44,7 @@ export const environment = {
     interval: 10000,
     timeOut: 180000,
   },
-  socketApi: 'wss://zzpxgnp8ii.execute-api.us-east-1.amazonaws.com/dev',
+  socketApi: 'wss://375tfziudk.execute-api.us-east-1.amazonaws.com/prod',
   andinacom: {
     subscription_id: '2bc0d507-6990-4658-a6e1-ceeb4b6e9a76',
     packages: '2',

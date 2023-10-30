@@ -118,6 +118,7 @@
                       nzAllowClear
                       [nzPlaceHolder]="'selectDocument' | transloco"
                       formControlName="id_type"
+                      (ngModelChange)="onSelectDocumentType($event)"
                     >
                       <nz-option
                         [nzLabel]="type.description"
