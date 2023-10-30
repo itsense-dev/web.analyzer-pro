@@ -133,7 +133,7 @@ export class GenerateMassiveReportComponent implements OnInit {
 
   downloadTemplate() {
     this.spinnerService.show();
-    const countryId = this.countries[0].country_id;
+    const countryId = this.getCurrentCountry()?.country_id;
     const personType = this.selectedPersonType;
     if (personType && countryId)
       this.clientService.getMassiveQueryTemplate(personType, countryId).subscribe({
@@ -174,7 +174,7 @@ export class GenerateMassiveReportComponent implements OnInit {
     const payload: QueryLoadMassive = {
       license: '',
       file_name: this.filename!,
-      country_code: this.countries[0],
+      country_code: this.getCurrentCountry(),
       packages: selectedPackages,
       file: fileBase64,
       connection_id: '',
@@ -194,5 +194,9 @@ export class GenerateMassiveReportComponent implements OnInit {
         }
       },
     });
+  }
+
+  getCurrentCountry() {
+    return this.countries.find((country: any) => country.country_id == 'CO');
   }
 }

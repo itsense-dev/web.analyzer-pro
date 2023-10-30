@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ListResponse } from 'src/enum/list-response.enum';
 import { Messages } from 'src/enum/messages.enum';
-import { Routes } from 'src/enum/routes.enum';
 import { RequestList } from 'src/models/request.interface';
 import { ResponseList } from 'src/models/response-list.model';
 import { RequestListsService } from 'src/services/request-list/request-lists.service';
 import { CryptsService } from 'src/services/utils/crypts.service';
-import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
+import { WebSocketSubject } from 'rxjs/webSocket';
 import { environment } from 'src/environments/environment';
 import { TransportDataWsService } from 'src/app/services/tranport-data-ws/transport-data-ws.service';
 import { PayloadPDF, WebsocketResponse } from 'src/models/websocket-response.model';
@@ -21,7 +19,7 @@ import { TypeOfPerson } from 'src/enum/type-of-person.enum';
 import { ClientService } from 'src/app/services/apis/client/client.service';
 import { Package } from 'src/models/package.model';
 import { Plan } from 'src/models/plan.model';
-import { from, zip } from 'rxjs';
+import { zip } from 'rxjs';
 
 @Component({
   selector: 'app-generate-report',
@@ -37,44 +35,6 @@ export class GenerateReportComponent implements OnInit {
   selectedPackages: { packageId: number; selected: boolean }[] = [];
 
   selectedPlan?: Plan;
-  // countries = [
-  //   {
-  //     country: 'Brasil',
-  //     code: 'BR',
-  //     id: 1,
-  //     enabled: false,
-  //   },
-  //   {
-  //     country: 'Colombia',
-  //     code: 'CO',
-  //     id: 2,
-  //     enabled: true,
-  //   },
-  //   {
-  //     country: 'Ecuador',
-  //     code: 'EC',
-  //     id: 3,
-  //     enabled: true,
-  //   },
-  //   {
-  //     country: 'Perú',
-  //     code: 'PE',
-  //     id: 4,
-  //     enabled: true,
-  //   },
-  //   {
-  //     country: 'Argentina',
-  //     code: 'AR',
-  //     id: 5,
-  //     enabled: true,
-  //   },
-  //   {
-  //     country: 'Chile',
-  //     code: 'CL',
-  //     id: 6,
-  //     enabled: true,
-  //   },
-  // ];
 
   personTypes = [
     { text: 'naturalPerson', value: TypeOfPerson.NATURAL },
@@ -149,6 +109,8 @@ export class GenerateReportComponent implements OnInit {
   identityTypesFiltered: any = [];
   identityTypesAvailable: any = [];
 
+  countriesFiltered: any = [];
+
   formRequest: FormGroup = new FormGroup({
     country: new FormControl(null, [Validators.required]),
     id_type: new FormControl(null, [Validators.required]),
@@ -171,23 +133,15 @@ export class GenerateReportComponent implements OnInit {
   pdfRenderUrl?: SafeResourceUrl;
 
   constructor(
-    private requestListsService: RequestListsService,
-    private notification: NzNotificationService,
-    private spinner: NgxSpinnerService,
-    private cryptsService: CryptsService,
-    private router: Router,
-    private transportDataWsService: TransportDataWsService,
-    private downloadPdfInformService: DownloadPdfInformService,
-    private sanitizer: DomSanitizer,
-    private clientService: ClientService
-  ) {
-    // this.formRequest.get('country')?.valueChanges.subscribe({
-    //   next: (value) => {
-    //     this.changeCountry(value);
-    //   },
-    // });
-    //this.loadCountries();
-  }
+    private readonly requestListsService: RequestListsService,
+    private readonly notification: NzNotificationService,
+    private readonly spinner: NgxSpinnerService,
+    private readonly cryptsService: CryptsService,
+    private readonly transportDataWsService: TransportDataWsService,
+    private readonly downloadPdfInformService: DownloadPdfInformService,
+    private readonly sanitizer: DomSanitizer,
+    private readonly clientService: ClientService
+  ) {}
 
   ngOnInit(): void {
     this.cryptsService.clearListByKey(ListResponse.V2_LISTS);
@@ -211,6 +165,7 @@ export class GenerateReportComponent implements OnInit {
         );
       }
       this.identityTypesFiltered = [];
+      this.countriesFiltered = [];
       zip(countriesObservables).subscribe({
         next: (responses) => {
           for (let indexCountry = 0; indexCountry < responses.length; indexCountry++) {
@@ -221,21 +176,15 @@ export class GenerateReportComponent implements OnInit {
             if (documentResult) {
               for (const documentCountry of responseByCountry.data) {
                 this.identityTypesFiltered.push(documentCountry);
+                this.countriesFiltered.push(this.countries[indexCountry]);
               }
 
-              /*this.identityTypesFiltered = responseByCountry.data;
-              this.identityTypesAvailable = this.identityTypesFiltered.filter(
-                (identityType: { person_type: number }) =>
-                  identityType.person_type === this.selectedPersonType ||
-                  identityType.person_type === TypeOfPerson.HYBRID
-              );*/
               const countryFormControl = this.formRequest.get('country');
               if (countryFormControl) {
                 const firstCountry = this.countries[indexCountry];
                 countryFormControl.setValue(firstCountry);
                 this.changeCountry(firstCountry);
               }
-              //              break;
             }
           }
           this.identityTypesAvailable = this.identityTypesFiltered.filter(
@@ -245,13 +194,6 @@ export class GenerateReportComponent implements OnInit {
           );
         },
       });
-
-      /*const firstCountry = this.countries[0];
-      const countryFormControl = this.formRequest.get('country');
-      if (countryFormControl) {
-        countryFormControl.setValue(firstCountry);
-        this.changeCountry(firstCountry);
-      }*/
     }
   }
 
@@ -321,29 +263,7 @@ export class GenerateReportComponent implements OnInit {
     this.formRequest.controls['id_type'].setValue(undefined);
     this.formRequest.controls['id_number'].setValue(undefined);
     this.formRequest.controls['name'].setValue(undefined);
-    //this.identityTypesFiltered = [];
-    //this.identityTypesFiltered = this.identityTypes;
-    //this.identityTypes.filter((item) => item?.countryId === $event?.country_id);
-
-    //this.loadDocumentType($event?.country_id);
   }
-
-  /*loadDocumentType(country: string) {
-    this.spinner.show();
-    this.requestListsService.getDocumentTypeByCountry(country).subscribe({
-      next: (response: any) => {
-        this.identityTypesFiltered = response.data;
-        this.spinner.hide();
-      },
-      error: () => {
-        this.spinner.hide();
-        this.notification.error(
-          Messages.SYSTEM_NOT_AVAILABLE,
-          Messages.SYSTEM_NOT_AVAILABLE_MESSAGE
-        );
-      },
-    });
-  }*/
 
   requestInform() {
     if (!this.connectionId) {
@@ -453,10 +373,6 @@ export class GenerateReportComponent implements OnInit {
       selected: item.checked,
     }));
 
-    /*this.identityTypesAvailable = this.identityTypesFiltered.filter(
-      (identityType: { person_type: number }) =>
-        identityType.person_type === personType || identityType.person_type === TypeOfPerson.HYBRID
-    );*/
     const dataToPatch = { country: this.formRequest.value.country, holder_authorization: true };
     this.formRequest.reset(dataToPatch, { emitEvent: false });
   }
@@ -471,7 +387,7 @@ export class GenerateReportComponent implements OnInit {
         this.packages = <Array<Package>>response.data;
 
         for (const packageItem of this.packages) {
-          packageItem.checked = packageItem.checked ? true : false;
+          packageItem.checked = Number(packageItem.checked) ? true : false;
         }
       },
     });
@@ -479,5 +395,29 @@ export class GenerateReportComponent implements OnInit {
 
   get checkSelectedPackages() {
     return this.selectedPackages.find((item) => item.selected) ? true : false;
+  }
+
+  onSelectDocumentType(documentType?: any) {
+    if (documentType) {
+      const index = this.identityTypesFiltered.findIndex(
+        (identityType: any) => identityType.id == documentType.id
+      );
+      const countryFormControl = this.formRequest.get('country');
+      const country = this.countriesFiltered[index];
+      if (countryFormControl) {
+        countryFormControl.setValue(country);
+      }
+
+      this.packagesFiltered = this.packages.filter(
+        (packageItem) =>
+          (this.selectedPersonType === packageItem.person_type ||
+            packageItem.person_type === TypeOfPerson.HYBRID) &&
+          country.country_id == packageItem.country_id
+      );
+      this.selectedPackages = this.packagesFiltered.map((item) => ({
+        packageId: item.package_id,
+        selected: item.checked,
+      }));
+    }
   }
 }
