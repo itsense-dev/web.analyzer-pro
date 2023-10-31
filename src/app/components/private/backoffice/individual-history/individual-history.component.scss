@@ -11,7 +11,14 @@
 }
 
 nz-range-picker {
-  margin: 0 8px 12px 0;
+  width: 224px;
+  margin: 0 16px 12px 0;
+  background-color: $color-platinum;
+
+  border-radius: 8px;
+  & *:placeholder-shown {
+    color: magenta !important;
+  }
 }
 .circle-search {
   color: $color-prussian-blue;

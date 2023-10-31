@@ -37,7 +37,11 @@
       <ng-template #extraTpl>
         <div class="row mt-4 mt-sm-0 mt-md-0 status-container">
           <div class="col-md-6">
-            <span [ngStyle]="{ color: panel.finding ? '#E75E5E' : '' }" class="no-display-mobile">
+            <span
+              *ngIf="panel?.statusCode !== 202"
+              [ngStyle]="{ color: panel.finding ? '#E75E5E' : '' }"
+              class="no-display-mobile"
+            >
               {{ panel.finding ? 'SI' : 'NO' }}
             </span>
           </div>
