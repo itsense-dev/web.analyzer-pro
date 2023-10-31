@@ -31,7 +31,7 @@ export class IndividualHistoryComponent implements OnInit {
   selectedStartDate: Date[] = [];
   selectedEndDate: Date[] = [];
 
-  country_id: string = '';
+  country_id: string = 'CO';
   countryList: Countries[] = [];
   filter: string = '';
   name: string = '';
