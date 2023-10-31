@@ -67,49 +67,34 @@
           <div nz-row nzJustify="end">
             <div nz-col [nzSpan]="16" class="events">
               <div nz-row nzJustify="end">
-                <!-- <div nz-col nzSpan="4" class="events">
-                  <div class="events-item">
-                    <img
-                      src="./assets/images/flags/{{ country }}.svg"
-                      alt="flags"
-                      class="flags animate__animated animate__fadeIn"
-                    />
-                  </div>
-                </div> -->
-
-                <!-- <div nz-col [nzSpan]="3" class="events">
-                  <div class="events-item">
-                    <div class="notification">
-                      <span nz-icon nzType="bell" nzTheme="fill"></span>
-                    </div>
-                  </div>
-                </div> -->
-
-                <div
-                  nz-col
-                  [nzSpan]="10"
-                  class="events"
-                  nz-dropdown
-                  [nzDropdownMenu]="menu"
-                  [nzPlacement]="'bottomRight'"
-                  class="animate__animated animate__fadeIn cursor"
-                >
-                  <!--  <div class="events-item notification animate__animated animate__fadeIn">
-                    <span nz-icon nzType="logout" nzTheme="outline"></span>
-                  </div> -->
-                  <span class="title-session">{{ name }}</span>
-                  <span class="no-display-mobile"
-                    >{{ session?.user_info?.user_email | slice : 0 : 10 }}...</span
+                <div nz-col [nzSpan]="16" class="events animate__animated animate__fadeIn cursor">
+                  <div
+                    class="session-container"
+                    nz-dropdown
+                    [nzDropdownMenu]="menu"
+                    [nzPlacement]="'bottomRight'"
                   >
-                  <span nz-icon nzType="down" nzTheme="outline" class="no-display-mobile"></span>
-                  <nz-dropdown-menu #menu="nzDropdownMenu">
-                    <ul nz-menu>
-                      <li nz-menu-item (click)="logout()">
-                        <span nz-icon nzType="logout" nzTheme="outline" class="logout-icon"></span>
-                        Salir
-                      </li>
-                    </ul>
-                  </nz-dropdown-menu>
+                    <div class="avatar">
+                      <span>{{ name }}</span>
+                    </div>
+                    <span class="no-display-mobile me-2">
+                      {{ session?.user_info?.user_name }}
+                    </span>
+                    <span nz-icon nzType="down" nzTheme="outline" class="no-display-mobile"></span>
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                      <ul nz-menu>
+                        <li nz-menu-item (click)="logout()">
+                          <span
+                            nz-icon
+                            nzType="logout"
+                            nzTheme="outline"
+                            class="logout-icon"
+                          ></span>
+                          Salir
+                        </li>
+                      </ul>
+                    </nz-dropdown-menu>
+                  </div>
                 </div>
               </div>
             </div>
@@ -118,24 +103,7 @@
       </div>
     </nz-header>
     <nz-content>
-      <!--
-      <div nz-row [nzGutter]="16" class="title">
-        <div nz-col class="gutter-row" [nzSpan]="12" class="title-container">
-          <h4 class="title-container__name">{{ title }}</h4>
-        </div>
-        <div nz-col class="gutter-row" [nzSpan]="12">
-          packages
-        </div>
-      </div>
-      -->
-
-      <!-- <nz-breadcrumb>
-        <nz-breadcrumb-item>User</nz-breadcrumb-item>
-        <nz-breadcrumb-item>Bill</nz-breadcrumb-item>
-      </nz-breadcrumb> -->
-      <!-- <div class="inner-content"> -->
       <router-outlet></router-outlet>
-      <!-- </div> -->
     </nz-content>
   </nz-layout>
 </nz-layout>

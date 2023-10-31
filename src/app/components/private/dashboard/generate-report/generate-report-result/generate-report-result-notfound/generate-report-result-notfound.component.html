@@ -10,7 +10,7 @@
 
     <div>
       <div class="row text-notfound ps-4 mb-3" *ngFor="let source of crawlersFailed">
-        {{ source?.body?.name }}
+        <span class="source-name">{{ source?.body?.name }}</span>
       </div>
     </div>
   </div>
