@@ -132,12 +132,22 @@
           </div>
         </div>
         <div
-          *ngIf="source?.body?.message === '' || source?.statusCode !== statusCode.OK"
+          *ngIf="
+            (source?.body?.message === '' || source?.statusCode !== statusCode.OK) &&
+            source?.statusCode !== statusCode.LOADING
+          "
           class="datasource"
         >
           <div class="hint">
             <i class="hint__exclamation" nz-icon nzType="info-circle" nzTheme="fill"></i>
             <div>{{ 'successfulSearchWithoutInformation' | transloco }}</div>
+          </div>
+        </div>
+
+        <div *ngIf="source?.statusCode === statusCode.LOADING" class="datasource">
+          <div class="hint">
+            <span nz-icon nzType="loading" nzTheme="outline" class="status-icon loading"></span>
+            <div>{{ 'crawlerLoading' | transloco }}</div>
           </div>
         </div>
       </div>
