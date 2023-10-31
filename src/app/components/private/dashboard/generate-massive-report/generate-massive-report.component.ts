@@ -182,7 +182,9 @@ export class GenerateMassiveReportComponent implements OnInit {
     this.clientService.createQueryLoadMassive(payload).subscribe({
       next: (response) => {
         if (response.code == StatusCode.OK) {
-          this.notificationService.success(Messages.MASSIVE_QUERY, Messages.MASSIVE_QUERY_MESSAGE);
+          this.notificationService.success(Messages.MASSIVE_QUERY, Messages.MASSIVE_QUERY_MESSAGE, {
+            nzDuration: 10000,
+          });
           this.router.navigate([Routes.MASSIVE_REPORT_DETAIL]);
 
           this.spinnerService.hide();
