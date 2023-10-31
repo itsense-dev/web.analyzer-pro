@@ -38,27 +38,30 @@
   padding: 5px 12px !important;
 }
 
-.title-session {
-  box-shadow: 0px 0px 10px $color-chinese-silver;
-  background-color: $color-prussian-blue;
-  padding: 9px 7px;
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  font-size: 14px;
-  cursor: pointer;
-  font-weight: 700;
-  color: $color-white;
-  margin-right: 10px;
+.session-container {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 100%;
+  padding: 0px 4px;
 }
 
-.title-container {
-  padding: 25px;
-  &__name {
-    padding: 0px 20px;
-    font-size: 22px;
-    color: $color-dark-silver;
-    font-weight: bold;
+.avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+  border-radius: 50%;
+
+  height: 40px;
+  width: 40px;
+
+  background-color: $color-prussian-blue;
+
+  span {
+    font-weight: 700;
+    font-size: 1.2em;
+    color: $color-white;
   }
 }
 
