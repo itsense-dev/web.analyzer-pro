@@ -145,14 +145,14 @@
   "addEmail": "Ingrese un email",
   "addField": "Ingrese el campo",
   "menu": {
-    "historic_single_query": "Histórico consultas <br/> individual",
-    "historic_massive_query": "Histórico consultas <br/> masiva",
-    "consulta_individual": "Consulta individual",
+    "historic_single_query": "Histórico de consultas <br/> individuales",
+    "historic_massive_query": "Histórico de consultas <br/> masivas",
+    "consulta_individual": "Consulta Individual",
     "consulta_masiva": "Consulta Masiva",
     "clientes": "Clientes",
     "usuarios": "Usuarios",
     "productos": "Productos",
-    "mis_consultas": "Mis consultas",
+    "mis_consultas": "Mis Consultas",
     "planes": "Planes"
   },
   "alerts": {
