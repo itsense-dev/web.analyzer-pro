@@ -20,6 +20,8 @@ import { ClientService } from 'src/app/services/apis/client/client.service';
 import { Package } from 'src/models/package.model';
 import { Plan } from 'src/models/plan.model';
 import { zip } from 'rxjs';
+import { Router } from '@angular/router';
+import { Routes } from 'src/enum/routes.enum';
 
 @Component({
   selector: 'app-generate-report',
@@ -41,78 +43,15 @@ export class GenerateReportComponent implements OnInit {
     { text: 'legalPerson', value: TypeOfPerson.LEGAL },
   ];
 
-  countries = [
-    {
-      country_name: 'Brasil',
-      country_id: 'BR',
-    },
-  ];
+  countries: { country_name: string; country_id: string }[] = [];
+  selectedCountryId?: string;
 
-  identityTypes = [
-    {
-      countryId: 1,
-      code: 'CNPJ',
-      name: 'CNPJ',
-      enabled: true,
-      mask: '00.000.000/0000-00',
-    },
-    {
-      id: 2,
-      countryId: 2,
-      code: 'CC',
-      name: 'Cédula de ciudadania',
-      enabled: true,
-      pattern: '^\\d{8}(\\d{2})?$',
-    },
-    {
-      id: 3,
-      countryId: 2,
-      code: 'NIT',
-      name: 'NIT',
-      enabled: true,
-      mask: '000.000.000-0',
-    },
-    {
-      id: 4,
-      countryId: 3,
-      code: 'RUC',
-      name: 'RUC',
-      enabled: true,
-      mask: '0000000000000',
-    },
-    {
-      id: 5,
-      countryId: 4,
-      code: 'RUC',
-      name: 'RUC',
-      enabled: true,
-      mask: '00000000000',
-    },
-    {
-      id: 6,
-      countryId: 5,
-      code: 'CUIT',
-      name: 'CUIT',
-      enabled: true,
-      mask: '00000000000',
-    },
-    {
-      id: 7,
-      countryId: 6,
-      code: 'RUT',
-      name: 'RUT',
-      enabled: true,
-      mask: '00000000A',
-    },
-  ];
-
-  identityTypesFiltered: any = [];
-  identityTypesAvailable: any = [];
+  identityTypes: any[] = [];
+  identityTypesAvailable: any[] = [];
 
   countriesFiltered: any = [];
 
   formRequest: FormGroup = new FormGroup({
-    country: new FormControl(null, [Validators.required]),
     id_type: new FormControl(null, [Validators.required]),
     id_number: new FormControl(null, [Validators.required]),
     name: new FormControl(null, []),
@@ -133,6 +72,7 @@ export class GenerateReportComponent implements OnInit {
   pdfRenderUrl?: SafeResourceUrl;
 
   constructor(
+    private readonly router: Router,
     private readonly requestListsService: RequestListsService,
     private readonly notification: NzNotificationService,
     private readonly spinner: NgxSpinnerService,
@@ -146,54 +86,11 @@ export class GenerateReportComponent implements OnInit {
   ngOnInit(): void {
     this.cryptsService.clearListByKey(ListResponse.V2_LISTS);
     this.socketConnect();
+    this.loadCountries();
 
     this.getSelectedPlan();
     if (this.selectedPlan) {
       this.getPackagesBySubscription(this.selectedPlan.subscription_id);
-    }
-  }
-
-  loadCountries() {
-    let user = this.cryptsService.decryptData(ListResponse.USER);
-    this.countries = user?.countries;
-
-    if (this.countries?.length > 0) {
-      let countriesObservables = [];
-      for (const country of this.countries) {
-        countriesObservables.push(
-          this.requestListsService.getDocumentTypeByCountry(country.country_id)
-        );
-      }
-      this.identityTypesFiltered = [];
-      this.countriesFiltered = [];
-      zip(countriesObservables).subscribe({
-        next: (responses) => {
-          for (let indexCountry = 0; indexCountry < responses.length; indexCountry++) {
-            const responseByCountry = responses[indexCountry];
-            const documentResult = responseByCountry.data?.find(
-              (document: any) => document.person_type === this.selectedPersonType
-            );
-            if (documentResult) {
-              for (const documentCountry of responseByCountry.data) {
-                this.identityTypesFiltered.push(documentCountry);
-                this.countriesFiltered.push(this.countries[indexCountry]);
-              }
-
-              const countryFormControl = this.formRequest.get('country');
-              if (countryFormControl) {
-                const firstCountry = this.countries[indexCountry];
-                countryFormControl.setValue(firstCountry);
-                this.changeCountry(firstCountry);
-              }
-            }
-          }
-          this.identityTypesAvailable = this.identityTypesFiltered.filter(
-            (identityType: { person_type: number }) =>
-              identityType.person_type === this.selectedPersonType ||
-              identityType.person_type === TypeOfPerson.HYBRID
-          );
-        },
-      });
     }
   }
 
@@ -226,6 +123,17 @@ export class GenerateReportComponent implements OnInit {
     });
   }
 
+  loadCountries() {
+    let user = this.cryptsService.decryptData(ListResponse.USER);
+    this.countries = user?.countries;
+
+    if (this.countries.some((country) => country.country_id.toUpperCase() == 'CO')) {
+      this.selectedCountryId = 'CO';
+    }
+
+    this.getDocumentTypes();
+  }
+
   updateDocument(crawlerResponse: any) {
     let document = this.cryptsService.decryptData(ListResponse.V2_LISTS);
     const position = crawlerResponse?.body?.request_detail?.position;
@@ -243,11 +151,11 @@ export class GenerateReportComponent implements OnInit {
     return document;
   }
 
-  async enableGetPdfInform() {
+  enableGetPdfInform() {
     const totalCrawlers: number = this.payloadToGetPdfInform?.detail?.length ?? 0;
     let totalCrawlersStatusResponse: number = 0;
 
-    await this.payloadToGetPdfInform?.detail.forEach((detail) => {
+    this.payloadToGetPdfInform?.detail.forEach((detail) => {
       if (detail.statusCode !== 202) {
         totalCrawlersStatusResponse++;
       }
@@ -259,10 +167,77 @@ export class GenerateReportComponent implements OnInit {
     }
   }
 
-  changeCountry($event: any) {
-    this.formRequest.controls['id_type'].setValue(undefined);
-    this.formRequest.controls['id_number'].setValue(undefined);
-    this.formRequest.controls['name'].setValue(undefined);
+  onSelectCountry(countryId: string) {
+    this.selectedCountryId = countryId;
+    this.selectedPersonType = undefined;
+
+    this.getDocumentTypes();
+  }
+
+  selectPersonType(personType: TypeOfPerson) {
+    this.selectedPersonType = personType;
+
+    this.packagesFiltered = this.packages.filter(
+      (packageItem) =>
+        (this.selectedPersonType === packageItem.person_type ||
+          packageItem.person_type === TypeOfPerson.HYBRID) &&
+        this.selectedCountryId == packageItem.country_id
+    );
+    this.selectedPackages = this.packagesFiltered.map((item) => ({
+      packageId: item.package_id,
+      selected: item.checked,
+    }));
+
+    this.identityTypesAvailable = this.identityTypes.filter(
+      (identityType) =>
+        identityType.person_type === personType || identityType.person_type === TypeOfPerson.HYBRID
+    );
+
+    const dataToPatch = { holder_authorization: true };
+    this.formRequest.reset(dataToPatch, { emitEvent: false });
+  }
+
+  getDocumentTypes() {
+    if (this.selectedCountryId) {
+      this.requestListsService.getDocumentTypeByCountry(this.selectedCountryId).subscribe({
+        next: (response) => {
+          this.identityTypes = <Array<any>>response.data;
+        },
+      });
+    }
+  }
+
+  getSelectedPlan() {
+    this.selectedPlan = this.cryptsService.decryptData(ListResponse.PLAN);
+  }
+
+  getPackagesBySubscription(subscriptionId: string) {
+    this.clientService.getPackagesBySubscription(subscriptionId).subscribe({
+      next: (response) => {
+        this.packages = <Array<Package>>response.data;
+
+        for (const packageItem of this.packages) {
+          packageItem.checked = Number(packageItem.checked) ? true : false;
+        }
+      },
+    });
+  }
+
+  get checkSelectedPackages() {
+    return this.selectedPackages.find((item) => item.selected) ? true : false;
+  }
+  get selectedCountryName() {
+    return this.countries.find((country) => country.country_id == this.selectedCountryId)
+      ?.country_name;
+  }
+
+  handleCancel() {
+    this.isVisible = false;
+    this.pdfRenderUrl = undefined;
+  }
+
+  handleOk() {
+    window.open(this.urlPdf, '_blank');
   }
 
   requestInform() {
@@ -283,7 +258,7 @@ export class GenerateReportComponent implements OnInit {
       .join(';');
 
     const payload: RequestList = {
-      country: data.country.country_id,
+      country: this.selectedCountryId!,
       id_type: data.id_type.id_type,
       id_number: data.id_number,
       name: data.name ?? '',
@@ -317,24 +292,6 @@ export class GenerateReportComponent implements OnInit {
     });
   }
 
-  clearResult() {
-    this.showResult = false;
-
-    //const dataToPatch = { country: this.formRequest.value.country, holder_authorization: true };
-    const dataToPatch = { holder_authorization: true };
-    this.formRequest.reset(dataToPatch);
-
-    this.succeedList = [];
-    this.failedList = [];
-
-    this.selectedPackages = this.packagesFiltered.map((item) => ({
-      packageId: item.package_id,
-      selected: item.checked,
-    }));
-
-    this.loadCountries();
-  }
-
   downloadPdfInform($event: boolean) {
     if (!$event) false;
     if (!this.payloadToGetPdfInform) return;
@@ -352,72 +309,8 @@ export class GenerateReportComponent implements OnInit {
     });
   }
 
-  handleCancel() {
-    this.isVisible = false;
-    this.pdfRenderUrl = undefined;
-  }
-  handleOk() {
-    window.open(this.urlPdf, '_blank');
-  }
-
-  selectPersonType(personType: number) {
-    this.selectedPersonType = <TypeOfPerson>(<unknown>personType);
-    this.loadCountries();
-    this.packagesFiltered = this.packages.filter(
-      (packageItem) =>
-        this.selectedPersonType === packageItem.person_type ||
-        packageItem.person_type === TypeOfPerson.HYBRID
-    );
-    this.selectedPackages = this.packagesFiltered.map((item) => ({
-      packageId: item.package_id,
-      selected: item.checked,
-    }));
-
-    const dataToPatch = { country: this.formRequest.value.country, holder_authorization: true };
-    this.formRequest.reset(dataToPatch, { emitEvent: false });
-  }
-
-  getSelectedPlan() {
-    this.selectedPlan = this.cryptsService.decryptData(ListResponse.PLAN);
-  }
-
-  getPackagesBySubscription(subscriptionId: string) {
-    this.clientService.getPackagesBySubscription(subscriptionId).subscribe({
-      next: (response) => {
-        this.packages = <Array<Package>>response.data;
-
-        for (const packageItem of this.packages) {
-          packageItem.checked = Number(packageItem.checked) ? true : false;
-        }
-      },
-    });
-  }
-
-  get checkSelectedPackages() {
-    return this.selectedPackages.find((item) => item.selected) ? true : false;
-  }
-
-  onSelectDocumentType(documentType?: any) {
-    if (documentType) {
-      const index = this.identityTypesFiltered.findIndex(
-        (identityType: any) => identityType.id == documentType.id
-      );
-      const countryFormControl = this.formRequest.get('country');
-      const country = this.countriesFiltered[index];
-      if (countryFormControl) {
-        countryFormControl.setValue(country);
-      }
-
-      this.packagesFiltered = this.packages.filter(
-        (packageItem) =>
-          (this.selectedPersonType === packageItem.person_type ||
-            packageItem.person_type === TypeOfPerson.HYBRID) &&
-          country.country_id == packageItem.country_id
-      );
-      this.selectedPackages = this.packagesFiltered.map((item) => ({
-        packageId: item.package_id,
-        selected: item.checked,
-      }));
-    }
+  clearResult() {
+    this.showResult = false;
+    this.router.navigateByUrl(Routes.SINGLE_QUERY);
   }
 }
