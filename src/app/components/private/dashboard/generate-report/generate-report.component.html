@@ -26,7 +26,33 @@
           </div>
 
           <div class="row mb-2">
+            <div class="col col-md-6 col-lg-5 col-xl-4">
+              <div>
+                <h4 class="container-card__subtitle container-card__subtitle--gray">
+                  {{ 'country' | transloco }}
+                </h4>
+              </div>
+
+              <nz-select
+                nzShowSearch
+                nzAllowClear
+                [nzPlaceHolder]="'selectCountry' | transloco"
+                [(ngModel)]="selectedCountryId"
+                (ngModelChange)="onSelectCountry($event)"
+              >
+                <nz-option
+                  [nzLabel]="country.country_name"
+                  [nzValue]="country.country_id"
+                  *ngFor="let country of countries"
+                >
+                </nz-option>
+              </nz-select>
+            </div>
+          </div>
+
+          <div *ngIf="selectedCountryId" class="row mb-2">
             <div class="col">
+              <hr />
               <div>
                 <h4 class="container-card__subtitle container-card__subtitle--gray">
                   {{ 'personType' | transloco }}
@@ -118,7 +144,6 @@
                       nzAllowClear
                       [nzPlaceHolder]="'selectDocument' | transloco"
                       formControlName="id_type"
-                      (ngModelChange)="onSelectDocumentType($event)"
                     >
                       <nz-option
                         [nzLabel]="type.description"
@@ -198,7 +223,7 @@
 
 <app-generate-report-result
   *ngIf="showResult"
-  [country]="formRequest.value.country.country_name"
+  [country]="selectedCountryName"
   [showConfirmButtonAverage]="enableGetPdfInformConfirm"
   (eventPdfButton)="downloadPdfInform($event)"
 ></app-generate-report-result>
