@@ -16,11 +16,8 @@ import { Routes } from 'src/enum/routes.enum';
 export class ActivateAccountComponent implements OnInit {
   step: number = 1;
 
-  sendEmailForm: FormGroup = new FormGroup({
-    email: new FormControl(null, [Validators.required, Validators.email]),
-  });
-
   confirmEmailForm: FormGroup = new FormGroup({
+    email: new FormControl(null, [Validators.required, Validators.email]),
     code: new FormControl(null, [Validators.required]),
   });
 
@@ -66,19 +63,19 @@ export class ActivateAccountComponent implements OnInit {
     return await Auth.signUp(payload);
   }
   */
-
+  /*
   async sendConfirmationEmail() {
     //const x = await this.createUserCognito();
     //console.log('create-test', x)
     //return;
 
-    const email = this.sendEmailForm.value.email;
+    const email = this.confirmEmailForm.value.email;
     this.isSending = true;
     let signUpResponse;
     try {
       signUpResponse = await Auth.resendSignUp(email);
     } catch {
-      this.notification.error('Usuario', 'Error. Código Inválido.');
+      this.notification.error('Usuario', 'Error. Usuario inválido.');
       this.isSending = false;
       return;
     }
@@ -89,9 +86,10 @@ export class ActivateAccountComponent implements OnInit {
       this.isSending = false;
     }
   }
+  */
 
   async sendConfirmationCode() {
-    const email = this.sendEmailForm.value.email;
+    const email = this.confirmEmailForm.value.email;
     const code = this.confirmEmailForm.value.code;
     this.isSending = true;
 
@@ -99,7 +97,7 @@ export class ActivateAccountComponent implements OnInit {
     try {
       signUpCode = await Auth.confirmSignUp(email, code);
     } catch {
-      this.notification.error('Usuario', 'Error. Código Inválido.');
+      this.notification.error('Usuario', 'Error. Usuario o código inválidos.');
       this.isSending = false;
       return;
     }
@@ -107,14 +105,14 @@ export class ActivateAccountComponent implements OnInit {
     if (signUpCode) {
       const forgotPassword = await Auth.forgotPassword(email);
       if (forgotPassword) {
-        this.step = 3;
+        this.step = 2;
         this.isSending = false;
       }
     }
   }
 
   async updatePassword() {
-    const email = this.sendEmailForm.value.email;
+    const email = this.confirmEmailForm.value.email;
     const newPasswordFormValue = this.newPasswordForm.value;
 
     let forgotPasswordSubmit;

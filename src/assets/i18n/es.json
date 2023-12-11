@@ -146,7 +146,7 @@
   "addEmail": "Ingrese un email",
   "addField": "Ingrese el campo",
   "additionalData": "Datos adicionales",
-  "thisFieldIsUsedToLookForIn": "Este campo es usado para consultar en",
+  "thisFieldIsUsedToLookForIn": "Este campo es requerido para consultar",
   "menu": {
     "historic_single_query": "Histórico de consultas <br/> individuales",
     "historic_massive_query": "Histórico de consultas <br/> masivas",
