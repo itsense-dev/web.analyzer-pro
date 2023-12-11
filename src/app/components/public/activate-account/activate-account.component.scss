@@ -17,11 +17,16 @@
   margin: 30px;
 }
 .error {
-  color: #ff4d4f;
+  color: $color-red-error;
   text-align: left;
 }
-.forgot {
+
+.title {
   color: $color-white;
-  text-align: right;
-  cursor: pointer;
+  font-size: 18px;
+  margin: 20px;
+  font-weight: 400;
+}
+nz-alert {
+  margin: 27px 0 !important;
 }

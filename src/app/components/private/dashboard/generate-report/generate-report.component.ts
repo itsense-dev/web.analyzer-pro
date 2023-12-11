@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ListResponse } from 'src/enum/list-response.enum';
@@ -17,7 +17,7 @@ import { BooleanInput } from 'ng-zorro-antd/core/types';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TypeOfPerson } from 'src/enum/type-of-person.enum';
 import { ClientService } from 'src/app/services/apis/client/client.service';
-import { Package } from 'src/models/package.model';
+import { ExtraParamDataType, Package, PackageExtraParam } from 'src/models/package.model';
 import { Plan } from 'src/models/plan.model';
 import { zip } from 'rxjs';
 import { Router } from '@angular/router';
@@ -30,11 +30,14 @@ import { Routes } from 'src/enum/routes.enum';
 })
 export class GenerateReportComponent implements OnInit {
   TypeOfPerson = TypeOfPerson;
+  ExtraParamDataType = ExtraParamDataType;
 
   selectedPersonType?: TypeOfPerson;
   packages: Package[] = [];
   packagesFiltered: Package[] = [];
   selectedPackages: { packageId: number; selected: boolean }[] = [];
+
+  extraParams: PackageExtraParam[] = [];
 
   selectedPlan?: Plan;
 
@@ -56,6 +59,8 @@ export class GenerateReportComponent implements OnInit {
     id_number: new FormControl(null, [Validators.required]),
     name: new FormControl(null, []),
     holder_authorization: new FormControl(true, [Validators.requiredTrue]),
+
+    extraParams: new FormGroup({}),
   });
 
   succeedList: any = [];
@@ -195,6 +200,8 @@ export class GenerateReportComponent implements OnInit {
 
     const dataToPatch = { holder_authorization: true };
     this.formRequest.reset(dataToPatch, { emitEvent: false });
+
+    this.onSelectedPackagesChanged();
   }
 
   getDocumentTypes() {
@@ -212,6 +219,7 @@ export class GenerateReportComponent implements OnInit {
   }
 
   getPackagesBySubscription(subscriptionId: string) {
+    this.spinner.show();
     this.clientService.getPackagesBySubscription(subscriptionId).subscribe({
       next: (response) => {
         this.packages = <Array<Package>>response.data;
@@ -220,6 +228,7 @@ export class GenerateReportComponent implements OnInit {
           packageItem.checked = Number(packageItem.checked) ? true : false;
         }
       },
+      complete: () => this.spinner.hide(),
     });
   }
 
@@ -257,6 +266,23 @@ export class GenerateReportComponent implements OnInit {
       .map((item) => item.packageId)
       .join(';');
 
+    const extraParamsFormValue = Object.entries(this.extraParamsForm.value);
+    let parameters: { key: string; value: string }[] = [];
+    for (const [paramKey, paramValue] of extraParamsFormValue) {
+      const extraParam = this.extraParams.find((extraParam) => extraParam.param_key === paramKey);
+
+      let valueParsed = String(paramValue);
+      switch (extraParam?.data_type) {
+        case ExtraParamDataType.DATE:
+          valueParsed = valueParsed.replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3');
+          break;
+      }
+      parameters.push({
+        key: paramKey,
+        value: valueParsed,
+      });
+    }
+
     const payload: RequestList = {
       country: this.selectedCountryId!,
       id_type: data.id_type.id_type,
@@ -266,6 +292,7 @@ export class GenerateReportComponent implements OnInit {
       holder_authorization: data.holder_authorization,
       packages: selectedPackages,
       subscription_id: this.selectedPlan?.subscription_id!,
+      parameters: parameters,
     };
 
     this.requestListsService.lists(payload).subscribe({
@@ -312,5 +339,35 @@ export class GenerateReportComponent implements OnInit {
   clearResult() {
     this.showResult = false;
     this.router.navigateByUrl(Routes.SINGLE_QUERY);
+  }
+
+  get extraParamsForm(): FormGroup {
+    return <FormGroup>this.formRequest.get('extraParams');
+  }
+
+  onSelectedPackagesChanged() {
+    let packagesExtraParams: Package[] = [];
+    for (const selectedPackage of this.selectedPackages) {
+      const packageItem = this.packages.find(
+        (packageItem) =>
+          selectedPackage.selected && packageItem.package_id == selectedPackage.packageId
+      );
+      if (packageItem) packagesExtraParams.push(packageItem);
+    }
+
+    this.extraParams = [];
+    let extraParamsForm = this.extraParamsForm;
+    extraParamsForm = new FormGroup({});
+
+    for (const packageExtraParams of packagesExtraParams) {
+      for (const extraParam of packageExtraParams.extra_params) {
+        this.extraParamsForm.addControl(
+          extraParam.param_key,
+          new FormControl(null, [Validators.required]),
+          { emitEvent: false }
+        );
+        this.extraParams.push(extraParam);
+      }
+    }
   }
 }

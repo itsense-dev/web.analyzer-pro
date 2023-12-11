@@ -47,7 +47,8 @@ export class GenerateMassiveReportComponent implements OnInit {
     private readonly cryptsService: CryptsService,
     private readonly clientService: ClientService,
     private readonly notificationService: NzNotificationService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -69,6 +70,7 @@ export class GenerateMassiveReportComponent implements OnInit {
   }
 
   getPackagesBySubscription(subscriptionId: string) {
+    this.spinner.show();
     this.clientService.getPackagesBySubscription(subscriptionId).subscribe({
       next: (response) => {
         this.packages = <Array<Package>>response.data;
@@ -77,6 +79,7 @@ export class GenerateMassiveReportComponent implements OnInit {
           packageItem.checked = packageItem.checked ? true : false;
         }
       },
+      complete: () => this.spinner.hide(),
     });
   }
 

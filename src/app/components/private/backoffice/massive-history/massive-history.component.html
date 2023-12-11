@@ -90,7 +90,9 @@
           <td nzAlign="center">{{ data.end_date.split('T')[0] }}</td>
           <td nzAlign="center">{{ data.total_queries }}</td>
           <td nzAlign="center">{{ data.total_executed }}</td>
-          <td nzAlign="center">{{ data.file_name }}</td>
+          <td nzAlign="center">
+            <span class="filename-custom">{{ data.file_name }}</span>
+          </td>
           <td>
             <nz-progress
               [nzPercent]="data.progress * 100"

@@ -204,3 +204,9 @@ nz-select {
 nz-table {
   margin-top: 20px;
 }
+
+.filename-custom {
+  max-width: 200px;
+  text-wrap: nowrap;
+  hyphens: auto;
+}
