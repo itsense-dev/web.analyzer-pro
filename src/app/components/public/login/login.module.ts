@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Amplify } from 'aws-amplify';
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
 import { environment } from 'src/environments/environment';
@@ -10,8 +9,6 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
-
-Amplify.configure({ Auth: environment.amplify.auth });
 
 @NgModule({
   declarations: [LoginComponent],

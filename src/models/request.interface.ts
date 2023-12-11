@@ -8,4 +8,5 @@ export interface RequestList {
   packages: string;
   subscription_id: string;
   //user_uuid: string;
+  parameters: { key: string; value: string }[];
 }

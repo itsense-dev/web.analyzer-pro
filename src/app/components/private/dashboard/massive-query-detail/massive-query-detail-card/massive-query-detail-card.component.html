@@ -69,7 +69,7 @@
         <div class="col-sm-4 text-center">
           <div class="header header--title">{{ 'progress' | transloco }}</div>
           <nz-progress
-            [nzPercent]="massiveDocument.progress * 100"
+            [nzPercent]="massiveDocument.progress * 100 | number : '1.0-0'"
             nzType="circle"
             nzStrokeLinecap="round"
             [nzWidth]="60"

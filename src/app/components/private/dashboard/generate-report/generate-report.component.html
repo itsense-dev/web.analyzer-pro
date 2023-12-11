@@ -99,6 +99,7 @@
                     nz-checkbox
                     [nzDisabled]="package.queries_available === 0"
                     [(ngModel)]="selectedPackages[index].selected"
+                    (ngModelChange)="onSelectedPackagesChanged()"
                   >
                     {{ package.name }}
                     <div *ngIf="package.queries_available === 0" class="counter">
@@ -192,6 +193,48 @@
                     />
                   </div>
                 </div>
+
+                <ng-container formArrayName="extraParams">
+                  <div *ngIf="extraParams.length > 0" class="row mb-4">
+                    <div class="row">
+                      <div class="col-12">
+                        <h4 class="container-card__subtitle container-card__subtitle--gray">
+                          {{ 'additionalData' | transloco }}
+                        </h4>
+                      </div>
+                    </div>
+
+                    <div *ngFor="let extraParam of extraParams" class="row">
+                      <div class="col-md-6 col-lg-5 col-xl-4">
+                        <div class="container-card__field-name">
+                          {{ extraParam.translate_key }}*
+                        </div>
+
+                        <!-- extraParam.data_type === ExtraParamDataType.DATE -->
+                        <ng-container *ngIf="false; else extraParamDefault"></ng-container>
+
+                        <ng-template #extraParamDefault>
+                          <input
+                            class="input"
+                            type="text"
+                            nz-input
+                            [mask]="extraParam.mask"
+                            [pattern]="extraParam.pattern"
+                            [placeholder]="extraParam.placeholder"
+                            [formControlName]="extraParam.param_key"
+                          />
+                        </ng-template>
+
+                        <div class="hint">
+                          <div>
+                            {{ 'thisFieldIsUsedToLookForIn' | transloco }}:
+                            {{ extraParam.products_names.join(', ') }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
 
                 <div class="row justify-content-md-between justify-content-center">
                   <div class="col-md-8 col-xl-10 mb-3">

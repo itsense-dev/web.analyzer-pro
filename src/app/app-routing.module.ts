@@ -4,6 +4,7 @@ import { LoginComponent } from './shared/layout/login/login.component';
 import { DashboardComponent } from './shared/layout/dashboard/dashboard.component';
 import { SessionGuard } from './guards/session/session.guard';
 import { ProtectedRoutesGuard } from './guards/protected-routes/protected-routes.guard';
+import { ActivateAccountComponent } from './components/public/activate-account/activate-account.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./components/public/forgot-password/forgot-password.module').then(
         (m) => m.ForgotPasswordModule
+      ),
+    component: LoginComponent,
+  },
+  {
+    path: 'activate',
+    loadChildren: () =>
+      import('./components/public/activate-account/activate-account.module').then(
+        (m) => m.ActivateAccountModule
       ),
     component: LoginComponent,
   },

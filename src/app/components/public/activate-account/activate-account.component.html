@@ -1,0 +1,115 @@
+<img src="../../../../assets/images/logo-white.svg" alt="Analyzer logo" class="logo-white" />
+<h4 class="title">Activa tu cuenta</h4>
+<form *ngIf="step === 1" nz-form [formGroup]="sendEmailForm" class="login-form">
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Correo inválido">
+      <nz-input-group nzPrefixIcon="user">
+        <input
+          type="text"
+          nz-input
+          formControlName="email"
+          placeholder="Ingresa tu correo electrónico"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <button
+    nz-button
+    class="login-form-button login-form-margin"
+    [nzType]="'primary'"
+    [disabled]="!sendEmailForm.valid"
+    [nzLoading]="isSending"
+    (click)="sendConfirmationEmail()"
+  >
+    Enviar código de confirmación
+  </button>
+</form>
+
+<form *ngIf="step === 2" nz-form [formGroup]="confirmEmailForm" class="login-form">
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="'errors.validationCode' | transloco">
+      <nz-input-group nzPrefixIcon="bars">
+        <input
+          type="text"
+          nz-input
+          formControlName="code"
+          [placeholder]="'enterCode' | transloco"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <button
+    nz-button
+    class="login-form-button login-form-margin"
+    [nzType]="'primary'"
+    [disabled]="!sendEmailForm.valid"
+    [nzLoading]="isSending"
+    (click)="sendConfirmationCode()"
+  >
+    Enviar código para cambiar contraseña
+  </button>
+</form>
+
+<form *ngIf="step === 3" nz-form [formGroup]="newPasswordForm" class="login-form">
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="'errors.validationCode' | transloco">
+      <nz-input-group nzPrefixIcon="bars">
+        <input
+          type="text"
+          nz-input
+          formControlName="code"
+          [placeholder]="'enterNewCode' | transloco"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="'errors.invalidPassword' | transloco">
+      <nz-input-group nzPrefixIcon="lock">
+        <input
+          type="password"
+          nz-input
+          formControlName="password"
+          [placeholder]="'password' | transloco"
+        />
+      </nz-input-group>
+      <div class="error" *ngIf="!invalidPassword && newPasswordForm.value.password !== ''">
+        <p>* {{ 'errors.atLeastOneCapitalLetterIsRequired' | transloco }}</p>
+        <p>* {{ 'errors.atLeastOneLowercaseLetterIsRequired' | transloco }}</p>
+        <p>* {{ 'errors.atLeastOneNumberIsRequired' | transloco }}</p>
+        <p>* {{ 'errors.atLestOneSpecialCharacterIsRequired' | transloco }}</p>
+        <p>* {{ 'errors.atLeastEightCharacters' | transloco }}</p>
+      </div>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Contraseña inválida">
+      <nz-input-group nzPrefixIcon="lock">
+        <input
+          type="password"
+          nz-input
+          formControlName="confirmPassword"
+          placeholder="Confirmar password"
+        />
+      </nz-input-group>
+      <div class="error" *ngIf="passwordMatch">
+        <p>{{ 'errors.passwordNotMatch' | transloco }}</p>
+      </div>
+    </nz-form-control>
+  </nz-form-item>
+
+  <button
+    nz-button
+    class="login-form-button login-form-margin"
+    [nzType]="'primary'"
+    [disabled]="!newPasswordForm.valid"
+    [nzLoading]="isSending"
+    (click)="updatePassword()"
+  >
+    {{ 'updatePassword' | transloco }}
+  </button>
+</form>
