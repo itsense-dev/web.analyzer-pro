@@ -1,6 +1,7 @@
 <img src="../../../../assets/images/logo-white.svg" alt="Analyzer logo" class="logo-white" />
 <h4 class="title">Activa tu cuenta</h4>
-<form *ngIf="step === 1" nz-form [formGroup]="sendEmailForm" class="login-form">
+
+<form *ngIf="step === 1" nz-form [formGroup]="confirmEmailForm" class="login-form">
   <nz-form-item>
     <nz-form-control nzErrorTip="Correo inválido">
       <nz-input-group nzPrefixIcon="user">
@@ -14,19 +15,6 @@
     </nz-form-control>
   </nz-form-item>
 
-  <button
-    nz-button
-    class="login-form-button login-form-margin"
-    [nzType]="'primary'"
-    [disabled]="!sendEmailForm.valid"
-    [nzLoading]="isSending"
-    (click)="sendConfirmationEmail()"
-  >
-    Enviar código de confirmación
-  </button>
-</form>
-
-<form *ngIf="step === 2" nz-form [formGroup]="confirmEmailForm" class="login-form">
   <nz-form-item>
     <nz-form-control [nzErrorTip]="'errors.validationCode' | transloco">
       <nz-input-group nzPrefixIcon="bars">
@@ -44,7 +32,7 @@
     nz-button
     class="login-form-button login-form-margin"
     [nzType]="'primary'"
-    [disabled]="!sendEmailForm.valid"
+    [disabled]="!confirmEmailForm.valid"
     [nzLoading]="isSending"
     (click)="sendConfirmationCode()"
   >
@@ -52,7 +40,7 @@
   </button>
 </form>
 
-<form *ngIf="step === 3" nz-form [formGroup]="newPasswordForm" class="login-form">
+<form *ngIf="step === 2" nz-form [formGroup]="newPasswordForm" class="login-form">
   <nz-form-item>
     <nz-form-control [nzErrorTip]="'errors.validationCode' | transloco">
       <nz-input-group nzPrefixIcon="bars">

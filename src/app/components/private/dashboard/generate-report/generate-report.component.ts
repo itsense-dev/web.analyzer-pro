@@ -271,7 +271,9 @@ export class GenerateReportComponent implements OnInit {
     for (const [paramKey, paramValue] of extraParamsFormValue) {
       const extraParam = this.extraParams.find((extraParam) => extraParam.param_key === paramKey);
 
-      let valueParsed = String(paramValue);
+      if (!paramValue) continue;
+
+      let valueParsed = paramValue ? String(paramValue) : '';
       switch (extraParam?.data_type) {
         case ExtraParamDataType.DATE:
           valueParsed = valueParsed.replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3');
@@ -361,11 +363,9 @@ export class GenerateReportComponent implements OnInit {
 
     for (const packageExtraParams of packagesExtraParams) {
       for (const extraParam of packageExtraParams.extra_params) {
-        this.extraParamsForm.addControl(
-          extraParam.param_key,
-          new FormControl(null, [Validators.required]),
-          { emitEvent: false }
-        );
+        this.extraParamsForm.addControl(extraParam.param_key, new FormControl(null, []), {
+          emitEvent: false,
+        });
         this.extraParams.push(extraParam);
       }
     }
