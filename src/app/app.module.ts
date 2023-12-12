@@ -16,8 +16,10 @@ import { TRANSLOCO_CONFIG, TranslocoModule, TranslocoService } from '@ngneat/tra
 import { TranslocoLoaderConst } from 'src/services/translation/transloco-loader.service';
 import { environment } from 'src/environments/environment';
 import { TranslationService } from 'src/services/translation/translation.service';
+import { Amplify } from 'aws-amplify';
 
 registerLocaleData(es);
+Amplify.configure({ Auth: environment.amplify.auth });
 
 @NgModule({
   declarations: [AppComponent],

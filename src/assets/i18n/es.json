@@ -2,6 +2,7 @@
   "crawlerLoading": "Consultando fuente",
   "passwordRecovery": "Recuperar contraseña",
   "enterCode": "Ingresa el código",
+  "enterNewCode": "Ingresa el nuevo código",
   "password": "Contraseña",
   "updatePassword": "Actualizar Contraseña",
   "singleQuery": "Consulta individual",
@@ -144,6 +145,8 @@
   "validEmail": "Ingrese un email valido",
   "addEmail": "Ingrese un email",
   "addField": "Ingrese el campo",
+  "additionalData": "Datos adicionales",
+  "thisFieldIsUsedToLookForIn": "Este campo es requerido para consultar",
   "menu": {
     "historic_single_query": "Histórico de consultas <br/> individuales",
     "historic_massive_query": "Histórico de consultas <br/> masivas",

@@ -134,7 +134,7 @@ export class LoginComponent {
         this.router.navigateByUrl('/dashboard');
       },
       error: () => {
-        this.notification.error('Error!', 'Algo sucedio por favor intentalo nuevmaente');
+        this.notification.error('Error!', 'Algo sucedio por favor intentalo nuevamente');
         this.cognitoObject = undefined;
         this.sessionService.logout();
       },

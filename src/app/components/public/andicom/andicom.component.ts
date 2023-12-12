@@ -224,6 +224,7 @@ export class AndicomComponent implements OnInit {
       holder_authorization: true,
       packages: environment.andinacom.packages,
       subscription_id: environment.andinacom.subscription_id,
+      parameters: [],
     };
 
     this.requestListsService.lists(payload).subscribe({
