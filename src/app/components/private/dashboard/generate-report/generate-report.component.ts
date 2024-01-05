@@ -118,6 +118,7 @@ export class GenerateReportComponent implements OnInit {
           case 'object':
             const crawlerResponse = message;
             const document = this.updateDocument(crawlerResponse);
+            this.updateAttempt(crawlerResponse);
             this.transportDataWsService.message.emit(document);
 
             this.payloadToGetPdfInform = document;
@@ -154,6 +155,18 @@ export class GenerateReportComponent implements OnInit {
 
     this.cryptsService.cryptData(ListResponse.V2_LISTS, document);
     return document;
+  }
+
+  updateAttempt(crawlerResponse: any) {
+    let crawlersAttempts = this.cryptsService.decryptData(ListResponse.V2_LISTS_ATTEMPS);
+    const position = crawlerResponse?.body?.request_detail?.position;
+
+    crawlersAttempts[position] = {
+      attempts: crawlerResponse?.body?.request_detail?.n_attempts,
+      waiting: false,
+    };
+
+    this.cryptsService.cryptData(ListResponse.V2_LISTS_ATTEMPS, crawlersAttempts);
   }
 
   enableGetPdfInform() {
@@ -301,6 +314,14 @@ export class GenerateReportComponent implements OnInit {
       next: (response: ResponseList) => {
         this.spinner.hide();
         this.cryptsService.cryptData(ListResponse.V2_LISTS, response);
+
+        // First-version indexer to trace attemps
+        const crawlersAttempts = (<any[]>response.detail).map((listItem) => ({
+          attempts: listItem.n_attempts,
+          waiting: true,
+        }));
+        this.cryptsService.cryptData(ListResponse.V2_LISTS_ATTEMPS, crawlersAttempts);
+
         this.showResult = !this.showResult;
         this.payloadPdf = {
           index: response.indexname,
