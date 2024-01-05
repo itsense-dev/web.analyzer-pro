@@ -5,8 +5,10 @@ export const environment = {
   country: {
     code: 'CO',
   },
-  api: 'https://ozujxe4oc5.execute-api.us-east-1.amazonaws.com/prod',
-  apiAdmin: 'https://7p680oe6na.execute-api.us-east-1.amazonaws.com/prod',
+  //api: 'https://ozujxe4oc5.execute-api.us-east-1.amazonaws.com/prod',
+  //apiAdmin: 'https://7p680oe6na.execute-api.us-east-1.amazonaws.com/prod',
+  api: 'https://core.analyzerinc.com',
+  apiAdmin: 'https://backoffice.analyzerinc.com',
   apiAndicom: 'https://andicom.analyzerinc.com/api/',
   amplify: {
     auth: {

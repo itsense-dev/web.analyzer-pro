@@ -2,15 +2,37 @@
   <div class="row">
     <div class="col-8 text-source text-source-subtitle">Fuentes no disponibles</div>
     <div class="col-4 d-flex justify-content-end">
-      <button nz-button nzType="primary" nzShape="round" (click)="refresh()">Refrescar</button>
+      <button
+        nz-button
+        nzType="primary"
+        nzShape="round"
+        [disabled]="isRefreshDisabled"
+        (click)="refresh()"
+      >
+        Refrescar
+      </button>
     </div>
   </div>
   <div class="row datasource mb-4">
     <p>{{ 'textListOfSourcesNotAvailable' | transloco }}</p>
 
     <div>
-      <div class="row text-notfound ps-4 mb-3" *ngFor="let source of crawlersFailed">
-        <span class="source-name">{{ source?.body?.name }}</span>
+      <div
+        class="row text-notfound ps-4 mb-3"
+        *ngFor="let source of crawlersFailed; let index = index"
+      >
+        <div class="col-11 mt-1">
+          <span class="source-name">{{ source?.body?.name }}</span>
+        </div>
+        <div class="col-1 text-end">
+          <span
+            *ngIf="crawlersFailedAttempts[index].waiting"
+            nz-icon
+            nzType="loading"
+            nzTheme="outline"
+            class="status-icon loading"
+          ></span>
+        </div>
       </div>
     </div>
   </div>

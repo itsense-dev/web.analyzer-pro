@@ -37,16 +37,37 @@
     background-color: $color-prussian-blue;
     transition: width 3s ease;
   }
+
+  &-done {
+    border-radius: 6px;
+    background-color: $color-green;
+    box-shadow: inset 0px 0px 4px 0px $color-white;
+    transition: width 3s ease, background-color 3s ease;
+  }
 }
 @keyframes progressAnimation {
   0% {
     box-shadow: none;
+    background-position-x: 0%;
   }
   50% {
     box-shadow: inset 0px 0px 6px 1px $color-white;
+    background-position-x: 5%;
   }
   100% {
     box-shadow: none;
+    background-position-x: 10%;
+  }
+}
+@keyframes progressAnimationMoving {
+  0% {
+    background-position-x: 0%;
+  }
+  50% {
+    background-position-x: 50%;
+  }
+  100% {
+    background-position-x: 100%;
   }
 }
 
