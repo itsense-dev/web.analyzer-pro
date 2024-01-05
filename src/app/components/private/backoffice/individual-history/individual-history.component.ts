@@ -59,6 +59,8 @@ export class IndividualHistoryComponent implements OnInit {
     this.rolId = decriptSession?.user_info?.rol_id;
     this.getAllCountries();
     this.getAllClientsList();
+
+    this.searchHistoric();
   }
 
   closeModal(): void {
