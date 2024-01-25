@@ -5,8 +5,8 @@ export const environment = {
   country: {
     code: 'CO',
   },
-  api: 'https://core.analyzerinc.com',
-  apiAdmin: 'https://backoffice.analyzerinc.com',
+  api: 'https://apicore.analyzerinc.com',
+  apiAdmin: 'https://apibackoffice.analyzerinc.com',
   apiAndicom: 'https://51hdafc2kk.execute-api.us-east-1.amazonaws.com/dev',
   amplify: {
     auth: {
