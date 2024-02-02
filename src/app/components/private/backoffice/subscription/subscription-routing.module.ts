@@ -1,16 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PlansComponent } from './plans.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: PlansComponent,
-  },
-  {
     path: 'create',
     loadChildren: () =>
-      import('./create-plan/create-plan.module').then((module) => module.CreatePlanModule),
+      import('./create-subscription/create-subscription.module').then(
+        (module) => module.CreateSubscriptionModule
+      ),
   },
 ];
 
@@ -18,4 +15,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class PlansRoutingModule {}
+export class SubscriptionRoutingModule {}

@@ -14,4 +14,12 @@ export class CatalogsService {
       `${environment.apiAdmin}/catalogue/entity/${catalog}`
     );
   }
+
+  getSubscriptionType() {
+    return this.http.get<ResponseGlobal<any>>(`${environment.apiAdmin}/subscription-type`);
+  }
+
+  getsubscriptionTime() {
+    return this.http.get<ResponseGlobal<any>>(`${environment.apiAdmin}/time/range`);
+  }
 }
