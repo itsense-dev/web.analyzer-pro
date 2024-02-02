@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { ApiResponse } from 'src/models/api-response.model';
 import {
   Cities,
   Clients,
@@ -25,6 +24,7 @@ import {
   Packages,
   NewPlan,
 } from 'src/models/clientes.interface';
+import { CalculatePackagePrice, PlanPackage } from 'src/models/package.model';
 import { Countries, ResponseApiAnalyzer } from 'src/models/response-api-analyzer.interface';
 
 @Injectable({
@@ -47,6 +47,9 @@ export class AnalyzerProService {
       `${environment.apiAdmin}/client/${clientId}`,
       payload
     );
+  }
+  getAllPlans() {
+    return this.http.get<ResponseGlobal<Plan[]>>(`${environment.apiAdmin}/plan/getall`);
   }
   getPlansByClient(clientId: number) {
     return this.http.get<ResponseGlobal<Plan[]>>(`${environment.apiAdmin}/plan/by/${clientId}`);
@@ -147,7 +150,17 @@ export class AnalyzerProService {
   getPackages() {
     return this.http.get<ResponseGlobal<Packages[]>>(`${environment.apiAdmin}/packages`);
   }
+  getPackagesByPlan(planId: number) {
+    return this.http.get<ResponseGlobal<PlanPackage[]>>(
+      `${environment.apiAdmin}/packages/by/${planId}`
+    );
+  }
   createPlan(payload: NewPlan) {
     return this.http.post<ResponseGlobal2<string>>(`${environment.apiAdmin}/plan`, payload);
+  }
+  calculatePricePackages(payload: CalculatePackagePrice[]) {
+    return this.http.post<ResponseGlobal<any>>(`${environment.apiAdmin}/packages/calculate_price`, {
+      package_list_pricing: payload,
+    });
   }
 }

@@ -5,18 +5,18 @@ export const environment = {
   country: {
     code: 'CO',
   },
-  api: 'https://apicore.analyzerinc.com',
-  apiAdmin: 'https://apibackoffice.analyzerinc.com',
+  api: 'https://cuwma9g3ad.execute-api.us-east-1.amazonaws.com/dev',
+  apiAdmin: 'https://ve6g2uvg4c.execute-api.us-east-1.amazonaws.com/dev',
   apiAndicom: 'https://51hdafc2kk.execute-api.us-east-1.amazonaws.com/dev',
   amplify: {
     auth: {
       mandatorySignIn: true,
       region: 'us-east-1',
-      userPoolId: 'us-east-1_JGcdptZC4',
-      userPoolWebClientId: '3c2rrf147f8ii0iupe9fiovkb8',
+      userPoolId: 'us-east-1_QOtmQbgTb',
+      userPoolWebClientId: 'q4ut732o1kjngb9v53u6oaqsq',
       authenticationFlowType: 'USER_PASSWORD_AUTH',
       oauth: {
-        domain: 'users.analyzerinc.com',
+        domain: 'analyzerprod-dev.auth.us-east-1.amazoncognito.com',
         scope: ['email', 'openid', 'profile', 'aws.cognito.signin.user.admin'],
         redirectSignIn: 'http://localhost:4200/load-session',
         redirectSignOut: 'http://localhost:4200/',

@@ -11,7 +11,7 @@
   "selectPlan": "Seleccionar plan",
   "plan": "Plan",
   "plans": "Planes",
-  "planName": "Nombre de plan",
+  "planName": "Nombre del plan",
   "clients": "Clientes",
   "products": "Productos",
   "viewClients": "Ver Clientes",
@@ -156,7 +156,8 @@
     "usuarios": "Usuarios",
     "productos": "Productos",
     "mis_consultas": "Mis Consultas",
-    "planes": "Planes"
+    "planes": "Planes",
+    "suscripciones": "Suscripciones"
   },
   "alerts": {
     "aValidationCodeHasBeenSentToTheRegisteredEmailAddress": "Se ha enviado un código de validación al correo electrónico registrado"
@@ -199,5 +200,26 @@
   "userCount": "Nro. de usuarios",
   "selectProduct": "Seleccionar productos",
   "createPlan": "Crear plan",
-  "selectedProducts": "Productos seleccionados"
+  "selectedProducts": "Productos seleccionados",
+
+  "plansCreation": "Creación de planes",
+  "buildYourPlan": "Arma tu plan",
+  "descriptionAndConditions": "Descripción y condiciones",
+  "detailDescriptionAndConditions": "Detalla la descripción y condiciones del plan",
+  "noPackagesSelected": "No has seleccionado ningun producto",
+  "activationDate": "Fecha de activación",
+  "select": "Selecciona",
+  "expirationDate": "Fecha de vencimiento",
+  "planType": "Tipo de plan",
+  "selectedPlan": "Plan seleccionado",
+  "queryQuantities": "Cantidad de consultas",
+  "queryValue": "Valor por consulta",
+  "productDiscount": "Descuento por producto",
+  "subscriptions": "Suscripciones",
+  "totalValue": "Valor total",
+  "calculate": "Calcular",
+  "subtotal": "Subtotal",
+  "discount": "Descuento",
+  "totalSubscription": "Total de suscripción",
+  "wantYouLikeApplyDiscount": "¿Quieres aplicar descuento al plan?"
 }

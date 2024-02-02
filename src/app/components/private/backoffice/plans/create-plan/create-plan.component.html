@@ -1,0 +1,156 @@
+<ngx-spinner bdColor="rgba(0, 47, 77, 0.9)" type="ball-8bits">
+  <nz-spin nzSimple nzSize="large"></nz-spin>
+  <div class="loading-list">{{ 'loading' | transloco }}</div>
+</ngx-spinner>
+
+<h3 class="title-page">{{ 'plansCreation' | transloco }}</h3>
+<div class="container">
+  <div class="container-card">
+    <div class="row mb-4">
+      <div class="col">
+        <span class="subtitle">{{ 'buildYourPlan' | transloco }}</span>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-xl-4 col-md-6 pe-2">
+        <div class="row">
+          <div class="col">
+            <span class="label">{{ 'planName' | transloco }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input nz-input class="input" type="text" [(ngModel)]="planName" />
+          </div>
+        </div>
+      </div>
+      <!--
+      <div class="col ps-2">
+        <div class="row">
+          <div class="col">
+            <span class="label">{{ 'country' | transloco }}</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              [nzPlaceHolder]="'selectCountry' | transloco"
+              [(ngModel)]="selectedCountryId"
+              (ngModelChange)="onCountryChange($event)"
+            >
+              <nz-option
+                [nzLabel]="country.country_name"
+                [nzValue]="country.country_id"
+                *ngFor="let country of countries"
+              >
+              </nz-option>
+            </nz-select>
+          </div>
+        </div>
+      </div>
+      -->
+    </div>
+
+    <div class="row mb-4">
+      <div class="col">
+        <div class="row">
+          <div class="col">
+            <span class="label">{{ 'descriptionAndConditions' | transloco }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <textarea nz-input class="input w-100" [(ngModel)]="planDescription"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col">
+        <span class="subtitle">{{ 'addProducts' | transloco }}</span>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col">
+        <nz-select
+          class="select"
+          nzMode="multiple"
+          [nzPlaceHolder]="'selectProduct' | transloco"
+          [(ngModel)]="selectedPackageIds"
+          (ngModelChange)="onPackagesSelected($event)"
+        >
+          <nz-option
+            *ngFor="let package of packages"
+            [nzLabel]="package.name"
+            [nzValue]="package.id"
+          >
+          </nz-option>
+        </nz-select>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col">
+        <div class="list-container">
+          <div class="row mb-3">
+            <div class="col">
+              <span class="subtitle mb-5">{{ 'selectedProducts' | transloco }}</span>
+            </div>
+          </div>
+
+          <div *ngFor="let selectedPackage of selectedPackages" class="row list-container__item">
+            <div class="col-11">
+              <span class="list-container__item-name">{{ selectedPackage.name }}</span>
+            </div>
+            <div class="col-1">
+              <span
+                nz-icon
+                nzType="delete"
+                nzTheme="fill"
+                class="trash"
+                (click)="removeSelectedPackage(selectedPackage.id)"
+              ></span>
+            </div>
+          </div>
+
+          <div *ngIf="selectedPackages.length === 0" class="row">
+            <div class="col">
+              <span class="label">{{ 'noPackagesSelected' | transloco }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-auto me-3">
+        <button class="button--gray" nz-button nzType="primary" nzShape="round">
+          {{ 'cancel' | transloco }}
+        </button>
+      </div>
+
+      <div class="col-auto ms-3">
+        <button
+          nz-button
+          class="button"
+          nzType="primary"
+          nzShape="round"
+          [disabled]="
+            selectedPackageIds.length === 0 ||
+            planName === undefined ||
+            planDescription === undefined
+          "
+          (click)="onCreatePlanClick()"
+        >
+          {{ 'createPlan' | transloco }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

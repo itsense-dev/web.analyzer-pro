@@ -1,0 +1,275 @@
+<ngx-spinner bdColor="rgba(0, 47, 77, 0.9)" type="ball-8bits">
+  <nz-spin nzSimple nzSize="large"></nz-spin>
+  <div class="loading-list">{{ 'loading' | transloco }}</div>
+</ngx-spinner>
+
+<h3 class="title-page">{{ 'subscriptions' | transloco }}</h3>
+<div class="container">
+  <div class="container-card">
+    <div class="row mb-4">
+      <div class="col-md-6 pe-md-2">
+        <div class="row mb-2">
+          <div class="col">
+            <span class="label-light">
+              {{ 'client' | transloco }}
+            </span>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col">
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              [nzPlaceHolder]="'client' | transloco"
+              [(ngModel)]="selectedClient"
+            >
+              <nz-option
+                *ngFor="let client of clients"
+                [nzLabel]="client.name"
+                [nzValue]="client"
+              ></nz-option>
+            </nz-select>
+          </div>
+        </div>
+
+        <div *ngIf="selectedClient" class="row">
+          <div class="col">
+            <img [src]="selectedClient.logo" />
+          </div>
+          <div class="col">
+            <div class="col-auto pe-2">
+              <span class="label-dark">{{ 'name' | transloco }}</span>
+            </div>
+
+            <div class="col ps-2">
+              <span class="label-light label-light--small">
+                {{ selectedClient.name }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 ps-md-2">
+        <div class="row mb-2">
+          <div class="col">
+            <span class="label-light">
+              {{ 'plan' | transloco }}
+            </span>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col">
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              [nzPlaceHolder]="'plan' | transloco"
+              [(ngModel)]="selectedPlan"
+              (ngModelChange)="onSelectPlan($event)"
+            >
+              <nz-option
+                *ngFor="let plan of plans"
+                [nzLabel]="plan.plan_name"
+                [nzValue]="plan"
+              ></nz-option>
+            </nz-select>
+          </div>
+        </div>
+
+        <ng-container *ngIf="selectedPlan">
+          <div class="row mb-3">
+            <div class="col-3 pe-2">
+              <span class="label-dark">{{ 'plan' | transloco }}</span>
+            </div>
+            <div class="col ps-2">
+              <span class="label-light label-light--small">
+                {{ selectedPlan.plan_name }}
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3 pe-2">
+              <span class="label-dark">{{ 'products' | transloco }}</span>
+            </div>
+            <div class="col ps-2">
+              <span
+                *ngFor="let packageItem of packagesByPlan"
+                class="label-light label-light--small d-block mb-1"
+              >
+                {{ packageItem.name }}
+              </span>
+              <span *ngIf="packagesByPlan.length === 0" class="label-light label-light--small">
+                {{ 'noPackagesAvailable' | transloco }}
+              </span>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <ng-container *ngIf="selectedClient && selectedPlan">
+      <hr />
+
+      <div class="row mt-3">
+        <div class="col me-2">
+          <span class="label-light">{{ 'activationDate' | transloco }}</span>
+        </div>
+        <div class="col ms-2 me-2">
+          <span class="label-light">{{ 'validity' | transloco }}</span>
+        </div>
+        <div class="col ms-2 me-2">
+          <span class="label-light">{{ 'expirationDate' | transloco }}</span>
+        </div>
+        <div class="col ms-2">
+          <span class="label-light">{{ 'planType' | transloco }}</span>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col me-2">
+          <nz-date-picker></nz-date-picker>
+        </div>
+        <div class="col ms-2 me-2">
+          <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="'select' | transloco">
+            <nz-option
+              *ngFor="let client of clients"
+              [nzLabel]="client.name"
+              [nzValue]="client"
+            ></nz-option>
+          </nz-select>
+        </div>
+        <div class="col ms-2 me-2">
+          <input class="input" type="text" nz-input placeholder="00/00/0000" readonly />
+        </div>
+        <div class="col ms-2">
+          <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="'select' | transloco">
+            <nz-option
+              *ngFor="let subscriptionType of subscriptionTypes"
+              [nzLabel]="subscriptionType.name"
+              [nzValue]="subscriptionType.id"
+            ></nz-option>
+          </nz-select>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container>
+      <div class="row mb-3">
+        <div class="col">
+          <span class="label-dark me-2">{{ 'selectedPlan' | transloco }}</span>
+          <span class="label-turquoise">
+            <b>{{ selectedPlan?.plan_name }}</b>
+          </span>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col">
+          <label nz-checkbox [(ngModel)]="enableDiscountInput">
+            {{ 'wantYouLikeApplyDiscount' | transloco }}
+          </label>
+        </div>
+      </div>
+      <div *ngIf="enableDiscountInput" class="row mb-2">
+        <div class="col-3">
+          <input nz-input class="input" type="text" [(ngModel)]="subscriptionDiscount" />
+        </div>
+      </div>
+    </ng-container>
+    <div class="row mb-2"></div>
+
+    <ng-container>
+      <div class="row mb-4">
+        <div class="col text-center ms-2">
+          <span class="label-dark">{{ 'products' | transloco }}</span>
+        </div>
+        <div class="col text-center ms-2 me-2">
+          <span class="label-dark">{{ 'queryQuantities' | transloco }}</span>
+        </div>
+        <div class="col text-center ms-2 me-2">
+          <span class="label-dark">{{ 'productDiscount' | transloco }}</span>
+        </div>
+        <div class="col text-center ms-2 me-2">
+          <span class="label-dark">{{ 'queryValue' | transloco }}</span>
+        </div>
+        <div class="col text-center me-2">
+          <span class="label-dark">{{ 'totalValue' | transloco }}</span>
+        </div>
+      </div>
+
+      <div *ngFor="let packageByPlan of packagesByPlan; let index = index" class="row mb-4">
+        <div class="col ms-2">
+          <b class="label-turquoise">{{ packageByPlan.name }}</b>
+        </div>
+        <div class="col ms-2 me-2">
+          <input
+            nz-input
+            class="input"
+            type="number"
+            [(ngModel)]="packagesPriced[index].n_bought_queries"
+          />
+        </div>
+        <div class="col ms-2 me-2">
+          <input nz-input class="input" type="number" [(ngModel)]="packagesDiscounts[index]" />
+        </div>
+        <div class="col ms-2 me-2">
+          <span class="label-light">
+            {{ (getPartialPackagePrice(index) | currency) ?? '-' }}
+          </span>
+        </div>
+        <div class="col me-2">
+          <span class="label-light">
+            {{ (getTotalPackagePrice(index) | currency) ?? '-' }}
+          </span>
+        </div>
+      </div>
+
+      <ng-container *ngIf="getSubtotalSubscription() as subtotal">
+        <div class="row justify-content-end">
+          <div class="col-3">
+            <span class="label-dark me-2">{{ 'subtotal' | transloco }}</span>
+          </div>
+          <div class="col-3">
+            <span class="label-turquoise">
+              <b>{{ subtotal | currency }}</b>
+            </span>
+          </div>
+        </div>
+        <div class="row justify-content-end">
+          <div class="col-3">
+            <span class="label-dark me-2">{{ 'discount' | transloco }}</span>
+          </div>
+          <div class="col-3">
+            <span class="label-turquoise">
+              <b>{{ subtotal * (subscriptionDiscount / 100) | currency }}</b>
+            </span>
+          </div>
+        </div>
+        <div class="row justify-content-end">
+          <div class="col-3">
+            <span class="label-dark me-2">{{ 'totalSubscription' | transloco }}</span>
+          </div>
+          <div class="col-3">
+            <span class="label-turquoise">
+              <b>{{ subtotal * (1 - subscriptionDiscount / 100) | currency }}</b>
+            </span>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="row justify-content-end">
+        <div class="col-auto">
+          <button
+            class="button"
+            nz-button
+            nzType="primary"
+            (click)="calculatePricePackages()"
+            nzShape="round"
+          >
+            {{ 'calculate' | transloco }}
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

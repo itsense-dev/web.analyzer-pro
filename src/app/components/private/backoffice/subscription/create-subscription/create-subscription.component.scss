@@ -1,0 +1,140 @@
+@import 'src/assets/styles/main.scss';
+
+.title-page {
+  color: $color-turquoise-surf;
+  margin-top: 20px;
+  margin-left: 40px;
+}
+
+.subtitle {
+  color: $color-prussian-blue;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.label-dark {
+  display: inline-block;
+  color: $color-prussian-blue;
+  font-weight: bold;
+  font-size: 1em;
+  text-align: center;
+}
+
+.label-light {
+  color: $color-dark-silver;
+  font-size: 1em;
+  &--small {
+    font-size: 0.9em;
+  }
+}
+
+.label-turquoise {
+  color: $color-turquoise-surf;
+  font-size: 1em;
+}
+
+.label {
+  color: $color-dark-silver;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.error-message {
+  font-size: 0.8em;
+  color: $color-red-error;
+}
+
+.input-required {
+  margin-top: 20px;
+  font-size: 1em;
+  line-height: 2;
+  color: $color-dark-silver;
+  font-weight: 350;
+  height: 32px;
+}
+
+.input-required::after {
+  content: '*';
+  color: $color-red-error;
+  margin-right: 3px;
+}
+
+.select {
+  width: 100%;
+
+  .ant-select-multiple .ant-select-selection-item {
+    border-radius: 16px !important;
+  }
+
+  ::ng-deep nz-select-item.ant-select-selection-item {
+    border-radius: 16px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+.list-container {
+  display: flex;
+  flex-direction: column;
+
+  padding: 32px;
+  background-color: $color-american-sivler;
+  border-radius: 16px;
+  &__item {
+    &-name {
+      color: $color-turquoise-surf;
+      font-weight: bold;
+    }
+  }
+}
+
+.trash {
+  color: $color-prussian-blue;
+  cursor: pointer;
+  &:hover {
+    color: $color-turquoise-surf;
+  }
+}
+
+.button {
+  width: 120px;
+  &--gray {
+    width: 120px;
+    height: 40px;
+    border-radius: 16px;
+    background: $color-dark-silver;
+    box-shadow: 2px 2px 4px 2px $color-chinese-silver;
+  }
+}
+
+.input {
+  padding: 4px 16px;
+}
+
+nz-select {
+  width: 100%;
+}
+
+.required::after {
+  content: '*';
+  color: $color-red-error;
+  margin-left: 3px;
+}
+
+nz-date-picker {
+  width: 100%;
+  margin: 0 16px 12px 0;
+  padding: 5px 16px 5px 8px;
+  background-color: $color-platinum;
+
+  border-radius: 16px;
+  & *:placeholder-shown {
+    color: magenta !important;
+  }
+}
+
+hr {
+  width: 100%;
+  height: 1px;
+  background-color: $color-dark-silver;
+}
