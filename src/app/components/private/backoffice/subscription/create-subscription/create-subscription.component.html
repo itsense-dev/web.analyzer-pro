@@ -132,9 +132,9 @@
         <div class="col ms-2 me-2">
           <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="'select' | transloco">
             <nz-option
-              *ngFor="let client of clients"
-              [nzLabel]="client.name"
-              [nzValue]="client"
+              *ngFor="let subscriptionTime of subscriptionTimes"
+              [nzLabel]="subscriptionTime.name"
+              [nzValue]="subscriptionTimes"
             ></nz-option>
           </nz-select>
         </div>
@@ -153,12 +153,12 @@
       </div>
     </ng-container>
 
-    <ng-container>
+    <ng-container *ngIf="selectedClient && selectedPlan">
       <div class="row mb-3">
         <div class="col">
           <span class="label-dark me-2">{{ 'selectedPlan' | transloco }}</span>
           <span class="label-turquoise">
-            <b>{{ selectedPlan?.plan_name }}</b>
+            <b>{{ selectedPlan.plan_name }}</b>
           </span>
         </div>
       </div>
@@ -178,7 +178,7 @@
     </ng-container>
     <div class="row mb-2"></div>
 
-    <ng-container>
+    <ng-container *ngIf="selectedClient && selectedPlan">
       <div class="row mb-4">
         <div class="col text-center ms-2">
           <span class="label-dark">{{ 'products' | transloco }}</span>
