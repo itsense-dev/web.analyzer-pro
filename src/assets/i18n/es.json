@@ -221,5 +221,6 @@
   "subtotal": "Subtotal",
   "discount": "Descuento",
   "totalSubscription": "Total de suscripción",
-  "wantYouLikeApplyDiscount": "¿Quieres aplicar descuento al plan?"
+  "wantYouLikeApplyDiscount": "¿Quieres aplicar descuento al plan?",
+  "activateSubscription": "Activar suscripción"
 }

@@ -3,6 +3,7 @@ import { AnalyzerProService } from '../../../../services/apis/analyzer-pro/analy
 import { Router } from '@angular/router';
 import { Clients, NewClient, Plan } from 'src/models/clientes.interface';
 import { Routes } from 'src/enum/routes.enum';
+import { SessionService } from 'src/app/services/session/session.service';
 
 @Component({
   selector: 'app-clients',
@@ -15,7 +16,10 @@ export class ClientsComponent implements OnInit {
   plansList: Plan[] = [];
   isVisible = false;
 
-  constructor(private analyzerProService: AnalyzerProService, private router: Router) {}
+  constructor(
+    private readonly analyzerProService: AnalyzerProService,
+    private readonly router: Router
+  ) {}
   ngOnInit() {
     this.getAllClientsList();
   }

@@ -163,4 +163,10 @@ export class AnalyzerProService {
       package_list_pricing: payload,
     });
   }
+  createSubscription(payload: any) {
+    return this.http.post<ResponseGlobal<any>>(
+      `${environment.apiAdmin}/subscription/create`,
+      payload
+    );
+  }
 }

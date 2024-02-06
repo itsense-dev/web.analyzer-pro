@@ -15,12 +15,17 @@ import { SignUpParams } from 'src/models/cognito.interface';
 import { Auth } from 'aws-amplify';
 import { ISignUpResult } from 'amazon-cognito-identity-js';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SessionService } from 'src/app/services/session/session.service';
+import { Roles } from 'src/enum/roles.enum';
+import { UserInfo } from 'src/models/response-api-analyzer.interface';
 @Component({
   selector: 'app-create-users',
   templateUrl: './create-users.component.html',
   styleUrls: ['./create-users.component.scss'],
 })
 export class CreateUsersComponent implements OnInit {
+  Roles = Roles;
+
   client?: NewClient;
   @Input() idUserEdit?: string;
   @Output() closeModal = new EventEmitter<boolean>();
@@ -42,11 +47,15 @@ export class CreateUsersComponent implements OnInit {
   isClose: boolean = false;
   planListValues: Array<{ value: string; label: string }> = [];
 
+  user?: UserInfo;
+  userRol?: Roles;
+
   constructor(
-    private AnalyzerProService: AnalyzerProService,
-    private fb: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute
+    private readonly AnalyzerProService: AnalyzerProService,
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly sessionService: SessionService
   ) {
     this.validateForm = this.fb.group({
       client_id: ['', [Validators.required]],
@@ -60,6 +69,19 @@ export class CreateUsersComponent implements OnInit {
     });
   }
   async ngOnInit() {
+    const user = this.sessionService.getSession();
+    this.userRol = <Roles>user.user_info.rol_id;
+
+    if (this.userRol == Roles.CLIENT_ADMIN) {
+      const client = user.user_info.client_id;
+      const form = {
+        client_id: client,
+      };
+
+      this.validateForm.patchValue(form);
+      this.getPlanByClientsList();
+    }
+
     this.getAllClientsList();
     this.getRolsList();
     if (this.idUserEdit) {
