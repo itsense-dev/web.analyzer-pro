@@ -15,6 +15,7 @@ export interface UserInfo {
   client_name: string;
   plan_id: string;
   plan_name: string;
+  rol_id: number;
 }
 
 export interface Countries {

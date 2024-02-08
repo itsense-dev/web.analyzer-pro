@@ -1,9 +1,11 @@
 import { CatalogsService } from './../../../../../services/catalogs/catalogs.service';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AnalyzerProService } from 'src/app/services/apis/analyzer-pro/analyzer-pro.service';
 import { Messages } from 'src/enum/messages.enum';
+import { Routes } from 'src/enum/routes.enum';
 import { Clients, Plan } from 'src/models/clientes.interface';
 import { CalculatePackagePrice, PlanPackage, PlanPackagePriced } from 'src/models/package.model';
 
@@ -23,12 +25,17 @@ export class CreateSubscriptionComponent implements OnInit {
   packagesDiscounts: (number | undefined)[] = [];
 
   subscriptionTypes: { id: number; name: string }[] = [];
-  subscriptionTimes: { name: string; month: number }[] = [];
+  selectedSubscriptionTypeId?: number;
+  subscriptionTimes: { name: string; months: number }[] = [];
+  selectedSubscriptionTime?: { name: string; months: number };
 
   enableDiscountInput: boolean = false;
   subscriptionDiscount: number = 0;
+  activationDate?: Date;
+  endDate?: Date;
 
   constructor(
+    private readonly router: Router,
     private readonly analyzerProService: AnalyzerProService,
     private readonly notificationService: NzNotificationService,
     private readonly spinnerService: NgxSpinnerService,
@@ -40,6 +47,16 @@ export class CreateSubscriptionComponent implements OnInit {
     this.getAllPlans();
     this.getSubscriptionType();
     this.getSubscriptionTime();
+  }
+
+  calculateEndDate() {
+    if (!this.activationDate || !this.selectedSubscriptionTime) return;
+
+    const fromDate = this.activationDate;
+    const months = this.selectedSubscriptionTime.months;
+    let endDate = new Date(fromDate);
+    endDate.setMonth(fromDate.getMonth() + months);
+    this.endDate = endDate;
   }
 
   getAllClientsList() {
@@ -88,6 +105,52 @@ export class CreateSubscriptionComponent implements OnInit {
           final_total_price: undefined,
         }));
         this.packagesDiscounts = new Array<undefined>(this.packagesByPlan.length);
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        this.notificationService.error(
+          Messages.SYSTEM_NOT_AVAILABLE,
+          Messages.SYSTEM_NOT_AVAILABLE_MESSAGE
+        );
+      },
+    });
+  }
+
+  createPlan(priceData: any) {
+    this.spinnerService.show();
+    let packagesData = this.packagesPriced.map((pkg) => ({
+      package_id: pkg.package_id,
+      n_bought_queries: pkg.n_bought_queries,
+      final_total_price: pkg.final_total_price,
+    }));
+    for (let i = 0; i < packagesData.length; i++) {
+      const packageDiscount = 1 - (this.packagesDiscounts[i] ?? 0) / 100;
+      const subscriptionDiscount = 1 - (this.subscriptionDiscount ?? 0) / 100;
+
+      let totalPrice = packagesData[i].final_total_price;
+      if (totalPrice) totalPrice *= packageDiscount * subscriptionDiscount;
+      else totalPrice = 0;
+
+      packagesData[i].final_total_price = totalPrice;
+    }
+
+    const payload = {
+      client_id: this.selectedClient!,
+      plan_id: this.selectedPlan!,
+      activation_date: this.activationDate!.toLocaleString('sv').split(' ')[0],
+      expiration_date: this.endDate!.toLocaleString('sv').split(' ')[0],
+      subscription_type: this.selectedSubscriptionTypeId!,
+      packages_data: packagesData,
+    };
+
+    this.analyzerProService.createSubscription(payload).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        this.notificationService.success(
+          Messages.CREATION_SUCCESS,
+          Messages.CREATION_SUCCESS_MESSAGE
+        );
+        this.router.navigate([Routes.DASHBOARD]);
       },
       error: (error) => {
         this.spinnerService.hide();
@@ -165,22 +228,24 @@ export class CreateSubscriptionComponent implements OnInit {
   getPartialPackagePrice(index: number) {
     const packagePriced = this.packagesPriced[index];
     const totalValue = packagePriced.final_total_price;
-    const discount = this.packagesDiscounts[index];
     const n = packagePriced.n_bought_queries;
-    return totalValue && n ? ((1 - (discount ?? 0) / 100) * totalValue) / n : undefined;
+    return totalValue && n ? totalValue / n : undefined;
   }
 
-  getTotalPackagePrice(index: number) {
-    const packageTotalPriced = this.packagesPriced[index].final_total_price;
-    const discount = this.packagesDiscounts[index];
-    return packageTotalPriced ? (1 - (discount ?? 0) / 100) * packageTotalPriced : undefined;
-  }
+  getTotalPackagePrice(index: number) {}
 
-  getSubtotalSubscription() {
-    let accumulated = 0;
+  getPriceData() {
+    let subtotal = 0;
+    let discounts = 0;
     for (let i = 0; i < this.packagesPriced.length; i++) {
-      accumulated += this.getTotalPackagePrice(i) ?? 0;
+      subtotal += this.packagesPriced[i].final_total_price ?? 0;
+
+      discounts +=
+        ((this.packagesPriced[i].final_total_price ?? 0) * (this.packagesDiscounts[i] ?? 0)) /
+          100 ?? 0;
     }
-    return accumulated;
+    discounts += (subtotal - discounts) * (this.subscriptionDiscount / 100);
+
+    return { subtotal, discounts, total: subtotal - discounts };
   }
 }

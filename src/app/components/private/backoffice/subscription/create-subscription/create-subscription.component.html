@@ -33,18 +33,22 @@
         </div>
 
         <div *ngIf="selectedClient" class="row">
-          <div class="col">
+          <!-- <div class="col">
             <img [src]="selectedClient.logo" />
-          </div>
+          </div> -->
           <div class="col">
-            <div class="col-auto pe-2">
-              <span class="label-dark">{{ 'name' | transloco }}</span>
+            <div class="row">
+              <div class="col">
+                <span class="label-dark">{{ 'name' | transloco }}</span>
+              </div>
             </div>
 
-            <div class="col ps-2">
-              <span class="label-light label-light--small">
-                {{ selectedClient.name }}
-              </span>
+            <div class="row">
+              <div class="col">
+                <span class="label-light label-light--small">
+                  {{ selectedClient.name }}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -127,22 +131,43 @@
 
       <div class="row mt-3">
         <div class="col me-2">
-          <nz-date-picker></nz-date-picker>
+          <nz-date-picker
+            [(ngModel)]="activationDate"
+            (ngModelChange)="calculateEndDate()"
+          ></nz-date-picker>
         </div>
         <div class="col ms-2 me-2">
-          <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="'select' | transloco">
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            [nzPlaceHolder]="'select' | transloco"
+            [(ngModel)]="selectedSubscriptionTime"
+            (ngModelChange)="calculateEndDate()"
+          >
             <nz-option
               *ngFor="let subscriptionTime of subscriptionTimes"
               [nzLabel]="subscriptionTime.name"
-              [nzValue]="subscriptionTimes"
+              [nzValue]="subscriptionTime"
             ></nz-option>
           </nz-select>
         </div>
         <div class="col ms-2 me-2">
-          <input class="input" type="text" nz-input placeholder="00/00/0000" readonly />
+          <input
+            class="input"
+            type="text"
+            nz-input
+            placeholder="00/00/0000"
+            readonly
+            [value]="endDate ? (endDate | date : 'dd/MM/yyyy') : ''"
+          />
         </div>
         <div class="col ms-2">
-          <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="'select' | transloco">
+          <nz-select
+            nzShowSearch
+            nzAllowClear
+            [nzPlaceHolder]="'select' | transloco"
+            [(ngModel)]="selectedSubscriptionTypeId"
+          >
             <nz-option
               *ngFor="let subscriptionType of subscriptionTypes"
               [nzLabel]="subscriptionType.name"
@@ -153,7 +178,9 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="selectedClient && selectedPlan">
+    <div class="row mb-2"></div>
+
+    <ng-container *ngIf="selectedPlan && endDate && selectedSubscriptionTypeId">
       <div class="row mb-3">
         <div class="col">
           <span class="label-dark me-2">{{ 'selectedPlan' | transloco }}</span>
@@ -163,30 +190,14 @@
         </div>
       </div>
 
-      <div class="row mb-2">
-        <div class="col">
-          <label nz-checkbox [(ngModel)]="enableDiscountInput">
-            {{ 'wantYouLikeApplyDiscount' | transloco }}
-          </label>
-        </div>
-      </div>
-      <div *ngIf="enableDiscountInput" class="row mb-2">
-        <div class="col-3">
-          <input nz-input class="input" type="text" [(ngModel)]="subscriptionDiscount" />
-        </div>
-      </div>
-    </ng-container>
-    <div class="row mb-2"></div>
-
-    <ng-container *ngIf="selectedClient && selectedPlan">
       <div class="row mb-4">
-        <div class="col text-center ms-2">
+        <div class="col-3 text-center ms-2">
           <span class="label-dark">{{ 'products' | transloco }}</span>
         </div>
-        <div class="col text-center ms-2 me-2">
+        <div class="col-2 text-center ms-2 me-2">
           <span class="label-dark">{{ 'queryQuantities' | transloco }}</span>
         </div>
-        <div class="col text-center ms-2 me-2">
+        <div class="col-2 text-center ms-2 me-2">
           <span class="label-dark">{{ 'productDiscount' | transloco }}</span>
         </div>
         <div class="col text-center ms-2 me-2">
@@ -198,66 +209,62 @@
       </div>
 
       <div *ngFor="let packageByPlan of packagesByPlan; let index = index" class="row mb-4">
-        <div class="col ms-2">
+        <div class="col-3 ms-2">
           <b class="label-turquoise">{{ packageByPlan.name }}</b>
         </div>
-        <div class="col ms-2 me-2">
+        <div class="col-2 ms-2 me-2">
           <input
             nz-input
             class="input"
             type="number"
+            (change)="packagesPriced[index].final_total_price = undefined"
             [(ngModel)]="packagesPriced[index].n_bought_queries"
           />
         </div>
-        <div class="col ms-2 me-2">
-          <input nz-input class="input" type="number" [(ngModel)]="packagesDiscounts[index]" />
+        <div class="col-2 ms-2 me-2">
+          <input
+            nz-input
+            class="input"
+            type="text"
+            [(ngModel)]="packagesDiscounts[index]"
+            mask="00"
+            suffix="%"
+          />
         </div>
         <div class="col ms-2 me-2">
-          <span class="label-light">
+          <span class="label-light w-100 text-end">
             {{ (getPartialPackagePrice(index) | currency) ?? '-' }}
           </span>
         </div>
         <div class="col me-2">
-          <span class="label-light">
-            {{ (getTotalPackagePrice(index) | currency) ?? '-' }}
+          <span class="label-light w-100 text-end">
+            <!-- {{ (getTotalPackagePrice(index) | currency) ?? '-' }} -->
+            {{ (this.packagesPriced[index].final_total_price | currency) ?? '-' }}
           </span>
         </div>
       </div>
 
-      <ng-container *ngIf="getSubtotalSubscription() as subtotal">
-        <div class="row justify-content-end">
-          <div class="col-3">
-            <span class="label-dark me-2">{{ 'subtotal' | transloco }}</span>
-          </div>
-          <div class="col-3">
-            <span class="label-turquoise">
-              <b>{{ subtotal | currency }}</b>
-            </span>
-          </div>
+      <div class="row mb-4">
+        <div class="col">
+          <label nz-checkbox [(ngModel)]="enableDiscountInput">
+            {{ 'wantYouLikeApplyDiscount' | transloco }}
+          </label>
         </div>
-        <div class="row justify-content-end">
-          <div class="col-3">
-            <span class="label-dark me-2">{{ 'discount' | transloco }}</span>
-          </div>
-          <div class="col-3">
-            <span class="label-turquoise">
-              <b>{{ subtotal * (subscriptionDiscount / 100) | currency }}</b>
-            </span>
-          </div>
+      </div>
+      <div *ngIf="enableDiscountInput" class="row mb-2">
+        <div class="col-3">
+          <input
+            nz-input
+            class="input"
+            type="text"
+            [(ngModel)]="subscriptionDiscount"
+            mask="00"
+            suffix="%"
+          />
         </div>
-        <div class="row justify-content-end">
-          <div class="col-3">
-            <span class="label-dark me-2">{{ 'totalSubscription' | transloco }}</span>
-          </div>
-          <div class="col-3">
-            <span class="label-turquoise">
-              <b>{{ subtotal * (1 - subscriptionDiscount / 100) | currency }}</b>
-            </span>
-          </div>
-        </div>
-      </ng-container>
+      </div>
 
-      <div class="row justify-content-end">
+      <div class="row justify-content-end mb-4">
         <div class="col-auto">
           <button
             class="button"
@@ -270,6 +277,54 @@
           </button>
         </div>
       </div>
+
+      <ng-container *ngIf="getPriceData() as priceData">
+        <div class="row justify-content-end">
+          <div class="col-3">
+            <span class="label-dark me-2">{{ 'subtotal' | transloco }}</span>
+          </div>
+          <div class="col-3">
+            <span class="label-turquoise w-100 d-block text-end">
+              <b>{{ priceData.subtotal | currency }}</b>
+            </span>
+          </div>
+        </div>
+        <div class="row justify-content-end">
+          <div class="col-3">
+            <span class="label-dark me-2">{{ 'discount' | transloco }}</span>
+          </div>
+          <div class="col-3">
+            <span class="label-turquoise w-100 d-block text-end">
+              <b>{{ priceData.discounts | currency }}</b>
+            </span>
+          </div>
+        </div>
+        <div class="row justify-content-end">
+          <div class="col-3">
+            <span class="label-dark me-2">{{ 'totalSubscription' | transloco }}</span>
+          </div>
+          <div class="col-3">
+            <span class="label-turquoise w-100 d-block text-end">
+              <b>{{ priceData.total | currency }}</b>
+            </span>
+          </div>
+        </div>
+
+        <div class="row justify-content-center mt-4">
+          <div class="col-auto col-sm-6 col-md-3 col-xl-2">
+            <button
+              class="button w-100"
+              nz-button
+              nzType="primary"
+              (click)="createPlan(priceData)"
+              nzShape="round"
+              [disabled]="priceData.total === undefined || priceData.total <= 0"
+            >
+              {{ 'activateSubscription' | transloco }}
+            </button>
+          </div>
+        </div>
+      </ng-container>
     </ng-container>
   </div>
 </div>
