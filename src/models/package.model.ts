@@ -27,3 +27,33 @@ export enum ExtraParamDataType {
   DATE = 'date',
   TEXT = 'text',
 }
+
+export interface PackageRecord {
+  id: number;
+  name: string;
+  person_type: string;
+  country_id: string;
+  description: string;
+  created_user: string;
+  created_date: string;
+  last_updated_user: string;
+  last_updated_date: string;
+  active_record: string;
+}
+
+export interface PlanPackage {
+  package_id: number;
+  plan_id: number;
+  name: string;
+}
+
+export interface PlanPackagePriced {
+  package_id: number;
+  n_bought_queries?: number;
+  final_total_price?: number;
+}
+
+export interface CalculatePackagePrice {
+  package_id: number;
+  number_queries: number;
+}

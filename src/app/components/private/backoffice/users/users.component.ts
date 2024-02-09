@@ -5,6 +5,9 @@ import { Clients, NewClient, Plan, Users, usersPlan } from 'src/models/clientes.
 import { Routes } from 'src/enum/routes.enum';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { SessionService } from 'src/app/services/session/session.service';
+import { UserInfo } from 'src/models/response-api-analyzer.interface';
+import { Roles } from 'src/enum/roles.enum';
 
 @Component({
   selector: 'app-users',
@@ -12,6 +15,8 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
   styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent implements OnInit {
+  Roles = Roles;
+
   isVisible = false;
   validateForm: FormGroup;
   log(): void {}
@@ -27,10 +32,15 @@ export class UsersComponent implements OnInit {
   isVisibleCreateUser = false;
   isConfirmLoading = false;
   clientPlans!: Plan[];
+
+  user?: UserInfo;
+  userRol?: Roles;
+
   constructor(
-    private analyzerProService: AnalyzerProService,
-    private fb: FormBuilder,
-    private router: Router
+    private readonly analyzerProService: AnalyzerProService,
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly sessionService: SessionService
   ) {
     this.validateForm = this.fb.group({
       client: ['', [Validators.required]],
@@ -44,6 +54,19 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
+    const user = this.sessionService.getSession();
+    this.userRol = <Roles>user.user_info.rol_id;
+
+    if (this.userRol == Roles.CLIENT_ADMIN) {
+      const client = user.user_info.client_id;
+      const form = {
+        client: client,
+      };
+
+      this.validateForm.patchValue(form);
+      this.getPlansByClient(client);
+    }
+
     this.getAllClientsList();
   }
 

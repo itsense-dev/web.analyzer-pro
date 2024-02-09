@@ -12,6 +12,7 @@
             formControlName="client_id"
             nzPlaceHolder="{{ 'selectClient' | transloco }}"
             (ngModelChange)="getPlanByClientsList()"
+            [nzDisabled]="this.userRol === Roles.CLIENT_ADMIN"
           >
             <nz-option
               *ngFor="let item of clientsList"
