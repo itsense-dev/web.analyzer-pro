@@ -1,9 +1,10 @@
 @import '../../../../assets/styles/main.scss';
 
 .logo {
-  height: 32px;
+  height: 48px;
   margin: 16px;
   &__image {
+    width: 100%;
     cursor: pointer;
   }
 }
