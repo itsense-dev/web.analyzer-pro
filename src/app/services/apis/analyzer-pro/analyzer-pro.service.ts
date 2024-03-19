@@ -114,6 +114,13 @@ export class AnalyzerProService {
   getCityByDepartment(departmentId: number) {
     return this.http.get<ResponseGlobal<Cities>>(`${environment.apiAdmin}/city/by/${departmentId}`);
   }
+
+  getCitiesByCountry(CountryId: string) {
+    return this.http.get<ResponseGlobal<Cities>>(
+      `${environment.apiAdmin}/city/by/country/${CountryId}`
+    );
+  }
+
   getIdTypes(country: number) {
     return this.http.get<ResponseGlobal<Idtypes[]>>(
       `${environment.apiAdmin}/id-type/by/${country}`
