@@ -59,7 +59,7 @@ export class CreateClientComponent implements OnInit {
       identification_type: [null, [Validators.required]],
       document_number: [null, [Validators.required]],
       name: [null, [Validators.required]],
-      state_id: [null, [Validators.required]],
+      state_id: [null],
       city_id: [null, [Validators.required]],
       zip_code: [null, [Validators.required]],
       address: [null, [Validators.required]],
@@ -111,7 +111,13 @@ export class CreateClientComponent implements OnInit {
   getAllIdType() {
     if (this.isClose) return;
     const countrySelected = this.validateForm.controls['country_id'].value || '';
-    this.getAllDepartmentsByCountry();
+
+    if (countrySelected === 'CO') {
+      this.getAllDepartmentsByCountry();
+    } else {
+      this.getCititesByCountry();
+    }
+
     this.analyzerProService.getIdTypes(countrySelected).subscribe({
       next: (response: ResponseGlobal<Idtypes[]>) => {
         if (response) {
@@ -153,6 +159,24 @@ export class CreateClientComponent implements OnInit {
       complete: () => {},
     });
   }
+
+  getCititesByCountry() {
+    if (this.isClose) return;
+    this.validateForm.controls['city_id'].setValue('');
+    this.validateForm.controls['zip_code'].setValue('');
+    const countrySelected = this.validateForm.controls['country_id'].value || '';
+    this.analyzerProService.getCitiesByCountry(countrySelected).subscribe({
+      next: (response: any) => {
+        this.citiesList = response.data;
+        if (this.idShow) {
+          this.validateForm.controls['city_id'].setValue(this.client?.city_id);
+        }
+      },
+      error: (error) => {},
+      complete: () => {},
+    });
+  }
+
   setZipCodeValue(state: any) {
     if (this.isClose) return;
     const zipCode = this.citiesList.find((item) => item.city_id === state);
