@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ApiResponse } from 'src/models/api-response.model';
-import { QueryLoadMassive } from 'src/models/load-massive.model';
+import { ProgressReport, QueryLoadMassive, ReloadMassive } from 'src/models/load-massive.model';
 
 @Injectable({
   providedIn: 'root',
@@ -41,5 +41,13 @@ export class ClientService {
   saveMassiveConnection(connectionId: string) {
     const payload = { massive_connection_id: connectionId };
     return this.http.post<ApiResponse>(`${environment.api}/load-massive/save-connection`, payload);
+  }
+
+  reloadMassiveRequest(payload: ReloadMassive) {
+    return this.http.post<ApiResponse>(`${environment.api}/load-massive/reload-query`, payload);
+  }
+
+  getProgressMassiveReport(payload: ProgressReport) {
+    return this.http.post<ApiResponse>(`${environment.api}/load-massive/progress-report`, payload);
   }
 }

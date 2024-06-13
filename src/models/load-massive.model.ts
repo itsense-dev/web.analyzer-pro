@@ -7,6 +7,18 @@ export interface QueryLoadMassive {
   connection_id: string;
 }
 
+export interface ReloadMassive {
+  batch: number;
+  document_id: string;
+}
+
+export interface ProgressReport {
+  country: string;
+  company_name: string;
+  document_id: string;
+  loaded_file: string;
+}
+
 export interface LoadMassiveDocument {
   load_massive_document_id: string;
   loadMassive_id: number;
@@ -36,4 +48,5 @@ export interface LoadMassiveDocument {
   client_name: string;
   document_list: string[];
   packages: number[];
+  current_batch_ix_running: number;
 }

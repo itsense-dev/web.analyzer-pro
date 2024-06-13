@@ -154,6 +154,7 @@ export class GenerateMassiveReportComponent implements OnInit {
           }
         },
         error: (error) => this.spinnerService.hide(),
+        complete: () => this.spinner.hide(),
       });
   }
 
@@ -198,6 +199,7 @@ export class GenerateMassiveReportComponent implements OnInit {
           );
         }
       },
+      complete: () => this.spinner.hide(),
     });
   }
 
