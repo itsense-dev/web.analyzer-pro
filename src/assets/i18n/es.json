@@ -222,5 +222,9 @@
   "discount": "Descuento",
   "totalSubscription": "Total de suscripción",
   "wantYouLikeApplyDiscount": "¿Quieres aplicar descuento al plan?",
-  "activateSubscription": "Activar suscripción"
+  "activateSubscription": "Activar suscripción",
+  "reloadQuery": "Recargar Consulta",
+  "downloadReload": "Puedes descargar el masivo con el avance actual de la consulta.",
+  "errorMassive": "Ups, tu consulta ha tenido un inconveniente. Por favor, recarga la consulta.",
+  "downloadProgress": "Descargar avance"
 }

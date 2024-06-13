@@ -5,10 +5,18 @@ import { MassiveQueryDetailCardComponent } from './massive-query-detail-card.com
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 @NgModule({
   declarations: [MassiveQueryDetailCardComponent],
-  imports: [CommonModule, TranslocoModule, NzButtonModule, NzIconModule, NzProgressModule],
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    NzButtonModule,
+    NzIconModule,
+    NzProgressModule,
+    NzDividerModule,
+  ],
   exports: [MassiveQueryDetailCardComponent],
 })
 export class MassiveQueryDetailCardModule {}

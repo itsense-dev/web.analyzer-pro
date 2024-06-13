@@ -109,3 +109,15 @@
     color: $color-dark-silver;
   }
 }
+
+.reload {
+  &:hover {
+    box-shadow: 0px 0px 4px 1px $color-red-dark;
+    border: $color-red-dark;
+    color: $color-red-dark;
+  }
+}
+
+.reload-text {
+  color: $color-red-dark;
+}
