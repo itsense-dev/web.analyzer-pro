@@ -80,7 +80,7 @@
     </div>
   </div>
 
-  <div class="row justify-content-end">
+  <div class="row justify-content-end" *ngIf="!hasToReload">
     <div class="col-auto">
       <button
         nz-button
@@ -91,6 +91,36 @@
         (click)="exportResult()"
       >
         {{ 'downloadReport' | transloco }}
+      </button>
+    </div>
+  </div>
+
+  <nz-divider *ngIf="hasToReload"></nz-divider>
+
+  <div class="row justify-content-end" *ngIf="hasToReload">
+    <div class="col-auto">
+      <p class="reload-text">{{ 'errorMassive' | transloco }}</p>
+    </div>
+    <div class="col-auto">
+      <button nz-button nzShape="round" class="reload" (click)="reloadQuery()">
+        {{ 'reloadQuery' | transloco }}
+      </button>
+    </div>
+  </div>
+
+  <div class="row justify-content-end" *ngIf="hasToReload">
+    <div class="col-auto">
+      <p>{{ 'downloadReload' | transloco }}</p>
+    </div>
+    <div class="col-auto">
+      <button
+        nz-button
+        nzShape="round"
+        nzOkType="primary"
+        class="download-inform"
+        (click)="getProgressReport()"
+      >
+        {{ 'downloadProgress' | transloco }}
       </button>
     </div>
   </div>

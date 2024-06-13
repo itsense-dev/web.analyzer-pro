@@ -13,4 +13,6 @@ export enum Messages {
   CREATION_SUCCESS_MESSAGE = 'Se ha creado correctamente',
   UPDATE_SUCCESS = 'Actualización exitosa',
   UPDATE_SUCCESS_MESSAGE = 'Se ha actualizado correctamente',
+  RELOAD_SUCCESS = 'Consulta Masiva',
+  RELOAD_SUCCESS_MESSAGE = 'Se ha recargado la consulta masiva correctamente',
 }
