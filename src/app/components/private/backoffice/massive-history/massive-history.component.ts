@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AnalyzerProService } from 'src/app/services/apis/analyzer-pro/analyzer-pro.service';
+import { ClientService } from 'src/app/services/apis/client/client.service';
 import { ListResponse } from 'src/enum/list-response.enum';
 import { Messages } from 'src/enum/messages.enum';
 import { Roles } from 'src/enum/roles.enum';
@@ -16,6 +17,7 @@ import {
   Plan,
   ResponseGlobal,
 } from 'src/models/clientes.interface';
+import { LoadMassiveDocument, ProgressReport } from 'src/models/load-massive.model';
 import { CryptsService } from 'src/services/utils/crypts.service';
 
 @Component({
@@ -44,7 +46,8 @@ export class MassiveHistoryComponent implements OnInit {
     private cryptService: CryptsService,
     private notificationService: NzNotificationService,
     private spinnerService: NgxSpinnerService,
-    private router: Router
+    private router: Router,
+    private readonly clientService: ClientService
   ) {}
 
   ngOnInit() {
@@ -151,5 +154,34 @@ export class MassiveHistoryComponent implements OnInit {
 
   redirectView() {
     this.router.navigateByUrl(Routes.MASSIVE_QUERY);
+  }
+
+  getProgressReport(data: MassiveHistory) {
+    this.spinnerService.show();
+
+    const payload: ProgressReport = {
+      country: data?.country_id || '',
+      company_name: data?.client_name || '',
+      document_id: data?.load_massive_document_id || '',
+      loaded_file: data?.url_file || '',
+    };
+
+    this.clientService.getProgressMassiveReport(payload).subscribe({
+      next: (response) => {
+        if (response.code == StatusCode.OK) {
+          const anchor = document.createElement('a');
+          anchor.href = response.data;
+          anchor.click();
+        } else {
+          this.notificationService.error(
+            Messages.SYSTEM_NOT_AVAILABLE,
+            Messages.SYSTEM_NOT_AVAILABLE_MESSAGE
+          );
+        }
+      },
+      complete: () => {
+        this.spinnerService.hide();
+      },
+    });
   }
 }
