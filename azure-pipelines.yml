@@ -12,5 +12,8 @@ steps:
 
 - script: |
     npm install --legacy-peer-deps
+  displayName: 'Installation Angular Dependences'
+
+- script: |
     ng build
-  displayName: 'npm install and build'
+  displayName: 'Angular Building'
