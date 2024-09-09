@@ -12,7 +12,7 @@ steps:
 
 - script: |
 #    npm install -g @angular/cli
-    npm install -g @aws-amplify/cli
     npm install --legacy-peer-deps
+    npm install -g @aws-amplify/cli
     ng build
   displayName: 'npm install and build'
