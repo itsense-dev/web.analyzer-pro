@@ -21,7 +21,6 @@ steps:
 
 - script: |
     amplify pull --yes --appId d1caevemxf1drz --envName develop
-    amplify push --yes
   displayName: 'Configure AWS Amplify'
 
 - script: |
@@ -29,5 +28,5 @@ steps:
   displayName: 'Angular Building'
 
 - script: |
-    amplify push
+    amplify push --yes
   displayName: 'Publishing'
