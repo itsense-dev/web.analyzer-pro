@@ -16,13 +16,12 @@ steps:
   displayName: 'Installation of Angular Dependences'
 
 - script: |
-    npm install -g @aws-amplify/cli
+    npm install -g aws-amplify
   displayName: 'Install AWS Amplify'
 
 - script: |
-    aws configure set aws_access_key_id AKIAQTSUQSAVVU4WSHEX
-    aws configure set aws_secret_access_key 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
-    aws configure set region us-east-1
+    amplify configure set aws_access_key_id AKIAQTSUQSAVVU4WSHEX
+    amplify configure set aws_secret_access_key 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
     amplify pull --yes --appId d1caevemxf1drz --envName develop
   displayName: 'Configure AWS Amplify'
 
