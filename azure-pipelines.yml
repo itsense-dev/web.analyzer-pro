@@ -11,7 +11,6 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-#    npm install -g @angular/cli
     npm install --legacy-peer-deps
     npm install -g @aws-amplify/cli
     ng build
