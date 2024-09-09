@@ -14,7 +14,6 @@
     "prettier:fix": "prettier --config ./.prettierrc.json --write \"src/**/*.{js,jsx,ts,scss,json,html}\"",
     "prettier:check": "prettier --config ./.prettierrc.json --check  \"src/**/*.{js,jsx,ts,scss,json,html}\"",
     "prettyFix": "prettier --config ./.prettierrc.json --write \"src/**/*.{component.ts,component.css,module.ts,html}\"",
-    "prepare": "husky install"
   },
   "private": true,
   "dependencies": {
