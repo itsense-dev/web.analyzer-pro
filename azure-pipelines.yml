@@ -13,8 +13,20 @@ steps:
 - script: |
     npm install -g @angular/cli@13.3.0
     npm install --legacy-peer-deps
-  displayName: 'Installation Angular Dependences'
+  displayName: 'Installation of Angular Dependences'
+
+- script: |
+    npm install -g @aws-amplify/cli
+  displayName: 'Install AWS Amplify'
+
+- script: |
+    amplify init --appId dlsrrslq1kwq1 --envName develop --defaultEditor vscode
+  displayName: 'Configure AWS Amplify'
 
 - script: |
     ng build
   displayName: 'Angular Building'
+
+- script: |
+    amplify push
+  displayName: 'Publishing'
