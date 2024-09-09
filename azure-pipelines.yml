@@ -20,7 +20,8 @@ steps:
   displayName: 'Install AWS Amplify'
 
 - script: |
-    amplify init --appId dlsrrslq1kwq1 --envName develop --defaultEditor vscode
+    amplify pull --yes --appId d1caevemxf1drz --envName develop
+    amplify push --yes
   displayName: 'Configure AWS Amplify'
 
 - script: |
