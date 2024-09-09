@@ -20,6 +20,9 @@ steps:
   displayName: 'Install AWS Amplify'
 
 - script: |
+    aws configure set aws_access_key_id AKIAQTSUQSAVVU4WSHEX
+    aws configure set aws_secret_access_key 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
+    aws configure set region us-east-1
     amplify pull --yes --appId d1caevemxf1drz --envName develop
   displayName: 'Configure AWS Amplify'
 
