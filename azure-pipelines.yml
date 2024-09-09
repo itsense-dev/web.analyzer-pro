@@ -22,7 +22,7 @@ steps:
 - script: |
     aws configure set aws_access_key_id AKIAQTSUQSAVVU4WSHEX --profile default
     aws configure set aws_secret_access_key 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 --profile default
-    amplify pull --yes --appId d1caevemxf1drz --envName develop
+    aws configure set region us-east-1
   displayName: 'Configure AWS Amplify'
 
 - script: |
@@ -30,5 +30,5 @@ steps:
   displayName: 'Angular Building'
 
 - script: |
-    amplify push --yes
+    amplify publish --yes --appId d1caevemxf1drz --envName develop
   displayName: 'Publishing'
