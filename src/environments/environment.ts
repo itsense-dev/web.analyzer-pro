@@ -44,7 +44,7 @@ export const environment = {
     interval: 10000,
     timeOut: 180000,
   },
-  socketApi: 'wss://375tfziudk.execute-api.us-east-1.amazonaws.com/prod',
+  socketApi: 'wss://zzpxgnp8ii.execute-api.us-east-1.amazonaws.com/dev',
   andinacom: {
     subscription_id: '2bc0d507-6990-4658-a6e1-ceeb4b6e9a76',
     packages: '2',
