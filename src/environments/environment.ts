@@ -5,7 +5,7 @@ export const environment = {
   country: {
     code: 'CO',
   },
-  api: 'https://cwqla1owf9.execute-api.us-east-1.amazonaws.com/develop',
+  api: ' https://ooryy1v469.execute-api.us-east-1.amazonaws.com/develop',
   apiAdmin: 'https://ve6g2uvg4c.execute-api.us-east-1.amazonaws.com/dev',
   apiAndicom: 'https://51hdafc2kk.execute-api.us-east-1.amazonaws.com/dev',
   amplify: {
