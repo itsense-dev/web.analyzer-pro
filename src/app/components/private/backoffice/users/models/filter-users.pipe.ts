@@ -6,7 +6,7 @@ import { Person, Users } from 'src/models/clientes.interface';
   pure: false,
 })
 export class usersFilterPipe implements PipeTransform {
-  transform(items: Users[], filter: any) {
+  transform(items: readonly Users[], filter: any) {
     if (!items || !filter) {
       return items;
     }

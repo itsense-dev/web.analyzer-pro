@@ -71,6 +71,7 @@
           <th nzAlign="center">{{ 'consultEndDate' | transloco }}</th>
           <th nzAlign="center">{{ 'totalQuery' | transloco }}</th>
           <th nzAlign="center">{{ 'totalExcecuted' | transloco }}</th>
+          <th nzAlign="center">{{ 'Hora de consulta' | transloco }}</th>
           <th nzAlign="center">{{ 'fileName' | transloco }}</th>
           <th nzAlign="center">{{ 'progress' | transloco }}</th>
           <th nzAlign="center"></th>
@@ -90,6 +91,7 @@
           <td nzAlign="center">{{ data.end_date.split('T')[0] }}</td>
           <td nzAlign="center">{{ data.total_queries }}</td>
           <td nzAlign="center">{{ data.total_executed }}</td>
+          <td nzAlign="center">{{ data.create_time }}</td>
           <td nzAlign="center">
             <span class="filename-custom">{{ data.file_name }}</span>
           </td>

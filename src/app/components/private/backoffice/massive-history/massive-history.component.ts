@@ -150,6 +150,7 @@ export class MassiveHistoryComponent implements OnInit {
     this.filter = '';
     this.historyList = [];
     this.searchMassiveHistoric();
+    this.client_id = 0;
   }
 
   redirectView() {

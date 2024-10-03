@@ -84,15 +84,25 @@
     </div>
 
     <nz-divider></nz-divider>
-    <div nz-row>
-      <div nz-col nzSpan="12">
-        <nz-input-group nzSearch>
-          <input type="text" nz-input placeholder="input search text" [(ngModel)]="filter" />
-        </nz-input-group>
+    <div nz-row *ngIf="subscription">
+      <div nz-col nzSpan="8" class="my-3">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="5">{{ 'user' | transloco }}</nz-form-label>
+          <nz-form-control [nzSpan]="12" nzHasFe edback>
+            <nz-input-group nzSearch>
+              <input
+                type="text"
+                nz-input
+                placeholder="Ingrese nombre de usuario"
+                [(ngModel)]="filter"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
       </div>
     </div>
 
-    <nz-table #basicTable [nzData]="usersList">
+    <nz-table #userTable [nzData]="usersList" [nzFrontPagination]="true" [nzPageSize]="10">
       <thead>
         <tr>
           <th>{{ 'name' | transloco }}</th>
@@ -106,7 +116,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of usersList | usersPipeFilter : filter">
+        <tr *ngFor="let data of userTable.data | usersPipeFilter : filter">
           <td>
             <nz-avatar nzIcon="user" nzSrc="{{ data.logo }}"></nz-avatar>
             {{ data.name }}
@@ -120,10 +130,14 @@
             >
             </nz-switch>
             <ng-template #checkedTemplate
-              ><span nz-icon nzType="check"> {{ 'active' | transloco }} </span></ng-template
+              ><span nz-icon nzType="check" style="width: 60px">
+                {{ 'active' | transloco }}
+              </span></ng-template
             >
             <ng-template #unCheckedTemplate
-              ><span nz-icon nzType="close"> {{ 'inactive' | transloco }} </span></ng-template
+              ><span nz-icon nzType="close" style="width: 60px">
+                {{ 'inactive' | transloco }}
+              </span></ng-template
             >
           </td>
           <td>

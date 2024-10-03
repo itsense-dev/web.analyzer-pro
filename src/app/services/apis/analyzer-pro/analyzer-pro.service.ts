@@ -91,8 +91,8 @@ export class AnalyzerProService {
   }
   setUserState(user_id: string, userState: string) {
     return this.http.put<ResponseGlobal<string>>(
-      `${environment.apiAdmin}/user/${user_id}/isactive/${userState}`,
-      ''
+      `${environment.apiAdmin}/user/${user_id}/ISACTIVE/${userState}`,
+      {}
     );
   }
   getPlansByUsers(id_user: string) {

@@ -93,6 +93,7 @@
           <th nzAlign="center">{{ 'idType' | transloco }}</th>
           <th nzAlign="center">{{ 'idNumber' | transloco }}</th>
           <th nzAlign="center">{{ 'queryDate' | transloco }}</th>
+          <th nzAlign="center">{{ 'Hora de consulta' | transloco }}</th>
           <th nzAlign="center">{{ 'reportGeneratedBy' | transloco }}</th>
           <th></th>
         </tr>
@@ -104,6 +105,13 @@
           <td nzAlign="center">{{ data?.id_type }}</td>
           <td nzAlign="center">{{ data?.id_number }}</td>
           <td nzAlign="center">{{ data?.consult_date }}</td>
+          <td nzAlign="center">
+            {{
+              data.search_datetime === ' - '
+                ? data.search_datetime
+                : data.search_datetime.slice(11, 19)
+            }}
+          </td>
           <td nzAlign="center">{{ data?.report_generated_by }}</td>
           <td>
             <div>

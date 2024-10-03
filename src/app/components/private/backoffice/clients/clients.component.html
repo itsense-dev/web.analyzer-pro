@@ -57,10 +57,12 @@
               >
               </nz-switch>
               <ng-template #checkedTemplate>
-                <span nz-icon nzType="check">{{ 'active' | transloco }}</span>
+                <span nz-icon nzType="check" style="width: 50px">
+                  {{ 'active' | transloco }}
+                </span>
               </ng-template>
               <ng-template #unCheckedTemplate>
-                <span nz-icon nzType="close">{{ 'disabled' | transloco }}</span>
+                <span nz-icon nzType="close" style="width: 60px">{{ 'disabled' | transloco }}</span>
               </ng-template>
             </td>
             <td>

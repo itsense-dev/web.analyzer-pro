@@ -1,4 +1,4 @@
-<nz-layout>
+<nz-layout style="height: 105vh !important">
   <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
     <span
       class="trigger close-responsive"
@@ -39,7 +39,13 @@
             *ngIf="!menu.children || (menu.children.length === 0 && menu.active)"
             nz-menu-item
             [routerLink]="menu.url"
-            nzTooltipTitle="{{ isCollapsed ? menu.title : '' }}"
+            nzTooltipTitle="{{
+              isCollapsed
+                ? ('menu.' + menu.title | transloco).includes('<br/>')
+                  ? ('menu.' + menu.title | transloco).replace('<br/>', ' ')
+                  : ('menu.' + menu.title | transloco)
+                : ''
+            }}"
             nzTooltipPlacement="right"
             nz-tooltip
           >

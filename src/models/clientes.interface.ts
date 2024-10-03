@@ -175,6 +175,7 @@ export interface IndividualHistory {
   id_type: string;
   id_number: string;
   consult_date: string;
+  search_datetime: string;
   report_generated_by: string;
 }
 

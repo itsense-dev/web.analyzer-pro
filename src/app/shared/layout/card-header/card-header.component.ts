@@ -28,7 +28,9 @@ export class CardHeaderComponent {
     this._transportDataWsService.percent.subscribe((percent) => {
       this.percent = percent?.percent;
       this.totalList = percent?.totalList;
-      this.listLoaded = Math.round((this.totalList * percent?.percent) / 100);
+      // eslint-disable-next-line no-console
+      console.log(this.percent);
+      this.listLoaded = percent.percent;
     });
   }
 
